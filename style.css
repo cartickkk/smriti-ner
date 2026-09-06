@@ -1,0 +1,41 @@
+/* Accessibility Tap Feedback */
+.senior-tap {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.senior-tap:active {
+  transform: scale(0.97);
+}
+
+/* Modal Dark Backdrop with Blur */
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(2px);
+}
+
+/* Universal Smooth Scrolling & Custom Scrollbar */
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Prevent Chart Distortion on Mobile */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
