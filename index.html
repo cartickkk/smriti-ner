@@ -14,32 +14,56 @@
 </head>
 <body class="bg-amber-50/40 text-slate-900 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-200">
 
-  <!-- TOP APP HEADER WITH 2-TAB NAVIGATION -->
-  <header class="bg-slate-900 text-white px-3 sm:px-6 md:px-8 py-3 shadow-md sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
+  <!-- TOP APP HEADER -->
+  <header class="bg-slate-900 text-white px-3 sm:px-6 md:px-8 py-3.5 shadow-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
       
       <!-- Brand & Badges -->
       <div class="flex items-center space-x-2 sm:space-x-3">
-        <div class="bg-emerald-500 text-slate-950 font-black text-base sm:text-lg md:text-xl px-2.5 sm:px-3 py-1 rounded-xl tracking-wider shadow">
+        <div class="bg-emerald-500 text-slate-950 font-black text-lg sm:text-xl px-3 py-1 rounded-xl tracking-wider shadow">
           SMRITI-NER
         </div>
         <div class="flex flex-col">
-          <span class="text-[10px] sm:text-xs font-bold text-slate-200 leading-tight">MDoNER • SIH26003</span>
-          <span id="network-badge" class="bg-emerald-950 text-emerald-400 border border-emerald-500/80 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full w-max flex items-center gap-1 mt-0.5">
+          <span class="text-[11px] sm:text-xs font-bold text-slate-200 leading-tight">MDoNER • SIH26003</span>
+          <span id="network-badge" class="bg-emerald-950 text-emerald-400 border border-emerald-500/80 text-[10px] font-bold px-2 py-0.5 rounded-full w-max flex items-center gap-1 mt-0.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> <span id="net-status-text">Cloud Sync Active</span>
           </span>
         </div>
       </div>
 
-      <!-- Controls: SOS & 2-Tab Switcher -->
-      <div class="flex items-center space-x-1.5 sm:space-x-2">
-        <button onclick="triggerSOS()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-extrabold px-2.5 sm:px-4 py-2 rounded-xl shadow transition senior-tap flex items-center gap-1">
-          <span>🚨</span> <span id="nav-sos">SOS</span>
+      <!-- Controls: Size Slider & Audio Mute Toggle -->
+      <div class="flex items-center gap-2">
+        <!-- Smooth Accessibility Sizing Controller -->
+        <div class="flex items-center bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-2xl gap-2 shadow-inner">
+          <label for="textScaleSlider" class="text-xs font-extrabold text-slate-300 flex items-center gap-1 cursor-pointer">
+            <span>🔍</span> <span id="label-size-ui">Size:</span>
+          </label>
+          <input 
+            type="range" 
+            id="textScaleSlider" 
+            min="18" 
+            max="26" 
+            step="1" 
+            value="20" 
+            class="smooth-slider accent-emerald-400 cursor-pointer w-20 sm:w-24"
+            aria-label="Adjust font and button size"
+          />
+          <span id="scaleLabel" class="text-xs font-black text-emerald-400 min-w-[40px]">20px</span>
+        </div>
+
+        <!-- MUTE / UNMUTE BUTTON -->
+        <button onclick="toggleAudioMute()" id="btn-audio-toggle" class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition">
+          <span id="mute-icon">🔊</span>
+          <span id="mute-text">Sound ON</span>
         </button>
-        <button onclick="switchView('patient')" id="tab-patient" class="bg-emerald-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-3.5 py-2 rounded-xl transition shadow">
-          👴 <span id="nav-patient">Patient</span>
+      </div>
+
+      <!-- Clean 2-Tab Navigation -->
+      <div class="flex items-center bg-slate-950/80 p-1 rounded-2xl border border-slate-800">
+        <button onclick="switchView('patient')" id="tab-patient" class="bg-emerald-600 text-white text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl transition shadow">
+          👴 <span id="nav-patient">Patient Portal</span>
         </button>
-        <button onclick="switchView('caregiver')" id="tab-caregiver" class="bg-slate-800 text-slate-300 text-xs sm:text-sm font-bold px-3 sm:px-3.5 py-2 rounded-xl hover:bg-slate-700 transition">
+        <button onclick="switchView('caregiver')" id="tab-caregiver" class="text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl transition">
           📊 <span id="nav-caregiver">Caregiver</span>
         </button>
       </div>
@@ -50,156 +74,141 @@
   <!-- ========================================================== -->
   <!-- VIEW 1: PATIENT INTERACTION HUB                            -->
   <!-- ========================================================== -->
-  <main id="patient-view" class="max-w-4xl w-full mx-auto p-3.5 sm:p-6 space-y-4 sm:space-y-6 flex-grow">
+  <main id="patient-view" class="max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-5 sm:space-y-6 flex-grow">
     
     <!-- Greeting & Language Selection Card -->
-    <section class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm border border-amber-200/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3.5">
+    <section class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-amber-200/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
-        <span id="ui-session-badge" class="text-[10px] sm:text-xs uppercase font-bold tracking-widest text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Daily Assisted Session</span>
-        <h1 id="ui-greeting" class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 mt-1">Namaste, Borah Dada 🙏</h1>
-        <p id="ui-subgreeting" class="text-slate-600 text-xs sm:text-sm mt-0.5">Tap any card below or listen to the Sahayak AI voice reader.</p>
+        <span id="ui-session-badge" class="text-xs uppercase font-extrabold tracking-widest text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">Daily Assisted Session</span>
+        <h1 id="ui-greeting" class="text-2xl sm:text-3xl font-black text-slate-900 mt-1.5">Namaste, Borah Dada 🙏</h1>
+        <p id="ui-subgreeting" class="text-slate-600 text-sm mt-0.5">Tap any brain game below or listen to Sahayak voice reader.</p>
       </div>
       
       <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-        <label id="ui-lang-label" for="lang-select" class="text-[11px] sm:text-xs font-bold text-slate-500 uppercase">Voice:</label>
-        <select id="lang-select" onchange="onLanguageChanged()" class="bg-slate-100 border-2 border-emerald-500 text-slate-900 font-extrabold rounded-xl px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-auto">
-          <option value="en-IN">English (Indian)</option>
+        <label id="ui-lang-label" for="lang-select" class="text-xs font-bold text-slate-500 uppercase">Language:</label>
+        <select id="lang-select" onchange="onLanguageChanged()" class="bg-slate-100 border-2 border-emerald-500 text-slate-900 font-extrabold rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-auto">
           <option value="hi-IN" selected>Hindi (हिन्दी)</option>
+          <option value="en-IN">English (Indian)</option>
           <option value="as-IN">Assamese (অসমীয়া)</option>
         </select>
       </div>
     </section>
 
     <!-- SAHAYAK AI VOICE READER BANNER -->
-    <section class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3.5 border border-emerald-500/30">
-      <div class="flex items-center space-x-3.5">
-        <div class="bg-emerald-400 text-slate-950 p-2.5 sm:p-3.5 rounded-2xl shadow-md flex-shrink-0">
-          <span class="text-2xl sm:text-3xl">🔊</span>
+    <section class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-3xl p-5 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-emerald-500/30">
+      <div class="flex items-center space-x-4">
+        <div id="sahayak-icon-box" class="bg-emerald-400 text-slate-950 p-3.5 rounded-2xl shadow-md flex-shrink-0">
+          <span id="sahayak-main-icon" class="text-3xl">🔊</span>
         </div>
         <div>
-          <h2 class="text-base sm:text-lg font-black tracking-wide flex items-center gap-2">
+          <h2 class="text-lg font-black tracking-wide flex items-center gap-2">
             <span id="sahayak-title">Sahayak AI Voice Reader</span> 
-            <span id="sahayak-badge" class="bg-emerald-500/20 text-emerald-300 text-[9px] sm:text-[10px] px-2 py-0.5 rounded-md border border-emerald-400/30">Audio Active</span>
+            <span id="sahayak-badge" class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-md border border-emerald-400/30">Audio Active</span>
           </h2>
-          <p id="sahayak-status" class="text-emerald-200 text-xs sm:text-sm mt-0.5">Click the button to listen to all daily activities and reminders.</p>
+          <p id="sahayak-status" class="text-emerald-200 text-sm mt-0.5">Tap the button to listen to all instructions and reminders aloud.</p>
         </div>
       </div>
-      <button onclick="speakInstructions()" class="w-full md:w-auto justify-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-black shadow-lg transition flex items-center gap-2 senior-tap">
-        <span>🔊</span> <span id="btn-read-screen">Read Screen Aloud</span>
+      <button onclick="speakInstructions()" id="btn-read-screen" class="w-full md:w-auto justify-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-5 py-3 rounded-2xl text-sm font-black shadow-lg transition flex items-center gap-2 senior-tap">
+        <span>🔊</span> <span>Read Full Screen Aloud</span>
       </button>
     </section>
 
     <!-- 3 COGNITIVE GAMES HUB -->
-    <section class="space-y-2.5 sm:space-y-3">
+    <section class="space-y-3">
       <div class="flex justify-between items-center">
-        <h3 id="ui-games-header" class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700">🎮 Daily Brain Exercises (NER Themed)</h3>
-        <span id="ui-games-subheader" class="text-[11px] sm:text-xs text-slate-500 font-semibold">Select an activity:</span>
+        <h3 id="ui-games-header" class="text-sm font-black uppercase tracking-wider text-slate-700">🎮 Daily Brain Exercises (NER Themed)</h3>
+        <span id="ui-games-subheader" class="text-xs text-slate-500 font-semibold">Tap to launch on screen:</span>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
         <!-- Game 1 -->
-        <div onclick="startMemoryGame()" class="senior-tap bg-white hover:border-emerald-500 border-2 border-slate-200 rounded-2xl p-4 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[140px] sm:min-h-[160px]">
+        <div onclick="openGameModal('memory')" class="senior-tap bg-white hover:border-emerald-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
           <div class="flex justify-between items-start">
-            <span class="text-3xl sm:text-4xl">🦏</span>
-            <span id="game1-badge" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Game 1</span>
+            <span class="text-4xl">🦏</span>
+            <span id="g1-badge" class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase">Game 1</span>
           </div>
-          <div class="my-1.5">
-            <h4 id="game1-title" class="text-base font-black text-slate-900">NER Heritage Match</h4>
-            <p id="game1-desc" class="text-slate-600 text-xs mt-0.5">Match pairs of cultural symbols.</p>
+          <div class="my-2">
+            <h4 id="g1-title" class="text-lg font-black text-slate-900">NER Heritage Match</h4>
+            <p id="g1-desc" class="text-slate-600 text-xs mt-0.5">Match pairs of cultural symbols.</p>
           </div>
-          <span id="game1-btn" class="text-emerald-700 font-extrabold text-xs">Play Match →</span>
+          <span id="g1-btn" class="text-emerald-700 font-extrabold text-sm">Play Match On-Screen →</span>
         </div>
 
         <!-- Game 2 -->
-        <div onclick="startSequenceGame()" class="senior-tap bg-white hover:border-teal-500 border-2 border-slate-200 rounded-2xl p-4 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[140px] sm:min-h-[160px]">
+        <div onclick="openGameModal('sequence')" class="senior-tap bg-white hover:border-teal-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
           <div class="flex justify-between items-start">
-            <span class="text-3xl sm:text-4xl">☕</span>
-            <span id="game2-badge" class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Game 2</span>
+            <span class="text-4xl">☕</span>
+            <span id="g2-badge" class="bg-teal-100 text-teal-800 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase">Game 2</span>
           </div>
-          <div class="my-1.5">
-            <h4 id="game2-title" class="text-base font-black text-slate-900">Assam Tea Routine</h4>
-            <p id="game2-desc" class="text-slate-600 text-xs mt-0.5">Arrange daily tea steps in order.</p>
+          <div class="my-2">
+            <h4 id="g2-title" class="text-lg font-black text-slate-900">Assam Tea Routine</h4>
+            <p id="g2-desc" class="text-slate-600 text-xs mt-0.5">Arrange daily tea steps in order.</p>
           </div>
-          <span id="game2-btn" class="text-teal-700 font-extrabold text-xs">Start Sequence →</span>
+          <span id="g2-btn" class="text-teal-700 font-extrabold text-sm">Start Sequence On-Screen →</span>
         </div>
 
         <!-- Game 3 -->
-        <div onclick="startSpotterGame()" class="senior-tap bg-white hover:border-amber-500 border-2 border-slate-200 rounded-2xl p-4 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[140px] sm:min-h-[160px] sm:col-span-2 md:col-span-1">
+        <div onclick="openGameModal('spotter')" class="senior-tap bg-white hover:border-amber-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px] sm:col-span-2 md:col-span-1">
           <div class="flex justify-between items-start">
-            <span class="text-3xl sm:text-4xl">🦅</span>
-            <span id="game3-badge" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Game 3</span>
+            <span class="text-4xl">🦅</span>
+            <span id="g3-badge" class="bg-amber-100 text-amber-800 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase">Game 3</span>
           </div>
-          <div class="my-1.5">
-            <h4 id="game3-title" class="text-base font-black text-slate-900">Spot Hornbill Motif</h4>
-            <p id="game3-desc" class="text-slate-600 text-xs mt-0.5">Find the hidden Hornbill bird.</p>
+          <div class="my-2">
+            <h4 id="g3-title" class="text-lg font-black text-slate-900">Spot Hornbill Motif</h4>
+            <p id="g3-desc" class="text-slate-600 text-xs mt-0.5">Find the hidden Hornbill bird.</p>
           </div>
-          <span id="game3-btn" class="text-amber-700 font-extrabold text-xs">Spot Target →</span>
+          <span id="g3-btn" class="text-amber-700 font-extrabold text-sm">Spot Target On-Screen →</span>
         </div>
       </div>
     </section>
 
     <!-- ROUTINE & REMINISCENCE ACTION TILES -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-1">
-      <div onclick="openReminderModal()" class="senior-tap bg-white hover:border-blue-500 border-2 border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[150px] sm:min-h-[170px]">
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+      <div onclick="openReminderModal()" class="senior-tap bg-white hover:border-blue-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
         <div class="flex justify-between items-start">
-          <span class="text-3xl sm:text-4xl">💊</span>
-          <span id="routine-badge" class="bg-blue-100 text-blue-800 text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">Scheduled</span>
+          <span class="text-4xl">💊</span>
+          <span id="rem-badge" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Scheduled</span>
         </div>
         <div>
-          <h3 id="card2-title" class="text-base sm:text-lg font-black text-slate-900">Medicine & Water</h3>
-          <p id="card2-desc" class="text-slate-600 text-xs mt-0.5">Afternoon 2:00 PM Donepezil + 1 Glass Water.</p>
+          <h3 id="rem-card-title" class="text-lg font-black text-slate-900">Medicine & Water</h3>
+          <p id="rem-card-desc" class="text-slate-600 text-xs mt-0.5">Afternoon 2:00 PM Donepezil + 1 Glass Water.</p>
         </div>
-        <div id="card2-btn" class="text-blue-700 font-extrabold text-xs sm:text-sm flex items-center gap-1 mt-1">
+        <div id="rem-card-btn" class="text-blue-700 font-extrabold text-sm flex items-center gap-1 mt-1">
           View & Confirm →
         </div>
       </div>
 
-      <div onclick="openReminiscenceModal()" class="senior-tap bg-white hover:border-purple-500 border-2 border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[150px] sm:min-h-[170px]">
+      <div onclick="openReminiscenceModal()" class="senior-tap bg-white hover:border-purple-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
         <div class="flex justify-between items-start">
-          <span class="text-3xl sm:text-4xl">📸</span>
-          <span id="remin-badge" class="bg-purple-100 text-purple-800 text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">Reminiscence</span>
+          <span class="text-4xl">📸</span>
+          <span id="fam-badge" class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Reminiscence</span>
         </div>
         <div>
-          <h3 id="card3-title" class="text-base sm:text-lg font-black text-slate-900">Family & Home Info</h3>
-          <p id="card3-desc" class="text-slate-600 text-xs mt-0.5">Where you live and your family members.</p>
+          <h3 id="fam-card-title" class="text-lg font-black text-slate-900">Family & Home Info</h3>
+          <p id="fam-card-desc" class="text-slate-600 text-xs mt-0.5">Where you live and your family members.</p>
         </div>
-        <div id="card3-btn" class="text-purple-700 font-extrabold text-xs sm:text-sm flex items-center gap-1 mt-1">
+        <div id="fam-card-btn" class="text-purple-700 font-extrabold text-sm flex items-center gap-1 mt-1">
           Open Photo Album →
         </div>
       </div>
-    </section>
-
-    <!-- DYNAMIC PLAYGROUND -->
-    <section id="game-playground" class="hidden bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border-2 border-emerald-500 space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <div>
-          <h3 id="playground-title" class="text-base sm:text-xl font-black text-emerald-400">Game Active</h3>
-          <p id="playground-subtitle" class="text-xs text-slate-400">Complete the activity to log response latency.</p>
-        </div>
-        <button onclick="closePlayground()" id="btn-exit-game" class="text-slate-300 hover:text-white font-bold text-xs bg-slate-800 px-3 py-1.5 rounded-lg senior-tap">
-          ✕ Exit Game
-        </button>
-      </div>
-      <div id="playground-body" class="py-2"></div>
-      <div id="game-feedback" class="text-center font-bold text-xs sm:text-sm text-emerald-300 min-h-[20px]"></div>
     </section>
   </main>
 
   <!-- ========================================================== -->
   <!-- VIEW 2: CAREGIVER DASHBOARD                                -->
   <!-- ========================================================== -->
-  <main id="caregiver-view" class="hidden max-w-5xl w-full mx-auto p-3.5 sm:p-6 space-y-5 sm:space-y-6 flex-grow">
+  <main id="caregiver-view" class="hidden max-w-5xl w-full mx-auto p-4 sm:p-6 space-y-6 flex-grow">
     
     <!-- Header with AI Telemetry Reader -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-200 pb-4">
       <div>
-        <span id="cg-subhead" class="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-slate-500">Caregiver Telemetry Portal</span>
-        <h1 id="cg-title" class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 mt-0.5">Patient: Mr. D. Borah (74 Yrs)</h1>
-        <p id="cg-desc" class="text-slate-500 text-xs mt-0.5">Residence: Garamur, Majuli, Assam • Diagnosis: Mild Cognitive Impairment</p>
+        <span id="cg-subhead" class="text-xs uppercase font-bold tracking-wider text-slate-500">Caregiver Telemetry Portal</span>
+        <h1 id="cg-patient-name" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-0.5">Patient: Mr. D. Borah (74 Yrs)</h1>
+        <p id="cg-patient-desc" class="text-slate-500 text-xs mt-0.5">Residence: Garamur, Majuli, Assam • Diagnosis: Mild Cognitive Impairment</p>
       </div>
       
       <div class="flex items-center gap-2 w-full md:w-auto justify-between md:justify-end">
-        <button onclick="speakCaregiverSummary()" class="flex-grow md:flex-initial justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-extrabold shadow transition flex items-center gap-1.5 senior-tap">
+        <button onclick="speakCaregiverSummary()" class="flex-grow md:flex-initial justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-extrabold shadow transition flex items-center gap-1.5 senior-tap">
           <span>🔊</span> <span id="btn-read-cg">Read Clinical Summary</span>
         </button>
         <div id="cg-sync-status" class="bg-emerald-50 border border-emerald-200 text-emerald-900 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap">
@@ -209,65 +218,120 @@
     </div>
 
     <!-- Alert Box -->
-    <div id="caregiver-alert-box" class="hidden bg-rose-50 border-2 border-rose-400 p-3.5 sm:p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-rose-900">
+    <div id="caregiver-alert-box" class="hidden bg-rose-50 border-2 border-rose-400 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-rose-900">
       <div class="flex items-center space-x-3">
-        <span class="text-2xl animate-pulse">🚨</span>
+        <span class="text-3xl animate-pulse">🚨</span>
         <div>
-          <h4 id="cg-alert-title" class="font-bold text-xs sm:text-sm">Emergency Alert Triggered</h4>
-          <p id="cg-alert-desc" class="text-[11px] sm:text-xs text-rose-700">Patient pressed the SOS emergency call button.</p>
+          <h4 id="cg-alert-title" class="font-bold text-sm">Emergency Alert Triggered</h4>
+          <p id="cg-alert-desc" class="text-xs text-rose-700">Patient pressed the SOS emergency call button with location ping.</p>
         </div>
       </div>
-      <button onclick="dismissCaregiverAlert()" id="cg-btn-ack" class="w-full sm:w-auto bg-rose-600 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg senior-tap">
+      <button onclick="dismissCaregiverAlert()" id="cg-btn-ack" class="w-full sm:w-auto bg-rose-600 text-white font-bold text-xs px-4 py-2 rounded-xl senior-tap">
         Acknowledge
       </button>
     </div>
 
     <!-- Metrics Grid -->
-    <section class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi1-label" class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Cognitive Stability Score</span>
-        <div class="text-2xl sm:text-3xl font-black text-emerald-700 mt-1 sm:mt-2">78 / 100</div>
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+        <span id="cg-kpi1-label" class="text-xs font-bold text-slate-500 uppercase">Cognitive Stability Score</span>
+        <div class="text-3xl font-black text-emerald-700 mt-2">78 / 100</div>
         <span id="cg-kpi1-sub" class="text-xs text-emerald-600 font-semibold">↑ Stable (+3% over 7 days)</span>
       </div>
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi2-label" class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Latest Response Latency</span>
-        <div id="metric-latency" class="text-2xl sm:text-3xl font-black text-slate-800 mt-1 sm:mt-2">12.4s</div>
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+        <span id="cg-kpi2-label" class="text-xs font-bold text-slate-500 uppercase">Latest Response Latency</span>
+        <div id="metric-latency" class="text-3xl font-black text-slate-800 mt-2">12.4s</div>
         <span id="cg-kpi2-sub" class="text-xs text-slate-500">Target Range: 10s – 18s</span>
       </div>
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi3-label" class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Routine Adherence</span>
-        <div class="text-2xl sm:text-3xl font-black text-blue-700 mt-1 sm:mt-2">94%</div>
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+        <span id="cg-kpi3-label" class="text-xs font-bold text-slate-500 uppercase">Routine Adherence</span>
+        <div class="text-3xl font-black text-blue-700 mt-2">94%</div>
         <span id="cg-kpi3-sub" class="text-xs text-blue-600 font-semibold">16 of 17 Reminders Acknowledged</span>
       </div>
     </section>
 
     <!-- Chart -->
-    <section class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3">
-      <h3 id="cg-chart-title" class="text-base sm:text-lg font-black text-slate-900">7-Day Cognitive Performance Analytics</h3>
-      <div class="chart-container relative h-56 sm:h-64 md:h-72 w-full">
+    <section class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+      <h3 id="cg-chart-header" class="text-lg font-black text-slate-900">7-Day Cognitive Performance Analytics</h3>
+      <div class="chart-container relative h-64 md:h-72 w-full">
         <canvas id="cognitiveChart"></canvas>
       </div>
     </section>
   </main>
 
   <!-- ========================================================== -->
-  <!-- MODALS                                                     -->
+  <!-- DEDICATED FULL-SCREEN GAME MODAL                           -->
   <!-- ========================================================== -->
+  <div id="game-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-3.5 sm:p-4 hidden">
+    <div class="bg-slate-900 text-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border-2 border-emerald-500 space-y-4 max-h-[94vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div>
+          <h3 id="game-modal-title" class="text-xl font-black text-emerald-400">Game Active</h3>
+          <p id="game-modal-subtitle" class="text-xs text-slate-400">Complete the activity to log response telemetry.</p>
+        </div>
+        <button onclick="closeModal('game-modal')" id="btn-game-close" class="text-slate-300 hover:text-white font-black text-xs bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl senior-tap">
+          ✕ Close
+        </button>
+      </div>
+      
+      <div id="game-modal-body" class="py-2"></div>
+      <div id="game-modal-feedback" class="text-center font-bold text-sm text-emerald-300 min-h-[24px]"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SAFE FLOATING EMERGENCY SOS TRIGGER                        -->
+  <!-- ========================================================== -->
+  <div class="fixed bottom-5 right-5 z-40">
+    <button onclick="triggerSOSConfirmation()" class="bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-black px-4 py-3 rounded-full shadow-2xl border-4 border-white flex items-center gap-2 senior-tap transition-all">
+      <span class="text-2xl animate-pulse">🚨</span>
+      <span id="btn-sos-floating" class="text-sm font-extrabold pr-1">EMERGENCY SOS</span>
+    </button>
+  </div>
+
+  <!-- SOS CONFIRMATION MODAL -->
+  <div id="sos-confirm-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 border-4 border-rose-600 shadow-2xl">
+      <div class="text-5xl animate-bounce">🚨</div>
+      <h3 id="sos-confirm-title" class="text-xl font-black text-rose-950">Send Emergency Alert?</h3>
+      <p id="sos-confirm-desc" class="text-slate-600 text-xs">This will immediately notify your family and the nearest Majuli health center with your current GPS location.</p>
+      <div class="space-y-2 pt-2">
+        <button onclick="confirmSOSDispatch()" id="btn-sos-send-yes" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm py-3.5 rounded-2xl shadow-lg transition senior-tap">
+          YES, SEND HELP NOW 🚨
+        </button>
+        <button onclick="closeModal('sos-confirm-modal')" id="btn-sos-send-cancel" class="w-full bg-slate-100 text-slate-700 font-bold text-xs py-2.5 rounded-xl hover:bg-slate-200 transition senior-tap">
+          Cancel (Mistake)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOS SUCCESS DISPATCH MODAL -->
+  <div id="sos-success-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 border-4 border-emerald-500 shadow-2xl">
+      <div class="text-5xl">✅</div>
+      <h3 id="sos-success-title" class="text-xl font-black text-emerald-950">Alert Dispatched!</h3>
+      <p id="sos-success-desc" class="text-slate-600 text-xs">Caregivers have received your GPS alert. Please remain calm and stay where you are.</p>
+      <button onclick="closeModal('sos-success-modal')" id="btn-sos-ack-ok" class="w-full bg-slate-900 text-white font-bold text-xs py-3 rounded-xl senior-tap">
+        OK, I Understand
+      </button>
+    </div>
+  </div>
 
   <!-- 1. REMINDER MODAL -->
-  <div id="reminder-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-3.5 sm:p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 text-center space-y-4 border-4 border-amber-300 shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="text-5xl sm:text-6xl animate-bounce">💊</div>
+  <div id="reminder-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center space-y-4 border-4 border-amber-300 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="text-6xl animate-bounce">💊</div>
       <div>
-        <span id="modal-rem-badge" class="bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase">Medicine Routine</span>
-        <h2 id="modal-rem-title" class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Afternoon Medicine & Water</h2>
-        <p id="modal-rem-desc" class="text-slate-600 text-xs sm:text-sm mt-1">Please take 1 Tablet of Donepezil with 1 glass of fresh water.</p>
+        <span id="modal-rem-badge" class="bg-blue-100 text-blue-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase">Medicine Routine</span>
+        <h2 id="modal-rem-title" class="text-2xl font-black text-slate-900 mt-2">Afternoon Medicine & Water</h2>
+        <p id="modal-rem-desc" class="text-slate-600 text-sm mt-1">Please take 1 Tablet of Donepezil with 1 glass of fresh water.</p>
       </div>
       <div class="space-y-2 pt-2">
-        <button onclick="confirmReminder()" id="btn-rem-confirm" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base sm:text-lg py-3.5 sm:py-4 rounded-2xl shadow-lg transition senior-tap">
+        <button onclick="confirmReminder()" id="btn-rem-taken" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base py-4 rounded-2xl shadow-lg transition senior-tap">
           ✓ I HAVE TAKEN IT
         </button>
-        <button onclick="closeModal('reminder-modal')" id="btn-rem-dismiss" class="w-full bg-slate-100 text-slate-600 font-bold text-xs py-2.5 sm:py-3 rounded-xl hover:bg-slate-200 transition senior-tap">
+        <button onclick="closeModal('reminder-modal')" id="btn-rem-later" class="w-full bg-slate-100 text-slate-600 font-bold text-xs py-3 rounded-xl hover:bg-slate-200 transition senior-tap">
           Remind in 10 Minutes
         </button>
       </div>
@@ -275,60 +339,48 @@
   </div>
 
   <!-- 2. REMINISCENCE MODAL -->
-  <div id="reminiscence-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-3.5 sm:p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 space-y-4 border border-slate-300 shadow-2xl max-h-[92vh] overflow-y-auto">
+  <div id="reminiscence-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 border border-slate-300 shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-2">
-        <h3 id="modal-mem-title" class="text-base sm:text-lg font-black text-slate-900">📸 Where You Live & Family</h3>
+        <h3 id="modal-fam-head" class="text-lg font-black text-slate-900">📸 Where You Live & Family</h3>
         <button onclick="closeModal('reminiscence-modal')" class="text-slate-400 hover:text-slate-700 font-bold text-sm p-1">✕</button>
       </div>
       
       <div class="space-y-3">
-        <div class="bg-amber-100/80 rounded-2xl p-3.5 text-left border border-amber-300">
-          <div class="flex items-center space-x-2.5">
-            <span class="text-2xl sm:text-3xl">🏡</span>
+        <div class="bg-amber-100/80 rounded-2xl p-4 text-left border border-amber-300">
+          <div class="flex items-center space-x-3">
+            <span class="text-3xl">🏡</span>
             <div>
-              <h4 id="mem-card1-title" class="font-extrabold text-slate-900 text-xs sm:text-sm">Your Home Address</h4>
-              <p id="mem-card1-desc" class="text-slate-700 text-[11px] sm:text-xs mt-0.5">"Dada, you live in <strong>Garamur, Majuli Island, Assam</strong> near the Satra and Brahmaputra River."</p>
+              <h4 id="mem-addr-title" class="font-extrabold text-slate-900 text-sm">Your Home Address</h4>
+              <p id="mem-addr-desc" class="text-slate-700 text-xs mt-0.5">"Dada, you live in <strong>Garamur, Majuli Island, Assam</strong> near the Satra and Brahmaputra River."</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-purple-100/80 rounded-2xl p-3.5 text-left border border-purple-300">
-          <div class="flex items-start space-x-2.5">
-            <span class="text-2xl sm:text-3xl">👨‍👩‍👦</span>
+        <div class="bg-purple-100/80 rounded-2xl p-4 text-left border border-purple-300">
+          <div class="flex items-start space-x-3">
+            <span class="text-3xl">👨‍👩‍👦</span>
             <div>
-              <h4 id="mem-card2-title" class="font-extrabold text-slate-900 text-xs sm:text-sm">Your Family (4 Members)</h4>
-              <ul id="mem-family-list" class="text-slate-700 text-[11px] sm:text-xs space-y-1 mt-1 font-medium">
-                <li>• <strong>Malati Borah</strong> (Wife / পত্নী)</li>
-                <li>• <strong>Bikash Borah</strong> (Son / পুত্ৰ)</li>
-                <li>• <strong>Rupa Borah</strong> (Daughter-in-law / বোৱাৰী)</li>
-                <li>• <strong>Nilav Borah</strong> (Grandson / নাতি)</li>
+              <h4 id="mem-fam-title" class="font-extrabold text-slate-900 text-sm">Your Family (4 Members)</h4>
+              <ul id="mem-family-list" class="text-slate-700 text-xs space-y-1 mt-1 font-medium">
+                <li>• <strong>Malati Borah</strong> (Wife / পত্নী / पत्नी)</li>
+                <li>• <strong>Bikash Borah</strong> (Son / পুত্ৰ / बेटा)</li>
+                <li>• <strong>Rupa Borah</strong> (Daughter-in-law / বোৱাৰী / बहू)</li>
+                <li>• <strong>Nilav Borah</strong> (Grandson / নাতি / पोता)</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
 
-      <button onclick="speakFamilyMemory()" id="btn-read-memory" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs sm:text-sm py-3 rounded-xl transition senior-tap">
+      <button onclick="speakFamilyMemory()" id="btn-read-family" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-sm py-3.5 rounded-2xl transition senior-tap">
         🔊 Read Family Info Aloud
       </button>
     </div>
   </div>
 
-  <!-- 3. SOS MODAL -->
-  <div id="sos-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-3.5 sm:p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-sm w-full p-5 sm:p-6 text-center space-y-4 border-4 border-rose-500 shadow-2xl">
-      <div class="text-4xl sm:text-5xl animate-pulse">🚨</div>
-      <h3 id="modal-sos-title" class="text-lg sm:text-xl font-black text-rose-900">Caregiver Alert Dispatched</h3>
-      <p id="modal-sos-desc" class="text-slate-600 text-xs">Emergency alert with GPS location sent to Family & Primary Health Worker.</p>
-      <button onclick="closeModal('sos-modal')" id="btn-sos-dismiss" class="w-full bg-slate-900 text-white font-bold text-xs py-3 rounded-xl senior-tap">
-        Dismiss
-      </button>
-    </div>
-  </div>
-
   <!-- FOOTER -->
-  <footer id="footer-text" class="bg-slate-900 text-slate-400 text-center text-[10px] sm:text-xs py-3 sm:py-3.5 border-t border-slate-800 px-4">
+  <footer id="footer-text" class="bg-slate-900 text-slate-400 text-center text-xs py-3.5 border-t border-slate-800 px-4">
     SMRITI-NER Platform • SIH26003 • Ministry of Development of North Eastern Region (MDoNER)
   </footer>
 

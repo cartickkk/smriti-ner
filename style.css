@@ -1,41 +1,45 @@
-/* Accessibility Tap Feedback */
+/* Smooth Root Accessibility Sizing */
+html {
+  font-size: 20px; /* High-visibility default for elderly comfort */
+  transition: font-size 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Safe Area Padding for Modern Mobile Screens */
+body {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+.fixed.bottom-5.right-5 {
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+/* Senior-Friendly Touch Feedback */
 .senior-tap {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
 }
 
 .senior-tap:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
-/* Modal Dark Backdrop with Blur */
-.modal-backdrop {
-  background-color: rgba(15, 23, 42, 0.78);
-  backdrop-filter: blur(2px);
+/* Game Card State Styles */
+.game-card-revealed {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  border-color: #34d399 !important;
 }
 
-/* Universal Smooth Scrolling & Custom Scrollbar */
-html {
-  scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f8fafc;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Prevent Chart Distortion on Mobile */
-.chart-container {
-  position: relative;
-  width: 100%;
+.game-card-matched {
+  background-color: #047857 !important;
+  color: #d1fae5 !important;
+  opacity: 0.85;
+  pointer-events: none;
 }
