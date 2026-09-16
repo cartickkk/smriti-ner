@@ -33,7 +33,6 @@
 
       <!-- Controls: Size Slider & Audio Mute Toggle -->
       <div class="flex items-center gap-2">
-        <!-- Smooth Accessibility Sizing Controller -->
         <div class="flex items-center bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-2xl gap-2 shadow-inner">
           <label for="textScaleSlider" class="text-xs font-extrabold text-slate-300 flex items-center gap-1 cursor-pointer">
             <span>🔍</span> <span id="label-size-ui">Size:</span>
@@ -51,7 +50,6 @@
           <span id="scaleLabel" class="text-xs font-black text-emerald-400 min-w-[40px]">20px</span>
         </div>
 
-        <!-- MUTE / UNMUTE BUTTON -->
         <button onclick="toggleAudioMute()" id="btn-audio-toggle" class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition">
           <span id="mute-icon">🔊</span>
           <span id="mute-text">Sound ON</span>
@@ -109,7 +107,7 @@
         </div>
       </div>
       <button onclick="speakInstructions()" id="btn-read-screen" class="w-full md:w-auto justify-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-5 py-3 rounded-2xl text-sm font-black shadow-lg transition flex items-center gap-2 senior-tap">
-        <span>🔊</span> <span>Read Full Screen Aloud</span>
+        <span>🔊</span> <span id="btn-read-screen-text">Read Full Screen Aloud</span>
       </button>
     </section>
 
@@ -150,12 +148,12 @@
         <!-- Game 3 -->
         <div onclick="openGameModal('spotter')" class="senior-tap bg-white hover:border-amber-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px] sm:col-span-2 md:col-span-1">
           <div class="flex justify-between items-start">
-            <span class="text-4xl">🦅</span>
+            <span class="text-4xl">🎯</span>
             <span id="g3-badge" class="bg-amber-100 text-amber-800 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase">Game 3</span>
           </div>
           <div class="my-2">
-            <h4 id="g3-title" class="text-lg font-black text-slate-900">Spot Hornbill Motif</h4>
-            <p id="g3-desc" class="text-slate-600 text-xs mt-0.5">Find the hidden Hornbill bird.</p>
+            <h4 id="g3-title" class="text-lg font-black text-slate-900">Spot Cultural Motif</h4>
+            <p id="g3-desc" class="text-slate-600 text-xs mt-0.5">Find the randomly chosen NER item.</p>
           </div>
           <span id="g3-btn" class="text-amber-700 font-extrabold text-sm">Spot Target On-Screen →</span>
         </div>
@@ -231,26 +229,61 @@
       </button>
     </div>
 
-    <!-- Metrics Grid -->
+    <!-- Live Dynamic Metrics Grid -->
     <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi1-label" class="text-xs font-bold text-slate-500 uppercase">Cognitive Stability Score</span>
-        <div class="text-3xl font-black text-emerald-700 mt-2">78 / 100</div>
-        <span id="cg-kpi1-sub" class="text-xs text-emerald-600 font-semibold">↑ Stable (+3% over 7 days)</span>
+      
+      <!-- Metric 1: Stability Score -->
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <span id="cg-kpi1-label" class="text-xs font-bold text-slate-500 uppercase">Cognitive Stability Score</span>
+          <div id="metric-stability" class="text-3xl font-black text-emerald-700 mt-2">78 / 100</div>
+        </div>
+        <span id="cg-kpi1-sub" class="text-xs text-emerald-600 font-semibold mt-2">↑ Dynamic telemetry score</span>
       </div>
-      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi2-label" class="text-xs font-bold text-slate-500 uppercase">Latest Response Latency</span>
-        <div id="metric-latency" class="text-3xl font-black text-slate-800 mt-2">12.4s</div>
-        <span id="cg-kpi2-sub" class="text-xs text-slate-500">Target Range: 10s – 18s</span>
+
+      <!-- Metric 2: Per-Game Latency Breakdown & Dynamic Range -->
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-2.5">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-1.5">
+          <span id="cg-kpi2-label" class="text-xs font-bold text-slate-500 uppercase">Response Latency Breakdown</span>
+          <span id="metric-avg-badge" class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded-full">Live Telemetry</span>
+        </div>
+        
+        <div class="space-y-1 text-xs text-slate-700 font-medium">
+          <div class="flex justify-between items-center py-0.5 border-b border-slate-50">
+            <span id="cg-g1-name" class="truncate pr-2">1. Heritage Match:</span>
+            <span id="metric-g1-time" class="font-extrabold text-slate-900 whitespace-nowrap">12.4s</span>
+          </div>
+          <div class="flex justify-between items-center py-0.5 border-b border-slate-50">
+            <span id="cg-g2-name" class="truncate pr-2">2. Tea Routine:</span>
+            <span id="metric-g2-time" class="font-extrabold text-slate-900 whitespace-nowrap">--</span>
+          </div>
+          <div class="flex justify-between items-center py-0.5">
+            <span id="cg-g3-name" class="truncate pr-2">3. Cultural Motif:</span>
+            <span id="metric-g3-time" class="font-extrabold text-slate-900 whitespace-nowrap">--</span>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex justify-between items-baseline">
+          <div>
+            <span id="cg-avg-label" class="text-[11px] font-bold text-slate-500">Avg Time:</span>
+            <span id="metric-latency" class="text-lg font-black text-slate-900 ml-1">12.4s</span>
+          </div>
+          <span id="cg-kpi2-sub" class="text-[10px] font-bold text-slate-500">Ideal Range: 10s – 18s</span>
+        </div>
       </div>
-      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-        <span id="cg-kpi3-label" class="text-xs font-bold text-slate-500 uppercase">Routine Adherence</span>
-        <div class="text-3xl font-black text-blue-700 mt-2">94%</div>
-        <span id="cg-kpi3-sub" class="text-xs text-blue-600 font-semibold">16 of 17 Reminders Acknowledged</span>
+
+      <!-- Metric 3: Routine Adherence -->
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <span id="cg-kpi3-label" class="text-xs font-bold text-slate-500 uppercase">Routine Adherence</span>
+          <div id="metric-adherence" class="text-3xl font-black text-blue-700 mt-2">94%</div>
+        </div>
+        <span id="cg-kpi3-sub" class="text-xs text-blue-600 font-semibold mt-2">Live calculated percentage</span>
       </div>
+
     </section>
 
-    <!-- Chart -->
+    <!-- Dynamic 7-Day Chart -->
     <section class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
       <h3 id="cg-chart-header" class="text-lg font-black text-slate-900">7-Day Cognitive Performance Analytics</h3>
       <div class="chart-container relative h-64 md:h-72 w-full">
@@ -260,7 +293,7 @@
   </main>
 
   <!-- ========================================================== -->
-  <!-- DEDICATED FULL-SCREEN GAME MODAL                           -->
+  <!-- FULL-SCREEN GAME MODAL                                     -->
   <!-- ========================================================== -->
   <div id="game-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-3.5 sm:p-4 hidden">
     <div class="bg-slate-900 text-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border-2 border-emerald-500 space-y-4 max-h-[94vh] overflow-y-auto">
@@ -269,9 +302,16 @@
           <h3 id="game-modal-title" class="text-xl font-black text-emerald-400">Game Active</h3>
           <p id="game-modal-subtitle" class="text-xs text-slate-400">Complete the activity to log response telemetry.</p>
         </div>
-        <button onclick="closeModal('game-modal')" id="btn-game-close" class="text-slate-300 hover:text-white font-black text-xs bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl senior-tap">
-          ✕ Close
-        </button>
+        
+        <div class="flex items-center gap-2">
+          <button onclick="toggleAudioMute()" id="game-modal-sound-btn" class="text-xs font-black bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-xl senior-tap flex items-center gap-1 transition">
+            <span id="game-modal-sound-icon">🔊</span>
+            <span id="game-modal-sound-text">Sound ON</span>
+          </button>
+          <button onclick="closeModal('game-modal')" id="btn-game-close" class="text-slate-300 hover:text-white font-black text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3.5 py-1.5 rounded-xl senior-tap transition">
+            ✕ Close
+          </button>
+        </div>
       </div>
       
       <div id="game-modal-body" class="py-2"></div>
@@ -280,7 +320,7 @@
   </div>
 
   <!-- ========================================================== -->
-  <!-- SAFE FLOATING EMERGENCY SOS TRIGGER                        -->
+  <!-- FLOATING EMERGENCY SOS TRIGGER                             -->
   <!-- ========================================================== -->
   <div class="fixed bottom-5 right-5 z-40">
     <button onclick="triggerSOSConfirmation()" class="bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-black px-4 py-3 rounded-full shadow-2xl border-4 border-white flex items-center gap-2 senior-tap transition-all">
@@ -306,7 +346,7 @@
     </div>
   </div>
 
-  <!-- SOS SUCCESS DISPATCH MODAL -->
+  <!-- SOS SUCCESS MODAL -->
   <div id="sos-success-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 border-4 border-emerald-500 shadow-2xl">
       <div class="text-5xl">✅</div>
@@ -362,11 +402,8 @@
             <span class="text-3xl">👨‍👩‍👦</span>
             <div>
               <h4 id="mem-fam-title" class="font-extrabold text-slate-900 text-sm">Your Family (4 Members)</h4>
-              <ul id="mem-family-list" class="text-slate-700 text-xs space-y-1 mt-1 font-medium">
-                <li>• <strong>Malati Borah</strong> (Wife / পত্নী / पत्नी)</li>
-                <li>• <strong>Bikash Borah</strong> (Son / পুত্ৰ / बेटा)</li>
-                <li>• <strong>Rupa Borah</strong> (Daughter-in-law / বোৱাৰী / बहू)</li>
-                <li>• <strong>Nilav Borah</strong> (Grandson / নাতি / पोता)</li>
+              <ul id="mem-family-list" class="text-slate-700 text-xs space-y-1.5 mt-1.5 font-medium">
+                <!-- Injected via JavaScript based on language -->
               </ul>
             </div>
           </div>

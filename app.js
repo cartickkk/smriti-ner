@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SMRITI-NER • Full Multilingual Dictionary, Voice/Mute & Telemetry
+   SMRITI-NER • Client Logic, Telemetry & Multi-Language Dictionary
    ========================================================================== */
 
 // 1. MULTILINGUAL DICTIONARY (Hindi, English, Assamese)
@@ -19,7 +19,7 @@ const i18n = {
     sahayakBadgeMuted: 'ऑडियो बंद',
     sahayakStatusActive: 'स्क्रीन पर मौजूद सभी निर्देश और स्मरण पत्र सुनने के लिए बटन दबाएं।',
     sahayakStatusMuted: 'आवाज़ बंद है। सुनने के लिए ऊपर से अनम्यूट करें।',
-    btnReadScreen: 'पूरी स्क्रीन पढ़कर सुनाएं',
+    btnReadScreenText: 'पूरी स्क्रीन पढ़कर सुनाएं',
     gamesHeader: '🎮 दैनिक दिमागी कसरत (पूर्वोत्तर थीम)',
     gamesSubheader: 'शुरू करने के लिए टैप करें:',
     g1Badge: 'खेल 1',
@@ -31,8 +31,8 @@ const i18n = {
     g2Desc: 'चाय बनाने के सही क्रम को व्यवस्थित करें।',
     g2Btn: 'क्रम बनाएं →',
     g3Badge: 'खेल 3',
-    g3Title: 'धनेश पक्षी पहचानें',
-    g3Desc: 'छिपे हुए हॉर्नबिल पक्षी को खोजें।',
+    g3Title: 'प्रतीक पहचानें',
+    g3Desc: 'दिए गए पूर्वोत्तर प्रतीक को 6 विकल्पों में से खोजें।',
     g3Btn: 'लक्ष्य खोजें →',
     remBadge: 'समय सारिणी',
     remTitle: 'दवा और पानी',
@@ -51,12 +51,17 @@ const i18n = {
     cgAlertDesc: 'मरीज ने लोकेशन के साथ SOS कॉल बटन दबाया है।',
     cgBtnAck: 'पुष्टि करें',
     cgKpi1Label: 'संज्ञानात्मक स्थिरता स्कोर',
-    cgKpi1Sub: '↑ स्थिर (7 दिनों में +3%)',
-    cgKpi2Label: 'नवीनतम प्रतिक्रिया विलंबता',
-    cgKpi2Sub: 'लक्ष्य सीमा: 10s – 18s',
+    cgKpi1Sub: '↑ लाइव टेलीमेट्री स्कोर',
+    cgKpi2Label: 'प्रतिक्रिया समय विवरण (खेल अनुसार)',
+    cgAvgLabel: 'औसत समय:',
+    cgIdealRangePrefix: 'आदर्श सीमा:',
+    cgG1Label: '1. धरोहर मिलान:',
+    cgG2Label: '2. चाय दिनचर्या:',
+    cgG3Label: '3. प्रतीक खोजें:',
     cgKpi3Label: 'दिनचर्या अनुपालन',
-    cgKpi3Sub: '17 में से 16 दवाएं समय पर ली गईं',
+    cgKpi3Sub: 'लाइव गणना प्रतिशत',
     cgChartHeader: '7-दिवसीय संज्ञानात्मक प्रदर्शन विश्लेषण',
+    gameModalSubtitle: 'प्रतिक्रिया समय और टेलीमेट्री दर्ज करने के लिए खेल पूरा करें।',
     modalRemBadge: 'दवा दिनचर्या',
     modalRemTitle: 'दोपहर की दवा और पानी',
     modalRemDesc: 'कृपया 1 गिलास पानी के साथ डोनेपेज़िल की 1 गोली लें।',
@@ -66,6 +71,12 @@ const i18n = {
     memAddrTitle: 'आपका घर का पता',
     memAddrDesc: 'दादा, आप असम के माजुली द्वीप स्थित गरमूर में सत्र और ब्रह्मपुत्र नदी के पास रहते हैं।',
     memFamTitle: 'आपका परिवार (4 सदस्य)',
+    familyMembers: [
+      '• <strong>मालती बोरा</strong> (पत्नी)',
+      '• <strong>बिकाश बोरा</strong> (बेटा)',
+      '• <strong>रूपा बोरा</strong> (बहू)',
+      '• <strong>निलव बोरा</strong> (पोता)'
+    ],
     btnReadFamily: '🔊 परिवार की जानकारी सुनें',
     sosConfirmTitle: 'आपातकालीन चेतावनी भेजें?',
     sosConfirmDesc: 'यह तुरंत आपके परिवार और निकटतम माजुली स्वास्थ्य केंद्र को आपके जीपीएस लोकेशन के साथ सूचित करेगा।',
@@ -75,10 +86,27 @@ const i18n = {
     sosSuccessDesc: 'देखभाल करने वालों को आपका अलर्ट मिल गया है। कृपया शांत रहें और वहीं रुकें।',
     btnSosAckOk: 'ठीक है, समझ गया',
     footerText: 'स्मृति-एनईआर (SMRITI-NER) • SIH26003 • पूर्वोत्तर क्षेत्र विकास मंत्रालय (MDoNER)',
-    ttsFullOverview: 'नमस्ते बोरा दादा। यह आपकी दैनिक सहायता स्क्रीन है। आपके लिए आज तीन दिमागी खेल उपलब्ध हैं। पहला खेल: पूर्वोत्तर धरोहर मिलान, जिसमें आपको सांस्कृतिक प्रतीकों के जोड़े मिलाने हैं। दूसरा खेल: असम चाय दिनचर्या, जिसमें चाय बनाने के सही क्रम को चुनना है। तीसरा खेल: धनेश पक्षी पहचानें, जिसमें आपको हॉर्नबिल पक्षी खोजना है। नीचे आपकी दोपहर 2 बजे की दवा और पानी का समय है, और आपका पारिवारिक फोटो एल्बम मौजूद है। ऊपर केयरगिवर पोर्टल और नीचे दाएँ कोने में आपातकालीन एसओएस बटन है।',
+    
+    // Complete structured screen reader narration
+    ttsFullOverview: 'नमस्ते बोरा दादा। यह आपकी दैनिक सहायता स्क्रीन है। आपके लिए आज तीन दिमागी खेल उपलब्ध हैं। पहला खेल: पूर्वोत्तर धरोहर मिलान, जिसमें आपको सांस्कृतिक प्रतीकों के जोड़े मिलाने हैं। दूसरा खेल: असम चाय दिनचर्या, जिसमें चाय बनाने के सही क्रम को चुनना है। तीसरा खेल: प्रतीक पहचानें, जिसमें ऊपर दिखाए गए प्रतीक को खोजना है। नीचे आपकी दोपहर 2 बजे की दवा और पानी का समय है, और आपका पारिवारिक फोटो एल्बम मौजूद है। ऊपर केयरगिवर पोर्टल और नीचे दाएँ कोने में आपातकालीन एसओएस बटन है।',
     ttsFamily: 'दादा, आप असम के माजुली द्वीप, गरमूर में रहते हैं। आपके परिवार में पत्नी मालती, पुत्र बिकाश, बहू रूपा और पोता निलव हैं।',
-    ttsCgSummary: 'मरीज डी. बोरा का संज्ञानात्मक स्थिरता स्कोर 78 है, औसत प्रतिक्रिया समय 12.4 सेकंड है और दवा अनुपालन 94 प्रतिशत है।',
-    ttsDone: 'बहुत अच्छा दादा! कार्य सफलता से पूरा हुआ।'
+    ttsCgSummary: 'मरीज डी. बोरा का संज्ञानात्मक स्थिरता स्कोर %SCORE% है, औसत प्रतिक्रिया समय %LATENCY% सेकंड है और दवा अनुपालन %ADHERENCE% प्रतिशत है।',
+    
+    // In-game dynamic audio phrases
+    itemNames: {
+      '🦏': 'गेंडा (Rhino)',
+      '☕': 'असम चाय (Tea)',
+      '🦅': 'धनेश पक्षी (Hornbill)',
+      '🌸': 'ऑर्किड फूल (Flower)',
+      '🏡': 'माजुली घर (House)',
+      '🎋': 'बांस (Bamboo)'
+    },
+    matchedSuffix: 'मिल गया!',
+    noMatchMsg: 'जोड़ी नहीं बनी, पुनः प्रयास करें।',
+    teaOptionPrompt: 'आपके विकल्प हैं: पहला विकल्प %OP1%, दूसरा विकल्प %OP2%, तीसरा विकल्प %OP3%। सही क्रम में चुनें।',
+    findPrompt: 'ऊपर देखें: आपको नीचे %TARGET% खोजना है।',
+    wrongChoice: 'यह गलत है, ध्यान से देखें!',
+    correctChoice: 'बिल्कुल सही! आपने पहचान लिया।'
   },
   'en-IN': {
     labelSize: 'Size:',
@@ -95,7 +123,7 @@ const i18n = {
     sahayakBadgeMuted: 'Audio Muted',
     sahayakStatusActive: 'Tap the button to listen to all instructions and reminders aloud.',
     sahayakStatusMuted: 'Sound is muted for quietness. Tap unmute above to listen.',
-    btnReadScreen: 'Read Full Screen Aloud',
+    btnReadScreenText: 'Read Full Screen Aloud',
     gamesHeader: '🎮 Daily Brain Exercises (NER Themed)',
     gamesSubheader: 'Tap to launch on screen:',
     g1Badge: 'Game 1',
@@ -107,8 +135,8 @@ const i18n = {
     g2Desc: 'Arrange daily tea steps in order.',
     g2Btn: 'Start Sequence On-Screen →',
     g3Badge: 'Game 3',
-    g3Title: 'Spot Hornbill Motif',
-    g3Desc: 'Find the hidden Hornbill bird.',
+    g3Title: 'Spot Cultural Motif',
+    g3Desc: 'Find the randomly picked NER symbol.',
     g3Btn: 'Spot Target On-Screen →',
     remBadge: 'Scheduled',
     remTitle: 'Medicine & Water',
@@ -127,12 +155,17 @@ const i18n = {
     cgAlertDesc: 'Patient pressed the SOS emergency call button with location ping.',
     cgBtnAck: 'Acknowledge',
     cgKpi1Label: 'Cognitive Stability Score',
-    cgKpi1Sub: '↑ Stable (+3% over 7 days)',
-    cgKpi2Label: 'Latest Response Latency',
-    cgKpi2Sub: 'Target Range: 10s – 18s',
+    cgKpi1Sub: '↑ Live calculated score',
+    cgKpi2Label: 'Response Latency Breakdown',
+    cgAvgLabel: 'Avg Time:',
+    cgIdealRangePrefix: 'Ideal Range:',
+    cgG1Label: '1. Heritage Match:',
+    cgG2Label: '2. Tea Routine:',
+    cgG3Label: '3. Cultural Motif:',
     cgKpi3Label: 'Routine Adherence',
-    cgKpi3Sub: '16 of 17 Reminders Acknowledged',
+    cgKpi3Sub: 'Live calculated percentage',
     cgChartHeader: '7-Day Cognitive Performance Analytics',
+    gameModalSubtitle: 'Complete the activity to log response telemetry.',
     modalRemBadge: 'Medicine Routine',
     modalRemTitle: 'Afternoon Medicine & Water',
     modalRemDesc: 'Please take 1 Tablet of Donepezil with 1 glass of fresh water.',
@@ -142,6 +175,12 @@ const i18n = {
     memAddrTitle: 'Your Home Address',
     memAddrDesc: 'Dada, you live in Garamur, Majuli Island, Assam near the Satra and Brahmaputra River.',
     memFamTitle: 'Your Family (4 Members)',
+    familyMembers: [
+      '• <strong>Malati Borah</strong> (Wife)',
+      '• <strong>Bikash Borah</strong> (Son)',
+      '• <strong>Rupa Borah</strong> (Daughter-in-law)',
+      '• <strong>Nilav Borah</strong> (Grandson)'
+    ],
     btnReadFamily: '🔊 Read Family Info Aloud',
     sosConfirmTitle: 'Send Emergency Alert?',
     sosConfirmDesc: 'This will immediately notify your family and the nearest Majuli health center with your current GPS location.',
@@ -151,10 +190,27 @@ const i18n = {
     sosSuccessDesc: 'Caregivers have received your GPS alert. Please remain calm and stay where you are.',
     btnSosAckOk: 'OK, I Understand',
     footerText: 'SMRITI-NER Platform • SIH26003 • Ministry of Development of North Eastern Region (MDoNER)',
-    ttsFullOverview: 'Namaste Borah Dada. This is your daily assistance dashboard. You have three brain exercises available today. Game 1: NER Heritage Match, where you match cultural symbol pairs. Game 2: Assam Tea Routine, where you arrange tea-making steps in chronological order. Game 3: Spot Hornbill Motif, where you identify the hidden Hornbill bird. Below the games, you have your 2 PM medicine reminder and your family photo album. You can also switch to the caregiver tab at the top, or trigger the emergency SOS at the bottom right.',
+    
+    // Complete structured screen reader narration
+    ttsFullOverview: 'Namaste Borah Dada. This is your daily assistance dashboard. You have three brain exercises available today. Game 1: NER Heritage Match, where you match cultural symbol pairs. Game 2: Assam Tea Routine, where you arrange tea-making steps in chronological order. Game 3: Spot Cultural Motif, where you find the symbol shown on top. Below the games, you have your 2 PM medicine reminder and your family photo album. You can also switch to the caregiver tab at the top, or trigger the emergency SOS at the bottom right.',
     ttsFamily: 'Dada, you live in Garamur, Majuli Island, Assam. Your family members are your wife Malati, your son Bikash, daughter-in-law Rupa, and grandson Nilav.',
-    ttsCgSummary: 'Patient D. Borah shows a stable cognitive score of 78 over 100 with 94 percent routine adherence and 12.4 seconds average response latency.',
-    ttsDone: 'Excellent work Dada! Task completed successfully.'
+    ttsCgSummary: 'Patient D. Borah shows a stable cognitive score of %SCORE% over 100 with %ADHERENCE% percent routine adherence and %LATENCY% seconds average response latency.',
+    
+    // In-game dynamic audio phrases
+    itemNames: {
+      '🦏': 'Rhino',
+      '☕': 'Assam Tea',
+      '🦅': 'Hornbill',
+      '🌸': 'Orchid',
+      '🏡': 'House',
+      '🎋': 'Bamboo'
+    },
+    matchedSuffix: 'matched!',
+    noMatchMsg: 'No match, try again.',
+    teaOptionPrompt: 'Here are the options: First option is %OP1%, second option is %OP2%, third option is %OP3%. Tap in order.',
+    findPrompt: 'Look at the top: You need to find the %TARGET% below.',
+    wrongChoice: 'Wrong choice, look closely!',
+    correctChoice: 'Spot on! You found the target.'
   },
   'as-IN': {
     labelSize: 'আকাৰ:',
@@ -171,7 +227,7 @@ const i18n = {
     sahayakBadgeMuted: 'অডিঅ’ বন্ধ',
     sahayakStatusActive: 'সকলো নিৰ্দেশনা আৰু সোঁৱৰণী শুনিবলৈ বুটামটো টিপক।',
     sahayakStatusMuted: 'শব্দ বন্ধ আছে। শুনিবলৈ ওপৰৰ পৰা আনমিউট কৰক।',
-    btnReadScreen: 'সম্পূৰ্ণ স্ক্ৰীণ পঢ়ি শুনাওক',
+    btnReadScreenText: 'সম্পূৰ্ণ স্ক্ৰীণ পঢ়ি শুনাওক',
     gamesHeader: '🎮 দৈনন্দিন মগজুৰ অনুশীলন (NER থিম)',
     gamesSubheader: 'আৰম্ভ কৰিবলৈ টিপক:',
     g1Badge: 'খেল ১',
@@ -183,8 +239,8 @@ const i18n = {
     g2Desc: 'চাহ বনোৱাৰ পৰ্যায়বোৰ ক্ৰমত সজাওক।',
     g2Btn: 'ক্ৰম সজাওক →',
     g3Badge: 'খেল ৩',
-    g3Title: 'ধনেশ পক্ষী চিনাক্তকৰণ',
-    g3Desc: 'লুকাই থকা ধনেশ চৰাইটো বিচাৰি উলিয়াওক।',
+    g3Title: 'প্ৰতীক চিনাক্তকৰণ',
+    g3Desc: 'ওপৰত দিয়া প্ৰতীকটো ৬ টা বিকল্পৰ মাজত বিচাৰি উলিয়াওক।',
     g3Btn: 'লক্ষ্য চিনাক্ত কৰক →',
     remBadge: 'সময়সূচী',
     remTitle: 'ঔষধ আৰু পানী',
@@ -203,12 +259,17 @@ const i18n = {
     cgAlertDesc: 'ৰোগীয়ে অৱস্থানসহ SOS বুটাম টিপিছে।',
     cgBtnAck: 'স্বীকাৰ কৰক',
     cgKpi1Label: 'মানসিক স্থিৰতা স্ক’ৰ',
-    cgKpi1Sub: '↑ স্থিৰ (৭ দিনত +৩%)',
-    cgKpi2Label: 'শেহতীয়া প্ৰতিক্ৰিয়া সময়',
-    cgKpi2Sub: 'লক্ষ্য পৰিসৰ: ১০ছে – ১৮ছে',
+    cgKpi1Sub: '↑ লাইভ গণনাকৃত স্ক’ৰ',
+    cgKpi2Label: 'প্ৰতিক্ৰিয়া সময়ৰ তালিকা (খেল অনুসৰি)',
+    cgAvgLabel: 'গড় সময়:',
+    cgIdealRangePrefix: 'আদৰ্শ সীমা:',
+    cgG1Label: '১. ঐতিহ্য প্ৰতীক:',
+    cgG2Label: '২. চাহৰ নিয়ম:',
+    cgG3Label: '৩. প্ৰতীক চিনাক্ত:',
     cgKpi3Label: 'নিয়ম আনুগত্য',
-    cgKpi3Sub: '১৭ টাৰ ভিতৰত ১৬ টা ঔষধ গ্ৰহণ কৰা হৈছে',
+    cgKpi3Sub: 'লাইভ গণনাকৃত শতাংশ',
     cgChartHeader: '৭-দিনীয়া মানসিক ক্ষমতা বিশ্লেষণ',
+    gameModalSubtitle: 'প্ৰতিক্ৰিয়া সময় আৰু টেলিমেট্ৰি সংৰক্ষণ কৰিবলৈ খেল সম্পূৰ্ণ কৰক।',
     modalRemBadge: 'ঔষধ নিয়ম',
     modalRemTitle: 'দুপৰীয়াৰ ঔষধ আৰু পানী',
     modalRemDesc: 'অনুগ্ৰহ কৰি ১ গিলাচ সতেজ পানীৰ সৈতে ডনেপেজিল ঔষধ খাওক।',
@@ -218,6 +279,12 @@ const i18n = {
     memAddrTitle: 'আপোনাৰ ঘৰৰ ঠিকনা',
     memAddrDesc: 'দাদা, আপুনি অসমৰ মাজুলী দ্বীপৰ গড়মূৰ সত্ৰ আৰু ব্ৰহ্মপুত্ৰ নদীৰ কাষত থাকে।',
     memFamTitle: 'আপোনাৰ পৰিয়াল (৪ জন সদস্য)',
+    familyMembers: [
+      '• <strong>মালতী বৰা</strong> (পত্নী)',
+      '• <strong>বিকাশ বৰা</strong> (পুত্ৰ)',
+      '• <strong>ৰূপা বৰা</strong> (বোৱাৰী)',
+      '• <strong>নীলাভ বৰা</strong> (নাতি)'
+    ],
     btnReadFamily: '🔊 পৰিয়ালৰ তথ্য শুনক',
     sosConfirmTitle: 'জৰুৰীকালীন বাৰ্তা প্ৰেৰণ কৰিবনে?',
     sosConfirmDesc: 'ইয়াৰ দ্বাৰা আপোনাৰ পৰিয়াল আৰু ওচৰৰ মাজুলী চিকিৎসালয়লৈ জিপিএছ বাৰ্তা যাব।',
@@ -227,14 +294,104 @@ const i18n = {
     sosSuccessDesc: 'পৰিয়ালে আপোনাৰ জিপিএছ পাইছে। শান্ত হৈ থাকক।',
     btnSosAckOk: 'বুজি পালোঁ',
     footerText: 'স্মৃতি-এনইআৰ (SMRITI-NER) • SIH26003 • উত্তৰ পূৰ্বাঞ্চল উন্নয়ন মন্ত্ৰালয় (MDoNER)',
-    ttsFullOverview: 'নমস্কাৰ বৰা দাদা। এইখন আপোনাৰ দৈনন্দিন সহায়ক পৰ্দা। আপোনাৰ বাবে আজি তিনিটা মগজুৰ খেল আছে। প্ৰথম খেল: ঐতিহ্য প্ৰতীক মিলোৱা, য’ত সাংস্কৃতিক চিহ্নৰ যোৰ মিলাব লাগে। দ্বিতীয় খেল: অসম চাহৰ নিয়ম, য’ত চাহ বনোৱাৰ পৰ্যায় ক্ৰম অনুসৰি সজাব লাগে। তৃতীয় খেল: ধনেশ পক্ষী চিনাক্তকৰণ, য’ত লুকাই থকা ধনেশ চৰাইটো বিচাৰিব লাগে। খেলৰ তলত আপোনাৰ দুপৰীয়া ২ বজাৰ ঔষধৰ সোঁৱৰণী আৰু পৰিয়ালৰ ফটো এলবাম আছে। ওপৰত শুশ্ৰূষাকাৰী প’ৰ্টেল আৰু তলত জৰুৰীকালীন এছ অ’ এছ বুটাম উপলব্ধ।',
+    
+    // Complete structured screen reader narration
+    ttsFullOverview: 'নমস্কাৰ বৰা দাদা। এইখন আপোনাৰ দৈনন্দিন সহায়ক পৰ্দা। আপোনাৰ বাবে আজি তিনিটা মগজুৰ খেল আছে। প্ৰথম খেল: ঐতিহ্য প্ৰতীক মিলোৱা, য’ত সাংস্কৃতিক চিহ্নৰ যোৰ মিলাব লাগে। দ্বিতীয় খেল: অসম চাহৰ নিয়ম, য’ত চাহ বনোৱাৰ পৰ্যায় ক্ৰম অনুসৰি সজাব লাগে। তৃতীয় খেল: প্ৰতীক চিনাক্তকৰণ, য’ত ওপৰত দেখা প্ৰতীকটো বিচাৰিব লাগে। খেলৰ তলত আপোনাৰ দুপৰীয়া ২ বজাৰ ঔষধৰ সোঁৱৰণী আৰু পৰিয়ালৰ ফটো এলবাম আছে। ওপৰত শুশ্ৰূষাকাৰী প’ৰ্টেল আৰু তলত জৰুৰীকালীন এছ অ’ এছ বুটাম উপলব্ধ।',
     ttsFamily: 'দাদা, আপুনি অসমৰ মাজুলী দ্বীপৰ গড়মূৰত থাকে। আপোনাৰ পৰিয়ালত পত্নী মালতী, পুত্ৰ বিকাশ, বোৱাৰী ৰূপা আৰু নাতি নীলাভ আছে।',
-    ttsCgSummary: 'ৰোগী ডি. বৰাৰ মানসিক স্থিৰতা স্ক’ৰ ৭৮, গড় প্ৰতিক্ৰিয়া সময় ১২.৪ ছেকেণ্ড আৰু নিয়ম আনুগত্য ৯৪ শতাংশ।',
-    ttsDone: 'বৰ ধুনীয়া দাদা! খেল সম্পূৰ্ণ হ’ল।'
+    ttsCgSummary: 'ৰোগী ডি. বৰাৰ মানসিক স্থিৰতা স্ক’ৰ %SCORE%, গড় প্ৰতিক্ৰিয়া সময় %LATENCY% ছেকেণ্ড আৰু নিয়ম আনুগত্য %ADHERENCE% শতাংশ।',
+    
+    // In-game dynamic audio phrases
+    itemNames: {
+      '🦏': 'গঁড় (Rhino)',
+      '☕': 'চাহ (Tea)',
+      '🦅': 'ধনেশ পক্ষী (Hornbill)',
+      '🌸': 'কপৌ ফুল (Orchid)',
+      '🏡': 'মাজুলীৰ ঘৰ (House)',
+      '🎋': 'বাঁহ (Bamboo)'
+    },
+    matchedSuffix: 'মিলা হ’ল!',
+    noMatchMsg: 'জোৰ নিমিলিল, পুনৰ চেষ্টা কৰক।',
+    teaOptionPrompt: 'আপোনাৰ বিকল্পসমূহ হ’ল: প্ৰথম বিকল্প %OP1%, দ্বিতীয় বিকল্প %OP2%, তৃতীয় বিকল্প %OP3%। ক্ৰমত বাছক।',
+    findPrompt: 'ওপৰত চাওক: আপুনি তলত %TARGET% বিচাৰিব লাগে।',
+    wrongChoice: 'ভুল বিকল্প, ভালদৰে চাওক!',
+    correctChoice: 'সম্পূৰ্ণ শুদ্ধ! আপুনি প্ৰতীকটো বিচাৰি পালে।'
   }
 };
 
-// 2. MUTE STATE CONTROLLER
+// 2. LIVE CAREGIVER TELEMETRY STATE
+let telemetryState = {
+  g1Time: parseFloat(localStorage.getItem('smriti_cg_g1')) || 12.4,
+  g2Time: parseFloat(localStorage.getItem('smriti_cg_g2')) || null,
+  g3Time: parseFloat(localStorage.getItem('smriti_cg_g3')) || null,
+  latestAvgLatency: parseFloat(localStorage.getItem('smriti_cg_latency')) || 12.4,
+  stabilityScore: parseInt(localStorage.getItem('smriti_cg_stability')) || 78,
+  adherenceRate: parseInt(localStorage.getItem('smriti_cg_adherence')) || 94,
+  chartHistory: JSON.parse(localStorage.getItem('smriti_cg_history')) || [14.2, 13.8, 15.0, 13.1, 12.9, 13.4, 12.4]
+};
+
+function logGameTelemetry(gameType, latencySec) {
+  const lat = parseFloat(latencySec);
+  if (gameType === 'memory') telemetryState.g1Time = lat;
+  if (gameType === 'sequence') telemetryState.g2Time = lat;
+  if (gameType === 'spotter') telemetryState.g3Time = lat;
+
+  const playedTimes = [telemetryState.g1Time, telemetryState.g2Time, telemetryState.g3Time].filter(t => t !== null && !isNaN(t));
+  const avg = playedTimes.reduce((a, b) => a + b, 0) / playedTimes.length;
+  telemetryState.latestAvgLatency = parseFloat(avg.toFixed(1));
+
+  let calculatedScore = Math.round(100 - (telemetryState.latestAvgLatency / 25) * 35);
+  calculatedScore = Math.max(50, Math.min(98, calculatedScore));
+  telemetryState.stabilityScore = calculatedScore;
+
+  telemetryState.adherenceRate = Math.min(100, telemetryState.adherenceRate + 1);
+  telemetryState.chartHistory[6] = telemetryState.latestAvgLatency;
+
+  localStorage.setItem('smriti_cg_g1', telemetryState.g1Time || '');
+  localStorage.setItem('smriti_cg_g2', telemetryState.g2Time || '');
+  localStorage.setItem('smriti_cg_g3', telemetryState.g3Time || '');
+  localStorage.setItem('smriti_cg_latency', telemetryState.latestAvgLatency);
+  localStorage.setItem('smriti_cg_stability', telemetryState.stabilityScore);
+  localStorage.setItem('smriti_cg_adherence', telemetryState.adherenceRate);
+  localStorage.setItem('smriti_cg_history', JSON.stringify(telemetryState.chartHistory));
+
+  updateCaregiverDOM();
+}
+
+function updateCaregiverDOM() {
+  const lang = document.getElementById('lang-select')?.value || 'hi-IN';
+  const dict = i18n[lang] || i18n['hi-IN'];
+
+  const g1El = document.getElementById('metric-g1-time');
+  const g2El = document.getElementById('metric-g2-time');
+  const g3El = document.getElementById('metric-g3-time');
+  const avgEl = document.getElementById('metric-latency');
+  const stabEl = document.getElementById('metric-stability');
+  const adhEl = document.getElementById('metric-adherence');
+  const rangeSub = document.getElementById('cg-kpi2-sub');
+
+  if (g1El) g1El.textContent = telemetryState.g1Time ? `${telemetryState.g1Time}s` : '--';
+  if (g2El) g2El.textContent = telemetryState.g2Time ? `${telemetryState.g2Time}s` : '--';
+  if (g3El) g3El.textContent = telemetryState.g3Time ? `${telemetryState.g3Time}s` : '--';
+  if (avgEl) avgEl.textContent = `${telemetryState.latestAvgLatency}s`;
+  if (stabEl) stabEl.textContent = `${telemetryState.stabilityScore} / 100`;
+  if (adhEl) adhEl.textContent = `${telemetryState.adherenceRate}%`;
+
+  const playedCount = [telemetryState.g1Time, telemetryState.g2Time, telemetryState.g3Time].filter(t => t !== null && !isNaN(t)).length;
+  const count = Math.max(1, playedCount);
+  const minRange = (count === 1) ? 10 : 8 + count;
+  const maxRange = (count === 1) ? 18 : 15 + (count * 2);
+
+  if (rangeSub) {
+    rangeSub.textContent = `${dict.cgIdealRangePrefix} ${minRange}s – ${maxRange}s (${count} ${count === 1 ? 'Game' : 'Games'})`;
+  }
+
+  if (cognitiveChartInstance) {
+    cognitiveChartInstance.data.datasets[0].data = telemetryState.chartHistory;
+    cognitiveChartInstance.update();
+  }
+}
+
+// 3. MUTE CONTROLLER
 let isAudioMuted = localStorage.getItem('smriti_audio_muted') === 'true';
 
 function updateMuteUI() {
@@ -244,6 +401,11 @@ function updateMuteUI() {
   const muteIcon = document.getElementById('mute-icon');
   const muteText = document.getElementById('mute-text');
   const btnToggle = document.getElementById('btn-audio-toggle');
+  
+  const gmSoundBtn = document.getElementById('game-modal-sound-btn');
+  const gmSoundIcon = document.getElementById('game-modal-sound-icon');
+  const gmSoundText = document.getElementById('game-modal-sound-text');
+
   const sahayakBadge = document.getElementById('sahayak-badge');
   const sahayakStatus = document.getElementById('sahayak-status');
   const sahayakIconBox = document.getElementById('sahayak-icon-box');
@@ -255,6 +417,12 @@ function updateMuteUI() {
     if (btnToggle) {
       btnToggle.className = 'bg-rose-900/80 hover:bg-rose-800 text-rose-200 border border-rose-600 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
     }
+    if (gmSoundBtn) {
+      gmSoundBtn.className = 'text-xs font-black bg-rose-900/90 text-rose-200 border border-rose-600 px-3 py-1.5 rounded-xl senior-tap flex items-center gap-1 transition';
+    }
+    if (gmSoundIcon) gmSoundIcon.textContent = '🔇';
+    if (gmSoundText) gmSoundText.textContent = dict.soundOff;
+
     if (sahayakBadge) {
       sahayakBadge.textContent = dict.sahayakBadgeMuted;
       sahayakBadge.className = 'bg-rose-500/20 text-rose-300 text-xs px-2 py-0.5 rounded-md border border-rose-400/30';
@@ -268,6 +436,12 @@ function updateMuteUI() {
     if (btnToggle) {
       btnToggle.className = 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
     }
+    if (gmSoundBtn) {
+      gmSoundBtn.className = 'text-xs font-black bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-xl senior-tap flex items-center gap-1 transition text-white';
+    }
+    if (gmSoundIcon) gmSoundIcon.textContent = '🔊';
+    if (gmSoundText) gmSoundText.textContent = dict.soundOn;
+
     if (sahayakBadge) {
       sahayakBadge.textContent = dict.sahayakBadgeActive;
       sahayakBadge.className = 'bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-md border border-emerald-400/30';
@@ -287,7 +461,7 @@ function toggleAudioMute() {
   updateMuteUI();
 }
 
-// 3. TRANSLATION ENGINE
+// 4. TRANSLATION ENGINE (UPDATES ALL STRINGS INCLUDING SCREEN READER BUTTON)
 function applyLanguage(langCode) {
   const dict = i18n[langCode] || i18n['hi-IN'];
   
@@ -304,6 +478,9 @@ function applyLanguage(langCode) {
   setTxt('ui-subgreeting', dict.subgreeting);
   setTxt('ui-lang-label', dict.langLabel);
   setTxt('sahayak-title', dict.sahayakTitle);
+  
+  // DYNAMICALLY TRANSLATE THE SCREEN READER BUTTON
+  setTxt('btn-read-screen-text', dict.btnReadScreenText);
   
   // Games Hub
   setTxt('ui-games-header', dict.gamesHeader);
@@ -323,7 +500,7 @@ function applyLanguage(langCode) {
   setTxt('g3-desc', dict.g3Desc);
   setTxt('g3-btn', dict.g3Btn);
   
-  // Tiles
+  // Action Tiles
   setTxt('rem-badge', dict.remBadge);
   setTxt('rem-card-title', dict.remTitle);
   setTxt('rem-card-desc', dict.remDesc);
@@ -346,11 +523,17 @@ function applyLanguage(langCode) {
   setTxt('cg-kpi1-label', dict.cgKpi1Label);
   setTxt('cg-kpi1-sub', dict.cgKpi1Sub);
   setTxt('cg-kpi2-label', dict.cgKpi2Label);
-  setTxt('cg-kpi2-sub', dict.cgKpi2Sub);
+  setTxt('cg-avg-label', dict.cgAvgLabel);
+  setTxt('cg-g1-name', dict.cgG1Label);
+  setTxt('cg-g2-name', dict.cgG2Label);
+  setTxt('cg-g3-name', dict.cgG3Label);
   setTxt('cg-kpi3-label', dict.cgKpi3Label);
   setTxt('cg-kpi3-sub', dict.cgKpi3Sub);
   setTxt('cg-chart-header', dict.cgChartHeader);
   
+  // Game Modal Subtitle
+  setTxt('game-modal-subtitle', dict.gameModalSubtitle);
+
   // Modals
   setTxt('modal-rem-badge', dict.modalRemBadge);
   setTxt('modal-rem-title', dict.modalRemTitle);
@@ -363,6 +546,12 @@ function applyLanguage(langCode) {
   setTxt('mem-fam-title', dict.memFamTitle);
   setTxt('btn-read-family', dict.btnReadFamily);
   
+  // Inject Localized Family Members
+  const famListEl = document.getElementById('mem-family-list');
+  if (famListEl && dict.familyMembers) {
+    famListEl.innerHTML = dict.familyMembers.map(item => `<li>${item}</li>`).join('');
+  }
+
   setTxt('sos-confirm-title', dict.sosConfirmTitle);
   setTxt('sos-confirm-desc', dict.sosConfirmDesc);
   setTxt('btn-sos-send-yes', dict.btnSosYes);
@@ -372,12 +561,12 @@ function applyLanguage(langCode) {
   setTxt('btn-sos-ack-ok', dict.btnSosAckOk);
   setTxt('footer-text', dict.footerText);
 
-  // Sync Dropdown & LocalStorage
   const langSelect = document.getElementById('lang-select');
   if (langSelect) langSelect.value = langCode;
   localStorage.setItem('smriti_language', langCode);
 
   updateMuteUI();
+  updateCaregiverDOM();
 }
 
 function onLanguageChanged() {
@@ -385,7 +574,7 @@ function onLanguageChanged() {
   applyLanguage(selectedLang);
 }
 
-// 4. ROBUST VOICE SYNTHESIS ENGINE (WITH SILENT MUTE CHECK)
+// 5. ROBUST VOICE SYNTHESIS ENGINE
 let availableVoices = [];
 
 function populateVoiceList() {
@@ -401,7 +590,7 @@ if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== un
 function speakAudio(text, langCode) {
   if (isAudioMuted || !('speechSynthesis' in window)) return;
   
-  window.speechSynthesis.cancel(); // Stop any pending speech
+  window.speechSynthesis.cancel();
   
   const utterance = new SpeechSynthesisUtterance(text);
   const selectedLang = langCode || document.getElementById('lang-select')?.value || 'hi-IN';
@@ -429,7 +618,7 @@ function speakAudio(text, langCode) {
     if (matchedVoice) utterance.voice = matchedVoice;
   }
 
-  utterance.rate = 0.82; // Calibrated slow pace for elderly comprehension
+  utterance.rate = 0.82;
   utterance.pitch = 1.0;
   
   window.speechSynthesis.speak(utterance);
@@ -450,10 +639,16 @@ function speakFamilyMemory() {
 function speakCaregiverSummary() {
   const lang = document.getElementById('lang-select')?.value || 'hi-IN';
   const dict = i18n[lang] || i18n['hi-IN'];
-  speakAudio(dict.ttsCgSummary, lang);
+  
+  let text = dict.ttsCgSummary
+    .replace('%SCORE%', telemetryState.stabilityScore)
+    .replace('%LATENCY%', telemetryState.latestAvgLatency)
+    .replace('%ADHERENCE%', telemetryState.adherenceRate);
+    
+  speakAudio(text, lang);
 }
 
-// 5. SMOOTH ACCESSIBILITY SIZE SLIDER
+// 6. ACCESSIBILITY SIZE SLIDER
 const scaleSlider = document.getElementById('textScaleSlider');
 const scaleLabel = document.getElementById('scaleLabel');
 
@@ -468,7 +663,7 @@ if (scaleSlider) {
   scaleSlider.addEventListener('input', (e) => applyTextScale(e.target.value));
 }
 
-// 6. VIEW NAVIGATION (PATIENT / CAREGIVER)
+// 7. VIEW NAVIGATION (PATIENT / CAREGIVER)
 function switchView(viewName) {
   const patientView = document.getElementById('patient-view');
   const caregiverView = document.getElementById('caregiver-view');
@@ -485,23 +680,32 @@ function switchView(viewName) {
     caregiverView.classList.remove('hidden');
     tabCaregiver.className = 'bg-emerald-600 text-white text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl transition shadow';
     tabPatient.className = 'text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl transition';
+    updateCaregiverDOM();
     renderTelemetryChart();
   }
 }
 
-// 7. MODAL CONTROLS
+// 8. MODAL CONTROLS
 function openReminderModal() { document.getElementById('reminder-modal').classList.remove('hidden'); }
 function openReminiscenceModal() { document.getElementById('reminiscence-modal').classList.remove('hidden'); }
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+function closeModal(id) { 
+  document.getElementById(id).classList.add('hidden');
+  if (id === 'game-modal' && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+}
 
 function confirmReminder() {
   closeModal('reminder-modal');
+  telemetryState.adherenceRate = Math.min(100, telemetryState.adherenceRate + 2);
+  updateCaregiverDOM();
+  
   const currentLang = document.getElementById('lang-select')?.value || 'hi-IN';
   const msg = currentLang === 'hi-IN' ? 'दादा, आपकी दवा की पुष्टि दर्ज कर ली गई है!' : (currentLang === 'as-IN' ? 'দাদা, আপোনাৰ ঔষধ খোৱাৰ তথ্য সংৰক্ষণ কৰা হ’ল!' : 'Dada, your medicine confirmation has been recorded!');
   alert(msg);
 }
 
-// 8. SAFE EMERGENCY SOS PIPELINE
+// 9. SAFE EMERGENCY SOS PIPELINE
 function triggerSOSConfirmation() {
   document.getElementById('sos-confirm-modal').classList.remove('hidden');
 }
@@ -524,24 +728,24 @@ function dismissCaregiverAlert() {
   document.getElementById('caregiver-alert-box').classList.add('hidden');
 }
 
-// 9. TELEMETRY & LATENCY LOGGING
+// 10. TELEMETRY & LATENCY LOGGING
 let taskStartTime = 0;
 
 function startTelemetryTask() {
   taskStartTime = performance.now();
 }
 
-function recordTelemetryLatency() {
-  const latency = ((performance.now() - taskStartTime) / 1000).toFixed(1);
-  const latencyDisplay = document.getElementById('metric-latency');
-  if (latencyDisplay) latencyDisplay.textContent = `${latency}s`;
+function recordTelemetryLatency(gameType) {
+  const latency = parseFloat(((performance.now() - taskStartTime) / 1000).toFixed(1));
+  logGameTelemetry(gameType, latency);
   return latency;
 }
 
-// 10. ON-SCREEN MODAL GAME LAUNCHERS
+// 11. REFINED GAME LAUNCHERS
 function openGameModal(gameType) {
   const modal = document.getElementById('game-modal');
   const title = document.getElementById('game-modal-title');
+  const subtitle = document.getElementById('game-modal-subtitle');
   const body = document.getElementById('game-modal-body');
   const feedback = document.getElementById('game-modal-feedback');
   const lang = document.getElementById('lang-select')?.value || 'hi-IN';
@@ -549,8 +753,11 @@ function openGameModal(gameType) {
   
   modal.classList.remove('hidden');
   feedback.textContent = '';
+  subtitle.textContent = dict.gameModalSubtitle;
+  updateMuteUI();
   startTelemetryTask();
 
+  // GAME 1: HERITAGE MATCH
   if (gameType === 'memory') {
     title.textContent = dict.g1Title;
     feedback.textContent = dict.g1Desc;
@@ -573,26 +780,38 @@ function openGameModal(gameType) {
           card.textContent = sym;
           card.classList.add('game-card-revealed');
           flipped.push(card);
+
+          const itemName = dict.itemNames[sym] || 'Item';
+          speakAudio(itemName, lang);
           
           if (flipped.length === 2) {
-            if (flipped[0].dataset.sym === flipped[1].dataset.sym) {
+            const sym1 = flipped[0].dataset.sym;
+            const sym2 = flipped[1].dataset.sym;
+
+            if (sym1 === sym2) {
+              const matchedName = dict.itemNames[sym1] || 'Item';
+              setTimeout(() => {
+                speakAudio(`${matchedName} ${dict.matchedSuffix}`, lang);
+              }, 400);
+
               flipped[0].classList.add('game-card-matched');
               flipped[1].classList.add('game-card-matched');
               flipped = [];
               matchedCount += 2;
+              
               if (matchedCount === symbols.length) {
-                const deltaT = recordTelemetryLatency();
-                feedback.textContent = `🎉 ${deltaT}s!`;
-                speakAudio(dict.ttsDone, lang);
+                const deltaT = recordTelemetryLatency('memory');
+                feedback.textContent = `🎉 Completed in ${deltaT}s! Telemetry logged.`;
               }
             } else {
               setTimeout(() => {
+                speakAudio(dict.noMatchMsg, lang);
                 flipped.forEach(c => {
                   c.textContent = '❓';
                   c.classList.remove('game-card-revealed');
                 });
                 flipped = [];
-              }, 800);
+              }, 850);
             }
           }
         }
@@ -600,34 +819,41 @@ function openGameModal(gameType) {
       grid.appendChild(card);
     });
 
+  // GAME 2: TEA ROUTINE
   } else if (gameType === 'sequence') {
     title.textContent = dict.g2Title;
     feedback.textContent = dict.g2Desc;
     
     const stepTexts = lang === 'as-IN' ? [
-      { id: 1, text: '১. 🫖 পানী উতলাওক' },
-      { id: 2, text: '২. 🍃 চাহ পাত দিয়ক' },
-      { id: 3, text: '৩. ☕ চাহ পৰিৱেশন কৰক' }
+      { id: 1, text: '🫖 পানী উতলাওক', name: 'পানী উতলোৱা' },
+      { id: 2, text: '🍃 চাহ পাত দিয়ক', name: 'চাহ পাত দিয়া' },
+      { id: 3, text: '☕ চাহ পৰিৱেশন কৰক', name: 'চাহ পৰিৱেশন কৰা' }
     ] : (lang === 'hi-IN' ? [
-      { id: 1, text: '1. 🫖 पानी उबालें' },
-      { id: 2, text: '2. 🍃 चाय पत्ती डालें' },
-      { id: 3, text: '3. ☕ गरमा-गरम चाय परोसें' }
+      { id: 1, text: '🫖 पानी उबालें', name: 'पानी उबालना' },
+      { id: 2, text: '🍃 चाय पत्ती डालें', name: 'चाय पत्ती डालना' },
+      { id: 3, text: '☕ गरमा-गरम चाय परोसें', name: 'चाय परोसना' }
     ] : [
-      { id: 1, text: '1. 🫖 Boil Fresh Water' },
-      { id: 2, text: '2. 🍃 Add Assam Tea Leaves' },
-      { id: 3, text: '3. ☕ Serve Warm Cup' }
+      { id: 1, text: '🫖 Boil Fresh Water', name: 'Boil Fresh Water' },
+      { id: 2, text: '🍃 Add Assam Tea Leaves', name: 'Add Assam Tea Leaves' },
+      { id: 3, text: '☕ Serve Warm Cup', name: 'Serve Warm Cup' }
     ]);
 
     stepTexts.sort(() => 0.5 - Math.random());
     
+    const promptText = dict.teaOptionPrompt
+      .replace('%OP1%', stepTexts[0].name)
+      .replace('%OP2%', stepTexts[1].name)
+      .replace('%OP3%', stepTexts[2].name);
+    speakAudio(promptText, lang);
+
     body.innerHTML = `<div class="flex flex-col gap-3 max-w-sm mx-auto"></div>`;
     const container = body.querySelector('div');
     let currentExpected = 1;
 
-    stepTexts.forEach(step => {
+    stepTexts.forEach((step, index) => {
       const btn = document.createElement('button');
-      btn.className = 'p-4 bg-slate-800 border-2 border-slate-700 text-sm font-bold rounded-2xl senior-tap text-left';
-      btn.textContent = step.text;
+      btn.className = 'p-4 bg-slate-800 border-2 border-slate-700 text-sm font-bold rounded-2xl senior-tap text-left flex items-center justify-between';
+      btn.innerHTML = `<span>${index + 1}. ${step.text}</span> <span class="text-xs text-slate-400">Option ${index + 1}</span>`;
       
       btn.onclick = () => {
         if (step.id === currentExpected) {
@@ -635,38 +861,57 @@ function openGameModal(gameType) {
           btn.disabled = true;
           currentExpected++;
           if (currentExpected > 3) {
-            const deltaT = recordTelemetryLatency();
-            feedback.textContent = `✨ ${deltaT}s!`;
-            speakAudio(dict.ttsDone, lang);
+            const deltaT = recordTelemetryLatency('sequence');
+            feedback.textContent = `✨ Perfect sequence in ${deltaT}s! Telemetry logged.`;
+            speakAudio(dict.correctChoice, lang);
           }
         } else {
-          feedback.textContent = lang === 'hi-IN' ? 'फिर से कोशिश करें: पहले पानी उबालें!' : (lang === 'as-IN' ? 'পুনৰ চেষ্টা কৰক: প্ৰথমে পানী উতলাওক!' : 'Try again: Start with boiling water first!');
+          feedback.textContent = lang === 'hi-IN' ? 'फिर से कोशिश करें: सही क्रम चुनें!' : (lang === 'as-IN' ? 'পুনৰ চেষ্টা কৰক: সঠিক ক্ৰমত বাছক!' : 'Try again: Choose the proper sequence!');
+          speakAudio(dict.wrongChoice, lang);
         }
       };
       container.appendChild(btn);
     });
 
+  // GAME 3: SPOT DYNAMIC SYMBOL
   } else if (gameType === 'spotter') {
     title.textContent = dict.g3Title;
-    feedback.textContent = dict.g3Desc;
     
-    const icons = ['🦏', '☕', '🎋', '🦅', '🌸', '🏡'].sort(() => 0.5 - Math.random());
-    body.innerHTML = `<div class="grid grid-cols-3 gap-3 max-w-xs mx-auto"></div>`;
-    const grid = body.querySelector('div');
+    const iconPool = ['🦏', '☕', '🦅', '🌸', '🏡', '🎋'];
+    const targetSymbol = iconPool[Math.floor(Math.random() * iconPool.length)];
+    const targetName = dict.itemNames[targetSymbol] || 'Symbol';
+    
+    feedback.textContent = `${dict.findPrompt.replace('%TARGET%', targetName)}`;
+    speakAudio(dict.findPrompt.replace('%TARGET%', targetName), lang);
 
-    icons.forEach(ic => {
+    const shuffledIcons = [...iconPool].sort(() => 0.5 - Math.random());
+    
+    body.innerHTML = `
+      <div class="space-y-4">
+        <div class="target-highlight-box p-3 text-center flex items-center justify-center gap-3">
+          <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-300">Target to find:</span>
+          <span class="text-4xl animate-bounce">${targetSymbol}</span>
+          <span class="text-xs font-bold text-white bg-emerald-700/60 px-2 py-0.5 rounded-md">${targetName}</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto"></div>
+      </div>
+    `;
+    const grid = body.querySelector('.grid');
+
+    shuffledIcons.forEach(ic => {
       const btn = document.createElement('button');
-      btn.className = 'h-24 bg-slate-800 border-2 border-slate-700 text-3xl rounded-2xl flex items-center justify-center senior-tap';
+      btn.className = 'h-24 bg-slate-800 border-2 border-slate-700 text-3xl rounded-2xl flex items-center justify-center senior-tap transition';
       btn.textContent = ic;
       
       btn.onclick = () => {
-        if (ic === '🦅') {
+        if (ic === targetSymbol) {
           btn.classList.add('bg-amber-600', 'border-amber-400');
-          const deltaT = recordTelemetryLatency();
-          feedback.textContent = `🎯 ${deltaT}s!`;
-          speakAudio(dict.ttsDone, lang);
+          const deltaT = recordTelemetryLatency('spotter');
+          feedback.textContent = `🎯 Spotted in ${deltaT}s! Telemetry synced.`;
+          speakAudio(dict.correctChoice, lang);
         } else {
-          feedback.textContent = lang === 'hi-IN' ? 'यह हॉर्नबिल नहीं है। ध्यान से देखें!' : (lang === 'as-IN' ? 'এইটো ধনেশ নহয়। ভালদৰে চাওক!' : 'That is not the Hornbill. Look closely!');
+          feedback.textContent = dict.wrongChoice;
+          speakAudio(dict.wrongChoice, lang);
         }
       };
       grid.appendChild(btn);
@@ -674,7 +919,7 @@ function openGameModal(gameType) {
   }
 }
 
-// 11. CHART.JS RENDERING
+// 12. CHART.JS RENDERING
 let cognitiveChartInstance = null;
 
 function renderTelemetryChart() {
@@ -692,7 +937,7 @@ function renderTelemetryChart() {
       datasets: [
         {
           label: 'Response Latency Δt (Seconds)',
-          data: [14.2, 13.8, 15.0, 13.1, 12.9, 13.4, 12.4],
+          data: telemetryState.chartHistory,
           borderColor: '#059669',
           backgroundColor: 'rgba(5, 150, 105, 0.1)',
           borderWidth: 3,
@@ -730,11 +975,13 @@ function renderTelemetryChart() {
   });
 }
 
-// 12. BOOTSTRAP INITIALIZATION
+// 13. BOOTSTRAP INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   const savedScale = localStorage.getItem('smriti_text_px') || 20;
   applyTextScale(savedScale);
 
   const savedLang = localStorage.getItem('smriti_language') || 'hi-IN';
   applyLanguage(savedLang);
+
+  updateCaregiverDOM();
 });

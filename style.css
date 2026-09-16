@@ -1,10 +1,10 @@
 /* Smooth Root Accessibility Sizing */
 html {
-  font-size: 20px; /* High-visibility default for elderly comfort */
+  font-size: 20px; /* Elevated default for elderly comfort */
   transition: font-size 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Safe Area Padding for Modern Mobile Screens */
+/* Safe Area Device Compatibility */
 body {
   padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
@@ -30,7 +30,13 @@ body {
   transform: scale(0.96);
 }
 
-/* Game Card State Styles */
+/* Dynamic Game Target & Card States */
+.target-highlight-box {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(13, 148, 136, 0.3));
+  border: 2px dashed #34d399;
+  border-radius: 1rem;
+}
+
 .game-card-revealed {
   background-color: #059669 !important;
   color: #ffffff !important;
@@ -40,6 +46,6 @@ body {
 .game-card-matched {
   background-color: #047857 !important;
   color: #d1fae5 !important;
-  opacity: 0.85;
+  opacity: 0.88;
   pointer-events: none;
 }
