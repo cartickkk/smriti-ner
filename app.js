@@ -1,8 +1,8 @@
 /* ==========================================================================
-   SMRITI-NER • Client Logic, Telemetry & Multi-Language Dictionary
+   SMRITI-NER • Multi-Tier 3-Round System & Accurate Dynamic Telemetry
    ========================================================================== */
 
-// 1. MULTILINGUAL DICTIONARY (Hindi, English, Assamese)
+// 1. MULTILINGUAL DICTIONARY
 const i18n = {
   'hi-IN': {
     labelSize: 'आकार:',
@@ -22,6 +22,8 @@ const i18n = {
     btnReadScreenText: 'पूरी स्क्रीन पढ़कर सुनाएं',
     gamesHeader: '🎮 दैनिक दिमागी कसरत (पूर्वोत्तर थीम)',
     gamesSubheader: 'शुरू करने के लिए टैप करें:',
+
+    // 5 Games
     g1Badge: 'खेल 1',
     g1Title: 'पूर्वोत्तर धरोहर मिलान',
     g1Desc: 'सांस्कृतिक प्रतीकों के जोड़े खोजें।',
@@ -32,8 +34,55 @@ const i18n = {
     g2Btn: 'क्रम बनाएं →',
     g3Badge: 'खेल 3',
     g3Title: 'प्रतीक पहचानें',
-    g3Desc: 'दिए गए पूर्वोत्तर प्रतीक को 6 विकल्पों में से खोजें।',
+    g3Desc: 'दिए गए पूर्वोत्तर प्रतीक को खोजें।',
     g3Btn: 'लक्ष्य खोजें →',
+    g4Badge: 'खेल 4',
+    g4Title: 'संख्या क्रम मिलान (TMT-A)',
+    g4Desc: 'संख्याओं को बढ़ते क्रम में 1 से टैप करें।',
+    g4Btn: 'क्रम शुरू करें →',
+    g5Badge: 'खेल 5',
+    g5Title: 'ब्रह्मपुत्र लालटेन स्मरण',
+    g5Desc: 'जलती हुई रोशनी के क्रम को याद रखकर दोहराएं।',
+    g5Btn: 'रोशनी पहचानें →',
+
+    // Modal Controls & Round Badges
+    gameActiveTitle: 'खेल सक्रिय',
+    gameModalClose: '✕ बंद करें',
+    diffEasy: 'सरल',
+    diffMed: 'मध्यम',
+    diffHard: 'कठिन',
+    roundPrefix: 'दौर',
+    targetPromptBadge: 'लक्ष्य:',
+    stepOptionPrefix: 'विकल्प',
+    gameModalSubtitle: 'टेलीमेट्री दर्ज करने के लिए तीनों दौर पूरे करें।',
+
+    // Caregiver Matrix & Breakdown
+    cgSubhead: 'केयरगिवर टेलीमेट्री पोर्टल',
+    cgPatientName: 'मरीज: श्री डी. बोरा (74 वर्ष)',
+    cgPatientDesc: 'निवास: गरमूर, माजुली, असम • निदान: माइल्ड कॉग्निटिव इम्पेयरमेंट',
+    btnReadCg: 'क्लीनिकल रिपोर्ट सुनें',
+    cgSyncStatus: '● सिंक संपन्न',
+    cgLiveTelemetryBadge: 'लाइव टेलीमेट्री',
+    cgAlertTitle: 'आपातकालीन चेतावनी भेजी गई',
+    cgAlertDesc: 'मरीज ने लोकेशन के साथ SOS कॉल बटन दबाया है।',
+    cgBtnAck: 'पुष्टि करें',
+    cgKpi1Label: 'संज्ञानात्मक स्थिरता स्कोर',
+    cgKpi1Sub: 'गति + अनुपालन पर आधारित सटीक स्कोर',
+    cgKpi3Label: 'दिनचर्या अनुपालन (दवा + खेल)',
+    cgKpi3Sub: 'सटीक पूर्ण कार्य प्रतिशत (True Ratio)',
+    cgChartHeader: '7-दिवसीय संज्ञानात्मक प्रदर्शन विश्लेषण',
+    cgMatrixHeader: 'टेलीमेट्री विश्लेषण (प्रति स्तर 3 दौर)',
+    cgMatrixSub: 'प्रत्येक कठिनाई स्तर के लिए तीनों दौर का समय और औसत प्रदर्शन देखें।',
+    thGameCol: 'संज्ञानात्मक खेल',
+    thR1Col: 'दौर 1',
+    thR2Col: 'दौर 2',
+    thR3Col: 'दौर 3',
+    thAvgCol: 'खेल औसत',
+    cgCombLabel: '5 खेलों का कुल औसत रिस्पॉन्स समय:',
+    cgCombSub: 'इस स्तर के खेले गए दौरों का सटीक औसत',
+    cgIdealRangePrefix: 'आदर्श सीमा:',
+
+    // Routine & Reminders
     remBadge: 'समय सारिणी',
     remTitle: 'दवा और पानी',
     remDesc: 'दोपहर 2:00 बजे डोनेपेज़िल + 1 गिलास ताजा पानी।',
@@ -43,28 +92,9 @@ const i18n = {
     famDesc: 'आपका निवास स्थान और परिवार के सदस्य।',
     famBtn: 'फोटो एल्बम खोलें →',
     btnSosFloating: 'आपातकालीन SOS',
-    cgSubhead: 'केयरगिवर टेलीमेट्री पोर्टल',
-    cgPatientName: 'मरीज: श्री डी. बोरा (74 वर्ष)',
-    cgPatientDesc: 'निवास: गरमूर, माजुली, असम • निदान: माइल्ड कॉग्निटिव इम्पेयरमेंट',
-    btnReadCg: 'क्लीनिकल रिपोर्ट सुनें',
-    cgAlertTitle: 'आपातकालीन चेतावनी भेजी गई',
-    cgAlertDesc: 'मरीज ने लोकेशन के साथ SOS कॉल बटन दबाया है।',
-    cgBtnAck: 'पुष्टि करें',
-    cgKpi1Label: 'संज्ञानात्मक स्थिरता स्कोर',
-    cgKpi1Sub: '↑ लाइव टेलीमेट्री स्कोर',
-    cgKpi2Label: 'प्रतिक्रिया समय विवरण (खेल अनुसार)',
-    cgAvgLabel: 'औसत समय:',
-    cgIdealRangePrefix: 'आदर्श सीमा:',
-    cgG1Label: '1. धरोहर मिलान:',
-    cgG2Label: '2. चाय दिनचर्या:',
-    cgG3Label: '3. प्रतीक खोजें:',
-    cgKpi3Label: 'दिनचर्या अनुपालन',
-    cgKpi3Sub: 'लाइव गणना प्रतिशत',
-    cgChartHeader: '7-दिवसीय संज्ञानात्मक प्रदर्शन विश्लेषण',
-    gameModalSubtitle: 'प्रतिक्रिया समय और टेलीमेट्री दर्ज करने के लिए खेल पूरा करें।',
     modalRemBadge: 'दवा दिनचर्या',
     modalRemTitle: 'दोपहर की दवा और पानी',
-    modalRemDesc: 'कृपया 1 गिलास पानी के साथ डोनेपेज़िल की 1 गोली लें।',
+    modalRemDesc: 'कृपया दोपहर 2:00 बजे 1 गिलास पानी के साथ डोनेपेज़िल की 1 गोली लें।',
     btnRemTaken: '✓ मैंने दवा ले ली है',
     btnRemLater: '10 मिनट बाद याद दिलाएं',
     modalFamHead: '📸 आपका घर और परिवार',
@@ -86,28 +116,42 @@ const i18n = {
     sosSuccessDesc: 'देखभाल करने वालों को आपका अलर्ट मिल गया है। कृपया शांत रहें और वहीं रुकें।',
     btnSosAckOk: 'ठीक है, समझ गया',
     footerText: 'स्मृति-एनईआर (SMRITI-NER) • SIH26003 • पूर्वोत्तर क्षेत्र विकास मंत्रालय (MDoNER)',
-    
-    // Complete structured screen reader narration
-    ttsFullOverview: 'नमस्ते बोरा दादा। यह आपकी दैनिक सहायता स्क्रीन है। आपके लिए आज तीन दिमागी खेल उपलब्ध हैं। पहला खेल: पूर्वोत्तर धरोहर मिलान, जिसमें आपको सांस्कृतिक प्रतीकों के जोड़े मिलाने हैं। दूसरा खेल: असम चाय दिनचर्या, जिसमें चाय बनाने के सही क्रम को चुनना है। तीसरा खेल: प्रतीक पहचानें, जिसमें ऊपर दिखाए गए प्रतीक को खोजना है। नीचे आपकी दोपहर 2 बजे की दवा और पानी का समय है, और आपका पारिवारिक फोटो एल्बम मौजूद है। ऊपर केयरगिवर पोर्टल और नीचे दाएँ कोने में आपातकालीन एसओएस बटन है।',
+
+    // Detailed Sahayak Voice Prompts & Guides
+    ttsFullOverview: 'नमस्ते बोरा दादा। यह आपकी दैनिक सहायता स्क्रीन है। आपके लिए आज पांच दिमागी खेल उपलब्ध हैं, जिनमें पूर्वोत्तर धरोहर मिलान, असम चाय दिनचर्या, प्रतीक पहचानें, संख्या क्रम मिलान और ब्रह्मपुत्र लालटेन स्मरण शामिल हैं। प्रत्येक खेल में तीन दौर हैं। इसके अलावा दोपहर दो बजे आपकी दवा का समय और पारिवारिक फोटो एल्बम नीचे मौजूद है।',
     ttsFamily: 'दादा, आप असम के माजुली द्वीप, गरमूर में रहते हैं। आपके परिवार में पत्नी मालती, पुत्र बिकाश, बहू रूपा और पोता निलव हैं।',
-    ttsCgSummary: 'मरीज डी. बोरा का संज्ञानात्मक स्थिरता स्कोर %SCORE% है, औसत प्रतिक्रिया समय %LATENCY% सेकंड है और दवा अनुपालन %ADHERENCE% प्रतिशत है।',
-    
-    // In-game dynamic audio phrases
+    ttsMedicine: 'दोपहर दो बजे आपको 1 गिलास ताजे पानी के साथ डोनेपेज़िल की एक गोली लेनी है। समय पर दवा लेना आपके स्वास्थ्य के लिए बहुत जरूरी है।',
+    ttsCgSummary: 'मरीज डी. बोरा का संज्ञानात्मक स्थिरता स्कोर %SCORE% है, %TIER% स्तर पर कुल औसत समय %LATENCY% सेकंड है और दैनिक दिनचर्या अनुपालन %ADHERENCE% प्रतिशत है।',
+    gameGuides: {
+      memory: 'इस खेल का नाम पूर्वोत्तर धरोहर मिलान है। स्क्रीन पर छिपे हुए सांस्कृतिक प्रतीकों के जोड़े को एक-एक करके क्लिक करके मिलाएं।',
+      sequence: 'इस खेल का नाम असम चाय दिनचर्या है। चाय बनाने के सही चरणों को पहले से आखिरी क्रम में सही ढंग से टैप करें।',
+      spotter: 'इस खेल का नाम प्रतीक पहचानें है। ऊपर दिए गए लक्ष्य प्रतीक को नीचे दिए गए विकल्पों में से खोजकर टैप करें।',
+      trail: 'इस खेल का नाम संख्या क्रम मिलान है। संख्याओं को 1 से शुरू करके बढ़ते हुए सही क्रम में टैप करें।',
+      lantern: 'इस खेल का नाम ब्रह्मपुत्र लालटेन स्मरण है। पहले जलती हुई रोशनी का क्रम ध्यान से देखें और फिर उसी क्रम में लालटेन दबाएं।'
+    },
     itemNames: {
       '🦏': 'गेंडा (Rhino)',
       '☕': 'असम चाय (Tea)',
       '🦅': 'धनेश पक्षी (Hornbill)',
       '🌸': 'ऑर्किड फूल (Flower)',
       '🏡': 'माजुली घर (House)',
-      '🎋': 'बांस (Bamboo)'
+      '🎋': 'बांस (Bamboo)',
+      '🫖': 'केतली (Kettle)',
+      '🍃': 'चाय पत्ती (Tea Leaf)',
+      '🏮': 'लालटेन (Lantern)'
     },
     matchedSuffix: 'मिल गया!',
     noMatchMsg: 'जोड़ी नहीं बनी, पुनः प्रयास करें।',
-    teaOptionPrompt: 'आपके विकल्प हैं: पहला विकल्प %OP1%, दूसरा विकल्प %OP2%, तीसरा विकल्प %OP3%। सही क्रम में चुनें।',
-    findPrompt: 'ऊपर देखें: आपको नीचे %TARGET% खोजना है।',
+    teaOptionPrompt: 'चाय बनाने के सही क्रम को चुनिए।',
+    findPrompt: 'ऊपर देखें: नीचे %TARGET% खोजें।',
     wrongChoice: 'यह गलत है, ध्यान से देखें!',
-    correctChoice: 'बिल्कुल सही! आपने पहचान लिया।'
+    roundDoneMsg: 'शानदार! दौर %R% पूरा हुआ। अगला दौर शुरू हो रहा है...',
+    gameDoneMsg: '🎉 बधाई! तीनों दौर पूरे हुए। औसत समय: %AVG%s। टेलीमेट्री सुरक्षित कर ली गई है।',
+    trailTapPrompt: 'संख्याओं को 1 से शुरू करके बढ़ते क्रम में टैप करें।',
+    lanternWatchPrompt: 'ध्यान से देखें: रोशनी का क्रम याद रखें।',
+    lanternYourTurn: 'अब आपकी बारी! उसी क्रम में लालटेन दबाएं।'
   },
+
   'en-IN': {
     labelSize: 'Size:',
     soundOn: 'Sound ON',
@@ -126,6 +170,8 @@ const i18n = {
     btnReadScreenText: 'Read Full Screen Aloud',
     gamesHeader: '🎮 Daily Brain Exercises (NER Themed)',
     gamesSubheader: 'Tap to launch on screen:',
+
+    // 5 Games
     g1Badge: 'Game 1',
     g1Title: 'NER Heritage Match',
     g1Desc: 'Match pairs of cultural symbols.',
@@ -138,6 +184,53 @@ const i18n = {
     g3Title: 'Spot Cultural Motif',
     g3Desc: 'Find the randomly picked NER symbol.',
     g3Btn: 'Spot Target On-Screen →',
+    g4Badge: 'Game 4',
+    g4Title: 'Trail Number Tap (TMT-A)',
+    g4Desc: 'Tap numbers in ascending order from 1.',
+    g4Btn: 'Start Trail On-Screen →',
+    g5Badge: 'Game 5',
+    g5Title: 'Brahmaputra Lanterns',
+    g5Desc: 'Remember and repeat the flashing light pattern.',
+    g5Btn: 'Follow Light On-Screen →',
+
+    // Modal Controls & Round Badges
+    gameActiveTitle: 'Game Active',
+    gameModalClose: '✕ Close',
+    diffEasy: 'Easy',
+    diffMed: 'Med',
+    diffHard: 'Hard',
+    roundPrefix: 'Round',
+    targetPromptBadge: 'Target:',
+    stepOptionPrefix: 'Option',
+    gameModalSubtitle: 'Complete all 3 rounds to log response telemetry.',
+
+    // Caregiver Matrix & Breakdown
+    cgSubhead: 'Caregiver Telemetry Portal',
+    cgPatientName: 'Patient: Mr. D. Borah (74 Yrs)',
+    cgPatientDesc: 'Residence: Garamur, Majuli, Assam • Diagnosis: Mild Cognitive Impairment',
+    btnReadCg: 'Read Clinical Summary',
+    cgSyncStatus: '● Synced',
+    cgLiveTelemetryBadge: 'Live Telemetry',
+    cgAlertTitle: 'Emergency Alert Triggered',
+    cgAlertDesc: 'Patient pressed the SOS emergency call button with location ping.',
+    cgBtnAck: 'Acknowledge',
+    cgKpi1Label: 'Cognitive Stability Score',
+    cgKpi1Sub: 'Precision score based on speed & adherence',
+    cgKpi3Label: 'Routine Adherence (Meds + Tasks)',
+    cgKpi3Sub: 'True Ratio of Scheduled Daily Tasks',
+    cgChartHeader: '7-Day Cognitive Performance Analytics',
+    cgMatrixHeader: 'Telemetry Breakdown (3 Rounds Per Tier)',
+    cgMatrixSub: 'Inspect round latencies and averages across all 5 games for each difficulty.',
+    thGameCol: 'Cognitive Game',
+    thR1Col: 'Round 1',
+    thR2Col: 'Round 2',
+    thR3Col: 'Round 3',
+    thAvgCol: 'Game Avg',
+    cgCombLabel: '5-Game Combined Tier Latency:',
+    cgCombSub: 'Average of all played rounds for this tier',
+    cgIdealRangePrefix: 'Ideal Range:',
+
+    // Routine & Reminders
     remBadge: 'Scheduled',
     remTitle: 'Medicine & Water',
     remDesc: 'Afternoon 2:00 PM Donepezil + 1 Glass Water.',
@@ -147,28 +240,9 @@ const i18n = {
     famDesc: 'Where you live and your family members.',
     famBtn: 'Open Photo Album →',
     btnSosFloating: 'EMERGENCY SOS',
-    cgSubhead: 'Caregiver Telemetry Portal',
-    cgPatientName: 'Patient: Mr. D. Borah (74 Yrs)',
-    cgPatientDesc: 'Residence: Garamur, Majuli, Assam • Diagnosis: Mild Cognitive Impairment',
-    btnReadCg: 'Read Clinical Summary',
-    cgAlertTitle: 'Emergency Alert Triggered',
-    cgAlertDesc: 'Patient pressed the SOS emergency call button with location ping.',
-    cgBtnAck: 'Acknowledge',
-    cgKpi1Label: 'Cognitive Stability Score',
-    cgKpi1Sub: '↑ Live calculated score',
-    cgKpi2Label: 'Response Latency Breakdown',
-    cgAvgLabel: 'Avg Time:',
-    cgIdealRangePrefix: 'Ideal Range:',
-    cgG1Label: '1. Heritage Match:',
-    cgG2Label: '2. Tea Routine:',
-    cgG3Label: '3. Cultural Motif:',
-    cgKpi3Label: 'Routine Adherence',
-    cgKpi3Sub: 'Live calculated percentage',
-    cgChartHeader: '7-Day Cognitive Performance Analytics',
-    gameModalSubtitle: 'Complete the activity to log response telemetry.',
     modalRemBadge: 'Medicine Routine',
     modalRemTitle: 'Afternoon Medicine & Water',
-    modalRemDesc: 'Please take 1 Tablet of Donepezil with 1 glass of fresh water.',
+    modalRemDesc: 'Please take 1 Tablet of Donepezil with 1 glass of fresh water at 2:00 PM.',
     btnRemTaken: '✓ I HAVE TAKEN IT',
     btnRemLater: 'Remind in 10 Minutes',
     modalFamHead: '📸 Where You Live & Family',
@@ -190,28 +264,42 @@ const i18n = {
     sosSuccessDesc: 'Caregivers have received your GPS alert. Please remain calm and stay where you are.',
     btnSosAckOk: 'OK, I Understand',
     footerText: 'SMRITI-NER Platform • SIH26003 • Ministry of Development of North Eastern Region (MDoNER)',
-    
-    // Complete structured screen reader narration
-    ttsFullOverview: 'Namaste Borah Dada. This is your daily assistance dashboard. You have three brain exercises available today. Game 1: NER Heritage Match, where you match cultural symbol pairs. Game 2: Assam Tea Routine, where you arrange tea-making steps in chronological order. Game 3: Spot Cultural Motif, where you find the symbol shown on top. Below the games, you have your 2 PM medicine reminder and your family photo album. You can also switch to the caregiver tab at the top, or trigger the emergency SOS at the bottom right.',
+
+    // Prompts & Audio & In-Game Guide Descriptions
+    ttsFullOverview: 'Namaste Borah Dada. This is your daily assistance dashboard. Today you have five brain exercises available: NER Heritage Match, Assam Tea Routine, Spot Cultural Motif, Trail Number Tap, and Brahmaputra Lanterns, each featuring 3 rounds. Below you also have your scheduled afternoon medicine at 2:00 PM and your family photo album.',
     ttsFamily: 'Dada, you live in Garamur, Majuli Island, Assam. Your family members are your wife Malati, your son Bikash, daughter-in-law Rupa, and grandson Nilav.',
-    ttsCgSummary: 'Patient D. Borah shows a stable cognitive score of %SCORE% over 100 with %ADHERENCE% percent routine adherence and %LATENCY% seconds average response latency.',
-    
-    // In-game dynamic audio phrases
+    ttsMedicine: 'At 2:00 PM in the afternoon, please take 1 tablet of Donepezil with 1 glass of fresh water. Taking your medication on time is very important.',
+    ttsCgSummary: 'Patient D. Borah shows a stability score of %SCORE% over 100 with %TIER% tier combined latency of %LATENCY% seconds and %ADHERENCE% percent daily routine adherence.',
+    gameGuides: {
+      memory: 'This game is NER Heritage Match. Tap cards to find matching pairs of cultural symbols.',
+      sequence: 'This game is Assam Tea Routine. Arrange the tea-making steps in the proper chronological order.',
+      spotter: 'This game is Spot Cultural Motif. Look at the target symbol at the top and tap its match among the choices below.',
+      trail: 'This game is Trail Number Tap. Tap the numbers in ascending order starting from 1.',
+      lantern: 'This game is Brahmaputra Lanterns. Watch the glowing lanterns carefully and repeat the sequence.'
+    },
     itemNames: {
       '🦏': 'Rhino',
       '☕': 'Assam Tea',
       '🦅': 'Hornbill',
       '🌸': 'Orchid',
       '🏡': 'House',
-      '🎋': 'Bamboo'
+      '🎋': 'Bamboo',
+      '🫖': 'Kettle',
+      '🍃': 'Tea Leaf',
+      '🏮': 'Lantern'
     },
     matchedSuffix: 'matched!',
     noMatchMsg: 'No match, try again.',
-    teaOptionPrompt: 'Here are the options: First option is %OP1%, second option is %OP2%, third option is %OP3%. Tap in order.',
-    findPrompt: 'Look at the top: You need to find the %TARGET% below.',
+    teaOptionPrompt: 'Arrange the tea-making steps in the proper order.',
+    findPrompt: 'Look at the top: Find the %TARGET% below.',
     wrongChoice: 'Wrong choice, look closely!',
-    correctChoice: 'Spot on! You found the target.'
+    roundDoneMsg: 'Great job! Round %R% completed. Loading next round...',
+    gameDoneMsg: '🎉 Excellent! All 3 rounds completed. Average: %AVG%s. Telemetry synced.',
+    trailTapPrompt: 'Tap numbers in ascending order starting from 1.',
+    lanternWatchPrompt: 'Watch carefully: memorize the glowing lanterns.',
+    lanternYourTurn: 'Your turn! Tap the lanterns in the same order.'
   },
+
   'as-IN': {
     labelSize: 'আকাৰ:',
     soundOn: 'শব্দ অন',
@@ -230,6 +318,8 @@ const i18n = {
     btnReadScreenText: 'সম্পূৰ্ণ স্ক্ৰীণ পঢ়ি শুনাওক',
     gamesHeader: '🎮 দৈনন্দিন মগজুৰ অনুশীলন (NER থিম)',
     gamesSubheader: 'আৰম্ভ কৰিবলৈ টিপক:',
+
+    // 5 Games
     g1Badge: 'খেল ১',
     g1Title: 'ঐতিহ্য প্ৰতীক মিলোৱা',
     g1Desc: 'সাংস্কৃতিক প্ৰতীকৰ যোৰ মিলোৱক।',
@@ -240,8 +330,55 @@ const i18n = {
     g2Btn: 'ক্ৰম সজাওক →',
     g3Badge: 'খেল ৩',
     g3Title: 'প্ৰতীক চিনাক্তকৰণ',
-    g3Desc: 'ওপৰত দিয়া প্ৰতীকটো ৬ টা বিকল্পৰ মাজত বিচাৰি উলিয়াওক।',
+    g3Desc: 'ওপৰত দিয়া প্ৰতীকটো বিচাৰি উলিয়াওক।',
     g3Btn: 'লক্ষ্য চিনাক্ত কৰক →',
+    g4Badge: 'খেল ৪',
+    g4Title: 'সংখ্যা ক্ৰম চিনাক্তকৰণ',
+    g4Desc: '১ ৰ পৰা আৰম্ভ কৰি ক্ৰমত সংখ্যাবোৰ স্পৰ্শ কৰক।',
+    g4Btn: 'ক্ৰম আৰম্ভ কৰক →',
+    g5Badge: 'খেল ৫',
+    g5Title: 'ব্ৰহ্মপুত্ৰৰ চাকি স্মৃতি',
+    g5Desc: 'জ্বলি উঠা পোহৰৰ ক্ৰমটো মনত ৰাখি পুনৰাবৃত্তি কৰক।',
+    g5Btn: 'পোহৰ অনুসৰণ কৰক →',
+
+    // Modal Controls & Round Badges
+    gameActiveTitle: 'খেল সক্ৰিয়',
+    gameModalClose: '✕ বন্ধ কৰক',
+    diffEasy: 'সহজ',
+    diffMed: 'মধ্যম',
+    diffHard: 'কঠিন',
+    roundPrefix: 'পৰ্যায়',
+    targetPromptBadge: 'লক্ষ্য:',
+    stepOptionPrefix: 'বিকল্প',
+    gameModalSubtitle: 'টেলিমেট্ৰি সংৰক্ষণ কৰিবলৈ তিনিওটা পৰ্যায় সম্পূৰ্ণ কৰক।',
+
+    // Caregiver Matrix & Breakdown
+    cgSubhead: 'টেলিমেট্ৰি প’ৰ্টেল',
+    cgPatientName: 'ৰোগী: শ্ৰীযুত ডি. বৰা (৭৪ বছৰ)',
+    cgPatientDesc: 'বাসস্থান: গড়মূৰ, মাজুলী, অসম • নিদান: মৃদু স্মৃতিভ্ৰংশ',
+    btnReadCg: 'চিকিৎসা সাৰাংশ শুনক',
+    cgSyncStatus: '● সংলগ্ন সম্পন্ন',
+    cgLiveTelemetryBadge: 'লাইভ টেলিমেট্ৰি',
+    cgAlertTitle: 'জৰুৰীকালীন সতৰ্কবাৰ্তা প্ৰেৰণ কৰা হৈছে',
+    cgAlertDesc: 'ৰোগীয়ে অৱস্থানসহ SOS বুটাম টিপিছে।',
+    cgBtnAck: 'স্বীকাৰ কৰক',
+    cgKpi1Label: 'মানসিক স্থিৰতা স্ক’ৰ',
+    cgKpi1Sub: 'গতি আৰু আনুগত্যৰ সঠিক সূচক',
+    cgKpi3Label: 'নিয়ম আনুগত্য (ঔষধ + খেল)',
+    cgKpi3Sub: 'সম্পূৰ্ণ কৰা কাৰ্য্যৰ সঠিক অনুপাত',
+    cgChartHeader: '৭-দিনীয়া মানসিক ক্ষমতা বিশ্লেষণ',
+    cgMatrixHeader: 'টেলিমেট্ৰি বিশ্লেষণ (প্ৰতি স্তৰত ৩টা পৰ্যায়)',
+    cgMatrixSub: 'প্ৰতিটো স্তৰৰ বাবে তিনিওটা পৰ্যায়ৰ সময় আৰু গড় প্ৰদৰ্শন চাওক।',
+    thGameCol: 'মগজুৰ খেল',
+    thR1Col: 'পৰ্যায় ১',
+    thR2Col: 'পৰ্যায় ২',
+    thR3Col: 'পৰ্যায় ৩',
+    thAvgCol: 'খেলৰ গড়',
+    cgCombLabel: '৫ টা খেলৰ মুঠ গড় প্ৰতিক্ৰিয়া সময়:',
+    cgCombSub: 'এই স্তৰৰ খেলসমূহৰ প্ৰকৃত গড়',
+    cgIdealRangePrefix: 'আদৰ্শ সীমা:',
+
+    // Routine & Reminders
     remBadge: 'সময়সূচী',
     remTitle: 'ঔষধ আৰু পানী',
     remDesc: 'দুপৰীয়া ২:০০ বজাত ডনেপেজিল + ১ গিলাচ পানী।',
@@ -251,28 +388,9 @@ const i18n = {
     famDesc: 'আপোনাৰ বাসস্থান আৰু পৰিয়ালৰ সদস্যসকল।',
     famBtn: 'ফটো এলবাম খোলক →',
     btnSosFloating: 'জৰুৰীকালীন SOS',
-    cgSubhead: 'টেলিমেট্ৰি প’ৰ্টেল',
-    cgPatientName: 'ৰোগী: শ্ৰীযুত ডি. বৰা (৭৪ বছৰ)',
-    cgPatientDesc: 'বাসস্থান: গড়মূৰ, মাজুলী, অসম • নিদান: মৃদু স্মৃতিভ্ৰংশ',
-    btnReadCg: 'চিকিৎসা সাৰাংশ শুনক',
-    cgAlertTitle: 'জৰুৰীকালীন সতৰ্কবাৰ্তা প্ৰেৰণ কৰা হৈছে',
-    cgAlertDesc: 'ৰোগীয়ে অৱস্থানসহ SOS বুটাম টিপিছে।',
-    cgBtnAck: 'স্বীকাৰ কৰক',
-    cgKpi1Label: 'মানসিক স্থিৰতা স্ক’ৰ',
-    cgKpi1Sub: '↑ লাইভ গণনাকৃত স্ক’ৰ',
-    cgKpi2Label: 'প্ৰতিক্ৰিয়া সময়ৰ তালিকা (খেল অনুসৰি)',
-    cgAvgLabel: 'গড় সময়:',
-    cgIdealRangePrefix: 'আদৰ্শ সীমা:',
-    cgG1Label: '১. ঐতিহ্য প্ৰতীক:',
-    cgG2Label: '২. চাহৰ নিয়ম:',
-    cgG3Label: '৩. প্ৰতীক চিনাক্ত:',
-    cgKpi3Label: 'নিয়ম আনুগত্য',
-    cgKpi3Sub: 'লাইভ গণনাকৃত শতাংশ',
-    cgChartHeader: '৭-দিনীয়া মানসিক ক্ষমতা বিশ্লেষণ',
-    gameModalSubtitle: 'প্ৰতিক্ৰিয়া সময় আৰু টেলিমেট্ৰি সংৰক্ষণ কৰিবলৈ খেল সম্পূৰ্ণ কৰক।',
     modalRemBadge: 'ঔষধ নিয়ম',
     modalRemTitle: 'দুপৰীয়াৰ ঔষধ আৰু পানী',
-    modalRemDesc: 'অনুগ্ৰহ কৰি ১ গিলাচ সতেজ পানীৰ সৈতে ডনেপেজিল ঔষধ খাওক।',
+    modalRemDesc: 'অনুগ্ৰহ কৰি দুপৰীয়া ২:০০ বজাত ১ গিলাচ সতেজ পানীৰ সৈতে ডনেপেজিল ঔষধ খাওক।',
     btnRemTaken: '✓ মই ঔষধ খালোঁ',
     btnRemLater: '১০ মিনিট পিছত সোঁৱৰাব',
     modalFamHead: '📸 আপোনাৰ ঘৰ আৰু পৰিয়াল',
@@ -294,66 +412,147 @@ const i18n = {
     sosSuccessDesc: 'পৰিয়ালে আপোনাৰ জিপিএছ পাইছে। শান্ত হৈ থাকক।',
     btnSosAckOk: 'বুজি পালোঁ',
     footerText: 'স্মৃতি-এনইআৰ (SMRITI-NER) • SIH26003 • উত্তৰ পূৰ্বাঞ্চল উন্নয়ন মন্ত্ৰালয় (MDoNER)',
-    
-    // Complete structured screen reader narration
-    ttsFullOverview: 'নমস্কাৰ বৰা দাদা। এইখন আপোনাৰ দৈনন্দিন সহায়ক পৰ্দা। আপোনাৰ বাবে আজি তিনিটা মগজুৰ খেল আছে। প্ৰথম খেল: ঐতিহ্য প্ৰতীক মিলোৱা, য’ত সাংস্কৃতিক চিহ্নৰ যোৰ মিলাব লাগে। দ্বিতীয় খেল: অসম চাহৰ নিয়ম, য’ত চাহ বনোৱাৰ পৰ্যায় ক্ৰম অনুসৰি সজাব লাগে। তৃতীয় খেল: প্ৰতীক চিনাক্তকৰণ, য’ত ওপৰত দেখা প্ৰতীকটো বিচাৰিব লাগে। খেলৰ তলত আপোনাৰ দুপৰীয়া ২ বজাৰ ঔষধৰ সোঁৱৰণী আৰু পৰিয়ালৰ ফটো এলবাম আছে। ওপৰত শুশ্ৰূষাকাৰী প’ৰ্টেল আৰু তলত জৰুৰীকালীন এছ অ’ এছ বুটাম উপলব্ধ।',
+
+    // Prompts & Audio & In-Game Guide Descriptions
+    ttsFullOverview: 'নমস্কাৰ বৰা দাদা। এইখন আপোনাৰ দৈনন্দিন সহায়ক পৰ্দা। আজি আপোনাৰ বাবে পাঁচটা মগজুৰ অনুশীলন আছে: ঐতিহ্য প্ৰতীক মিলোৱা, অসম চাহৰ নিয়ম, প্ৰতীক চিনাক্তকৰণ, সংখ্যা ক্ৰম চিনাক্তকৰণ আৰু ব্ৰহ্মপুত্ৰৰ চাকি স্মৃতি। প্ৰতিটো খেলত তিনিটাকৈ পৰ্যায় আছে। তলত দুপৰীয়া ২:০০ বজাত ঔষধ খোৱাৰ সোঁৱৰণী আৰু পৰিয়ালৰ ফটো এলবাম আছে।',
     ttsFamily: 'দাদা, আপুনি অসমৰ মাজুলী দ্বীপৰ গড়মূৰত থাকে। আপোনাৰ পৰিয়ালত পত্নী মালতী, পুত্ৰ বিকাশ, বোৱাৰী ৰূপা আৰু নাতি নীলাভ আছে।',
-    ttsCgSummary: 'ৰোগী ডি. বৰাৰ মানসিক স্থিৰতা স্ক’ৰ %SCORE%, গড় প্ৰতিক্ৰিয়া সময় %LATENCY% ছেকেণ্ড আৰু নিয়ম আনুগত্য %ADHERENCE% শতাংশ।',
-    
-    // In-game dynamic audio phrases
+    ttsMedicine: 'দুপৰীয়া ২:০০ বজাত ১ গিলাচ সতেজ পানীৰ সৈতে ১ χαটি ডনেপেজিল ঔষধ খাওক। সময়মতে ঔষধ খোৱাটো আপোনাৰ বাবে অতি প্ৰয়োজনীয়।',
+    ttsCgSummary: 'ৰোগী ডি. বৰাৰ মানসিক স্থিৰতা স্ক’ৰ %SCORE%, %TIER% স্তৰত মুঠ গড় সময় %LATENCY% ছেকেণ্ড আৰু নিয়ম আনুগত্য %ADHERENCE% শতাংশ।',
+    gameGuides: {
+      memory: 'এই খেলখন ঐতিহ্য প্ৰতীক মিলোৱা। সাংস্কৃতিক প্ৰতীকবোৰৰ যোৰ বিচাৰি উলিয়াবলৈ কাৰ্ডবোৰ স্পৰ্শ কৰক।',
+      sequence: 'এই খেলখন অসম চাহৰ নিয়ম। চাহ বনোৱাৰ পৰ্যায়বোৰ সঠিক ক্ৰমত সজাওক।',
+      spotter: 'এই খেলখন প্ৰতীক চিনাক্তকৰণ। ওপৰত দিয়া লক্ষ্য প্ৰতীকটো চিনে তলৰ বিকল্পৰ পৰা বাছক।',
+      trail: 'এই খেলখন সংখ্যা ক্ৰম চিনাক্তকৰণ। ১ ৰ পৰা আৰম্ভ কৰি ক্ৰমত সংখ্যাবোৰ স্পৰ্শ কৰক।',
+      lantern: 'এই খেলখন ব্ৰহ্মপুত্ৰৰ চাকি স্মৃতি। জ্বলি উঠা পোহৰৰ ক্ৰমটো মনত ৰাখি পুনৰাবৃত্তি কৰক।'
+    },
     itemNames: {
       '🦏': 'গঁড় (Rhino)',
       '☕': 'চাহ (Tea)',
       '🦅': 'ধনেশ পক্ষী (Hornbill)',
       '🌸': 'কপৌ ফুল (Orchid)',
       '🏡': 'মাজুলীৰ ঘৰ (House)',
-      '🎋': 'বাঁহ (Bamboo)'
+      '🎋': 'বাঁহ (Bamboo)',
+      '🫖': 'কেটলী (Kettle)',
+      '🍃': 'চাহ পাত (Tea Leaf)',
+      '🏮': 'চাকি (Lantern)'
     },
     matchedSuffix: 'মিলা হ’ল!',
     noMatchMsg: 'জোৰ নিমিলিল, পুনৰ চেষ্টা কৰক।',
-    teaOptionPrompt: 'আপোনাৰ বিকল্পসমূহ হ’ল: প্ৰথম বিকল্প %OP1%, দ্বিতীয় বিকল্প %OP2%, তৃতীয় বিকল্প %OP3%। ক্ৰমত বাছক।',
-    findPrompt: 'ওপৰত চাওক: আপুনি তলত %TARGET% বিচাৰিব লাগে।',
+    teaOptionPrompt: 'চাহ বনোৱাৰ পৰ্যায়বোৰ ক্ৰমত সজাওক।',
+    findPrompt: 'ওপৰত চাওক: তলত %TARGET% বিচাৰক।',
     wrongChoice: 'ভুল বিকল্প, ভালদৰে চাওক!',
-    correctChoice: 'সম্পূৰ্ণ শুদ্ধ! আপুনি প্ৰতীকটো বিচাৰি পালে।'
+    roundDoneMsg: 'বঢ়িয়া! পৰ্যায় %R% সম্পূৰ্ণ হ’ল। পৰৱৰ্তী পৰ্যায় আৰম্ভ হৈছে...',
+    gameDoneMsg: '🎉 অভিনন্দন! তিনিওটা পৰ্যায় সম্পূৰ্ণ হ’ল। গড় সময়: %AVG% ছেকেণ্ড।',
+    trailTapPrompt: '১ ৰ পৰা আৰম্ভ কৰি ক্ৰমত সংখ্যাবোৰ স্পৰ্শ কৰক।',
+    lanternWatchPrompt: 'ভালদৰে মন কৰক: চাকি জ্বলাৰ ক্ৰমটো মনত ৰাখক।',
+    lanternYourTurn: 'এতিয়া আপোনাৰ পাল! একে ক্ৰমতে চাকিত স্পৰ্শ কৰক।'
   }
 };
 
-// 2. LIVE CAREGIVER TELEMETRY STATE
-let telemetryState = {
-  g1Time: parseFloat(localStorage.getItem('smriti_cg_g1')) || 12.4,
-  g2Time: parseFloat(localStorage.getItem('smriti_cg_g2')) || null,
-  g3Time: parseFloat(localStorage.getItem('smriti_cg_g3')) || null,
-  latestAvgLatency: parseFloat(localStorage.getItem('smriti_cg_latency')) || 12.4,
-  stabilityScore: parseInt(localStorage.getItem('smriti_cg_stability')) || 78,
-  adherenceRate: parseInt(localStorage.getItem('smriti_cg_adherence')) || 94,
-  chartHistory: JSON.parse(localStorage.getItem('smriti_cg_history')) || [14.2, 13.8, 15.0, 13.1, 12.9, 13.4, 12.4]
+// 2. ACCURATE TELEMETRY STORAGE
+const emptyTierData = () => ({
+  memory: [0, 0, 0],
+  sequence: [0, 0, 0],
+  spotter: [0, 0, 0],
+  trail: [0, 0, 0],
+  lantern: [0, 0, 0]
+});
+
+let telemetryTierState = JSON.parse(localStorage.getItem('smriti_telemetry_tiers')) || {
+  easy: emptyTierData(),
+  med: emptyTierData(),
+  hard: emptyTierData()
 };
 
-function logGameTelemetry(gameType, latencySec) {
-  const lat = parseFloat(latencySec);
-  if (gameType === 'memory') telemetryState.g1Time = lat;
-  if (gameType === 'sequence') telemetryState.g2Time = lat;
-  if (gameType === 'spotter') telemetryState.g3Time = lat;
+let activeCaregiverTier = localStorage.getItem('smriti_cg_view_tier') || 'med';
 
-  const playedTimes = [telemetryState.g1Time, telemetryState.g2Time, telemetryState.g3Time].filter(t => t !== null && !isNaN(t));
-  const avg = playedTimes.reduce((a, b) => a + b, 0) / playedTimes.length;
-  telemetryState.latestAvgLatency = parseFloat(avg.toFixed(1));
+// 3. ACCURATE DAILY ROUTINE TRACKER (N = 6 Tasks)
+let dailyTaskTracker = JSON.parse(localStorage.getItem('smriti_daily_tasks')) || {
+  medication: false,
+  memory: false,
+  sequence: false,
+  spotter: false,
+  trail: false,
+  lantern: false
+};
 
-  let calculatedScore = Math.round(100 - (telemetryState.latestAvgLatency / 25) * 35);
-  calculatedScore = Math.max(50, Math.min(98, calculatedScore));
-  telemetryState.stabilityScore = calculatedScore;
+let historicalDays = [13.4, 12.8, 13.9, 12.5, 12.1, 12.6];
 
-  telemetryState.adherenceRate = Math.min(100, telemetryState.adherenceRate + 1);
-  telemetryState.chartHistory[6] = telemetryState.latestAvgLatency;
+let overallTelemetry = {
+  stabilityScore: parseInt(localStorage.getItem('smriti_cg_stability')) || 78,
+  adherenceRate: parseInt(localStorage.getItem('smriti_cg_adherence')) || 0,
+  chartHistory: JSON.parse(localStorage.getItem('smriti_cg_history')) || [...historicalDays, 0]
+};
 
-  localStorage.setItem('smriti_cg_g1', telemetryState.g1Time || '');
-  localStorage.setItem('smriti_cg_g2', telemetryState.g2Time || '');
-  localStorage.setItem('smriti_cg_g3', telemetryState.g3Time || '');
-  localStorage.setItem('smriti_cg_latency', telemetryState.latestAvgLatency);
-  localStorage.setItem('smriti_cg_stability', telemetryState.stabilityScore);
-  localStorage.setItem('smriti_cg_adherence', telemetryState.adherenceRate);
-  localStorage.setItem('smriti_cg_history', JSON.stringify(telemetryState.chartHistory));
+function calculateAccurateAdherence() {
+  const totalTasks = 6;
+  const completedTasks = Object.values(dailyTaskTracker).filter(Boolean).length;
+  const accurateRate = Math.round((completedTasks / totalTasks) * 100);
 
+  overallTelemetry.adherenceRate = accurateRate;
+  localStorage.setItem('smriti_cg_adherence', accurateRate);
+  localStorage.setItem('smriti_daily_tasks', JSON.stringify(dailyTaskTracker));
+
+  const adhEl = document.getElementById('metric-adherence');
+  if (adhEl) adhEl.textContent = `${accurateRate}%`;
+  return accurateRate;
+}
+
+function recalculateCognitiveScore() {
+  let todayPlayedTimes = [];
+  ['easy', 'med', 'hard'].forEach(t => {
+    Object.values(telemetryTierState[t]).forEach(rArray => {
+      rArray.forEach(val => {
+        if (typeof val === 'number' && val > 0) todayPlayedTimes.push(val);
+      });
+    });
+  });
+
+  const adherence = calculateAccurateAdherence();
+  let calculatedScore = 75;
+
+  if (todayPlayedTimes.length > 0) {
+    const todayAvg = todayPlayedTimes.reduce((a, b) => a + b, 0) / todayPlayedTimes.length;
+    const latencyFactor = Math.max(0, Math.min(100, 100 - ((todayAvg - 10) / 10) * 40));
+    calculatedScore = Math.round((0.65 * latencyFactor) + (0.35 * adherence));
+    calculatedScore = Math.max(45, Math.min(98, calculatedScore));
+
+    overallTelemetry.chartHistory[6] = parseFloat(todayAvg.toFixed(1));
+  } else if (adherence > 0) {
+    calculatedScore = Math.round(70 + (adherence * 0.25));
+    overallTelemetry.chartHistory[6] = overallTelemetry.chartHistory[5];
+  } else {
+    overallTelemetry.chartHistory[6] = overallTelemetry.chartHistory[5];
+  }
+
+  overallTelemetry.stabilityScore = calculatedScore;
+  localStorage.setItem('smriti_cg_stability', calculatedScore);
+  localStorage.setItem('smriti_cg_history', JSON.stringify(overallTelemetry.chartHistory));
+
+  const stabEl = document.getElementById('metric-stability');
+  if (stabEl) stabEl.textContent = `${calculatedScore} / 100`;
+
+  if (cognitiveChartInstance) {
+    cognitiveChartInstance.data.datasets[0].data = overallTelemetry.chartHistory;
+    cognitiveChartInstance.update();
+  }
+
+  return calculatedScore;
+}
+
+function recordRoundScore(tier, gameType, roundTimes) {
+  if (!telemetryTierState[tier]) telemetryTierState[tier] = emptyTierData();
+  telemetryTierState[tier][gameType] = roundTimes;
+  localStorage.setItem('smriti_telemetry_tiers', JSON.stringify(telemetryTierState));
+
+  dailyTaskTracker[gameType] = true;
+  recalculateCognitiveScore();
+  updateCaregiverDOM();
+}
+
+function switchCaregiverTier(tier) {
+  activeCaregiverTier = tier;
+  localStorage.setItem('smriti_cg_view_tier', tier);
   updateCaregiverDOM();
 }
 
@@ -361,37 +560,82 @@ function updateCaregiverDOM() {
   const lang = document.getElementById('lang-select')?.value || 'hi-IN';
   const dict = i18n[lang] || i18n['hi-IN'];
 
-  const g1El = document.getElementById('metric-g1-time');
-  const g2El = document.getElementById('metric-g2-time');
-  const g3El = document.getElementById('metric-g3-time');
-  const avgEl = document.getElementById('metric-latency');
+  ['easy', 'med', 'hard'].forEach(t => {
+    const tabBtn = document.getElementById(`cg-tab-${t}`);
+    if (tabBtn) {
+      if (t === activeCaregiverTier) {
+        tabBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow';
+      } else {
+        tabBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-slate-600 hover:text-slate-900';
+      }
+    }
+  });
+
   const stabEl = document.getElementById('metric-stability');
   const adhEl = document.getElementById('metric-adherence');
-  const rangeSub = document.getElementById('cg-kpi2-sub');
+  if (stabEl) stabEl.textContent = `${overallTelemetry.stabilityScore} / 100`;
+  if (adhEl) adhEl.textContent = `${overallTelemetry.adherenceRate}%`;
 
-  if (g1El) g1El.textContent = telemetryState.g1Time ? `${telemetryState.g1Time}s` : '--';
-  if (g2El) g2El.textContent = telemetryState.g2Time ? `${telemetryState.g2Time}s` : '--';
-  if (g3El) g3El.textContent = telemetryState.g3Time ? `${telemetryState.g3Time}s` : '--';
-  if (avgEl) avgEl.textContent = `${telemetryState.latestAvgLatency}s`;
-  if (stabEl) stabEl.textContent = `${telemetryState.stabilityScore} / 100`;
-  if (adhEl) adhEl.textContent = `${telemetryState.adherenceRate}%`;
+  const tbody = document.getElementById('caregiver-matrix-rows');
+  if (tbody) {
+    const tierData = telemetryTierState[activeCaregiverTier] || emptyTierData();
+    const games = [
+      { id: 'memory', name: dict.g1Title },
+      { id: 'sequence', name: dict.g2Title },
+      { id: 'spotter', name: dict.g3Title },
+      { id: 'trail', name: dict.g4Title },
+      { id: 'lantern', name: dict.g5Title }
+    ];
 
-  const playedCount = [telemetryState.g1Time, telemetryState.g2Time, telemetryState.g3Time].filter(t => t !== null && !isNaN(t)).length;
-  const count = Math.max(1, playedCount);
-  const minRange = (count === 1) ? 10 : 8 + count;
-  const maxRange = (count === 1) ? 18 : 15 + (count * 2);
+    let allPlayedTierTimes = [];
+    tbody.innerHTML = '';
 
-  if (rangeSub) {
-    rangeSub.textContent = `${dict.cgIdealRangePrefix} ${minRange}s – ${maxRange}s (${count} ${count === 1 ? 'Game' : 'Games'})`;
+    games.forEach((g, idx) => {
+      const rounds = tierData[g.id] || [0, 0, 0];
+      const validRoundTimes = rounds.filter(r => typeof r === 'number' && r > 0);
+      
+      const gameAvgDisplay = validRoundTimes.length > 0
+        ? (validRoundTimes.reduce((a, b) => a + b, 0) / validRoundTimes.length).toFixed(1) + 's'
+        : '0.0s';
+
+      validRoundTimes.forEach(n => allPlayedTierTimes.push(n));
+
+      const r1Text = (rounds[0] && rounds[0] > 0) ? `${rounds[0]}s` : '0.0s';
+      const r2Text = (rounds[1] && rounds[1] > 0) ? `${rounds[1]}s` : '0.0s';
+      const r3Text = (rounds[2] && rounds[2] > 0) ? `${rounds[2]}s` : '0.0s';
+
+      const tr = document.createElement('tr');
+      tr.className = idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50';
+      tr.innerHTML = `
+        <td class="py-2.5 px-3 font-bold text-slate-900">${g.name}</td>
+        <td class="py-2.5 px-2 text-center ${rounds[0] > 0 ? 'text-slate-800 font-extrabold' : 'text-slate-400'}">${r1Text}</td>
+        <td class="py-2.5 px-2 text-center ${rounds[1] > 0 ? 'text-slate-800 font-extrabold' : 'text-slate-400'}">${r2Text}</td>
+        <td class="py-2.5 px-2 text-center ${rounds[2] > 0 ? 'text-slate-800 font-extrabold' : 'text-slate-400'}">${r3Text}</td>
+        <td class="py-2.5 px-3 text-right font-black ${validRoundTimes.length > 0 ? 'text-emerald-700' : 'text-slate-400'}">${gameAvgDisplay}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const combEl = document.getElementById('metric-combined-avg');
+    if (combEl) {
+      if (allPlayedTierTimes.length > 0) {
+        const combinedVal = (allPlayedTierTimes.reduce((a, b) => a + b, 0) / allPlayedTierTimes.length).toFixed(1);
+        combEl.textContent = `${combinedVal}s`;
+        combEl.className = 'text-2xl font-black text-emerald-800';
+      } else {
+        combEl.textContent = '0.0s';
+        combEl.className = 'text-2xl font-black text-slate-400';
+      }
+    }
   }
 
   if (cognitiveChartInstance) {
-    cognitiveChartInstance.data.datasets[0].data = telemetryState.chartHistory;
+    cognitiveChartInstance.data.datasets[0].data = overallTelemetry.chartHistory;
     cognitiveChartInstance.update();
   }
 }
 
-// 3. MUTE CONTROLLER
+// 7. AUDIO & MUTE CONTROLLER
 let isAudioMuted = localStorage.getItem('smriti_audio_muted') === 'true';
 
 function updateMuteUI() {
@@ -414,12 +658,8 @@ function updateMuteUI() {
   if (isAudioMuted) {
     if (muteIcon) muteIcon.textContent = '🔇';
     if (muteText) muteText.textContent = dict.soundOff;
-    if (btnToggle) {
-      btnToggle.className = 'bg-rose-900/80 hover:bg-rose-800 text-rose-200 border border-rose-600 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
-    }
-    if (gmSoundBtn) {
-      gmSoundBtn.className = 'text-xs font-black bg-rose-900/90 text-rose-200 border border-rose-600 px-3 py-1.5 rounded-xl senior-tap flex items-center gap-1 transition';
-    }
+    if (btnToggle) btnToggle.className = 'bg-rose-900/80 hover:bg-rose-800 text-rose-200 border border-rose-600 px-3.5 py-2 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
+    if (gmSoundBtn) gmSoundBtn.className = 'text-xs sm:text-sm font-black bg-rose-900/90 text-rose-200 border border-rose-600 px-3.5 py-2 rounded-xl senior-tap flex items-center gap-1.5 transition';
     if (gmSoundIcon) gmSoundIcon.textContent = '🔇';
     if (gmSoundText) gmSoundText.textContent = dict.soundOff;
 
@@ -433,12 +673,8 @@ function updateMuteUI() {
   } else {
     if (muteIcon) muteIcon.textContent = '🔊';
     if (muteText) muteText.textContent = dict.soundOn;
-    if (btnToggle) {
-      btnToggle.className = 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3 py-1.5 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
-    }
-    if (gmSoundBtn) {
-      gmSoundBtn.className = 'text-xs font-black bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-xl senior-tap flex items-center gap-1 transition text-white';
-    }
+    if (btnToggle) btnToggle.className = 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3.5 py-2 rounded-2xl text-xs font-black flex items-center gap-1.5 senior-tap transition';
+    if (gmSoundBtn) gmSoundBtn.className = 'text-xs sm:text-sm font-black bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-3.5 py-2 rounded-xl senior-tap flex items-center gap-1.5 transition';
     if (gmSoundIcon) gmSoundIcon.textContent = '🔊';
     if (gmSoundText) gmSoundText.textContent = dict.soundOn;
 
@@ -455,13 +691,58 @@ function updateMuteUI() {
 function toggleAudioMute() {
   isAudioMuted = !isAudioMuted;
   localStorage.setItem('smriti_audio_muted', isAudioMuted);
-  if (isAudioMuted && 'speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-  }
+  if (isAudioMuted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
   updateMuteUI();
 }
 
-// 4. TRANSLATION ENGINE (UPDATES ALL STRINGS INCLUDING SCREEN READER BUTTON)
+// 8. GLOBAL DIFFICULTY CONTROLLER
+let currentDifficulty = localStorage.getItem('smriti_difficulty') || 'med';
+let currentGameTypeActive = null;
+
+let currentRoundIndex = 1;
+let currentRoundTimes = [];
+let roundStartTime = 0;
+
+function applyDifficultyUI() {
+  ['easy', 'med', 'hard'].forEach(d => {
+    const btn = document.getElementById(`diff-${d}`);
+    if (btn) {
+      if (d === currentDifficulty) {
+        btn.className = 'px-3.5 py-1.5 text-xs rounded-lg font-black transition bg-emerald-600 text-white shadow flex-1 text-center senior-tap';
+      } else {
+        btn.className = 'px-3.5 py-1.5 text-xs rounded-lg font-bold transition text-slate-400 hover:text-white flex-1 text-center senior-tap';
+      }
+    }
+  });
+}
+
+function setDifficulty(tier) {
+  currentDifficulty = tier;
+  localStorage.setItem('smriti_difficulty', tier);
+  applyDifficultyUI();
+
+  const modal = document.getElementById('game-modal');
+  if (currentGameTypeActive && modal && !modal.classList.contains('hidden')) {
+    currentRoundIndex = 1;
+    currentRoundTimes = [];
+    renderActiveRound();
+  }
+}
+
+// 9. TRANSLATION ENGINE & SAHAYAK VOICE GUIDES
+function speakGameGuide() {
+  const lang = document.getElementById('lang-select')?.value || 'hi-IN';
+  const dict = i18n[lang] || i18n['hi-IN'];
+  const guideText = dict.gameGuides[currentGameTypeActive] || dict.ttsFullOverview;
+  speakAudio(guideText, lang);
+}
+
+function speakMedicineInfo() {
+  const lang = document.getElementById('lang-select')?.value || 'hi-IN';
+  const dict = i18n[lang] || i18n['hi-IN'];
+  speakAudio(dict.ttsMedicine, lang);
+}
+
 function applyLanguage(langCode) {
   const dict = i18n[langCode] || i18n['hi-IN'];
   
@@ -478,8 +759,6 @@ function applyLanguage(langCode) {
   setTxt('ui-subgreeting', dict.subgreeting);
   setTxt('ui-lang-label', dict.langLabel);
   setTxt('sahayak-title', dict.sahayakTitle);
-  
-  // DYNAMICALLY TRANSLATE THE SCREEN READER BUTTON
   setTxt('btn-read-screen-text', dict.btnReadScreenText);
   
   // Games Hub
@@ -499,8 +778,54 @@ function applyLanguage(langCode) {
   setTxt('g3-title', dict.g3Title);
   setTxt('g3-desc', dict.g3Desc);
   setTxt('g3-btn', dict.g3Btn);
-  
-  // Action Tiles
+
+  setTxt('g4-badge', dict.g4Badge);
+  setTxt('g4-title', dict.g4Title);
+  setTxt('g4-desc', dict.g4Desc);
+  setTxt('g4-btn', dict.g4Btn);
+
+  setTxt('g5-badge', dict.g5Badge);
+  setTxt('g5-title', dict.g5Title);
+  setTxt('g5-desc', dict.g5Desc);
+  setTxt('g5-btn', dict.g5Btn);
+
+  // Modal Controls
+  setTxt('diff-easy', dict.diffEasy);
+  setTxt('diff-med', dict.diffMed);
+  setTxt('diff-hard', dict.diffHard);
+  setTxt('cg-tab-easy', dict.diffEasy);
+  setTxt('cg-tab-med', dict.diffMed);
+  setTxt('cg-tab-hard', dict.diffHard);
+  setTxt('btn-game-close', dict.gameModalClose);
+  setTxt('game-modal-subtitle', dict.gameModalSubtitle);
+
+  // Matrix Table Headers
+  setTxt('cg-matrix-header', dict.cgMatrixHeader);
+  setTxt('cg-matrix-sub', dict.cgMatrixSub);
+  setTxt('th-game-col', dict.thGameCol);
+  setTxt('th-r1-col', dict.thR1Col);
+  setTxt('th-r2-col', dict.thR2Col);
+  setTxt('th-r3-col', dict.thR3Col);
+  setTxt('th-avg-col', dict.thAvgCol);
+  setTxt('cg-comb-label', dict.cgCombLabel);
+  setTxt('cg-comb-sub', dict.cgCombSub);
+
+  // Caregiver Portal
+  setTxt('cg-subhead', dict.cgSubhead);
+  setTxt('cg-patient-name', dict.cgPatientName);
+  setTxt('cg-patient-desc', dict.cgPatientDesc);
+  setTxt('btn-read-cg', dict.btnReadCg);
+  setTxt('cg-sync-status', dict.cgSyncStatus);
+  setTxt('cg-alert-title', dict.cgAlertTitle);
+  setTxt('cg-alert-desc', dict.cgAlertDesc);
+  setTxt('cg-btn-ack', dict.cgBtnAck);
+  setTxt('cg-kpi1-label', dict.cgKpi1Label);
+  setTxt('cg-kpi1-sub', dict.cgKpi1Sub);
+  setTxt('cg-kpi3-label', dict.cgKpi3Label);
+  setTxt('cg-kpi3-sub', dict.cgKpi3Sub);
+  setTxt('cg-chart-header', dict.cgChartHeader);
+
+  // Action Cards & Modals
   setTxt('rem-badge', dict.remBadge);
   setTxt('rem-card-title', dict.remTitle);
   setTxt('rem-card-desc', dict.remDesc);
@@ -510,31 +835,6 @@ function applyLanguage(langCode) {
   setTxt('fam-card-title', dict.famTitle);
   setTxt('fam-card-desc', dict.famDesc);
   setTxt('fam-card-btn', dict.famBtn);
-  
-  // Floating SOS & Caregiver Portal
-  setTxt('btn-sos-floating', dict.btnSosFloating);
-  setTxt('cg-subhead', dict.cgSubhead);
-  setTxt('cg-patient-name', dict.cgPatientName);
-  setTxt('cg-patient-desc', dict.cgPatientDesc);
-  setTxt('btn-read-cg', dict.btnReadCg);
-  setTxt('cg-alert-title', dict.cgAlertTitle);
-  setTxt('cg-alert-desc', dict.cgAlertDesc);
-  setTxt('cg-btn-ack', dict.cgBtnAck);
-  setTxt('cg-kpi1-label', dict.cgKpi1Label);
-  setTxt('cg-kpi1-sub', dict.cgKpi1Sub);
-  setTxt('cg-kpi2-label', dict.cgKpi2Label);
-  setTxt('cg-avg-label', dict.cgAvgLabel);
-  setTxt('cg-g1-name', dict.cgG1Label);
-  setTxt('cg-g2-name', dict.cgG2Label);
-  setTxt('cg-g3-name', dict.cgG3Label);
-  setTxt('cg-kpi3-label', dict.cgKpi3Label);
-  setTxt('cg-kpi3-sub', dict.cgKpi3Sub);
-  setTxt('cg-chart-header', dict.cgChartHeader);
-  
-  // Game Modal Subtitle
-  setTxt('game-modal-subtitle', dict.gameModalSubtitle);
-
-  // Modals
   setTxt('modal-rem-badge', dict.modalRemBadge);
   setTxt('modal-rem-title', dict.modalRemTitle);
   setTxt('modal-rem-desc', dict.modalRemDesc);
@@ -545,8 +845,7 @@ function applyLanguage(langCode) {
   setTxt('mem-addr-desc', dict.memAddrDesc);
   setTxt('mem-fam-title', dict.memFamTitle);
   setTxt('btn-read-family', dict.btnReadFamily);
-  
-  // Inject Localized Family Members
+
   const famListEl = document.getElementById('mem-family-list');
   if (famListEl && dict.familyMembers) {
     famListEl.innerHTML = dict.familyMembers.map(item => `<li>${item}</li>`).join('');
@@ -566,6 +865,7 @@ function applyLanguage(langCode) {
   localStorage.setItem('smriti_language', langCode);
 
   updateMuteUI();
+  applyDifficultyUI();
   updateCaregiverDOM();
 }
 
@@ -574,7 +874,7 @@ function onLanguageChanged() {
   applyLanguage(selectedLang);
 }
 
-// 5. ROBUST VOICE SYNTHESIS ENGINE
+// 10. VOICE SYNTHESIS ENGINE
 let availableVoices = [];
 
 function populateVoiceList() {
@@ -620,7 +920,6 @@ function speakAudio(text, langCode) {
 
   utterance.rate = 0.82;
   utterance.pitch = 1.0;
-  
   window.speechSynthesis.speak(utterance);
 }
 
@@ -640,30 +939,56 @@ function speakCaregiverSummary() {
   const lang = document.getElementById('lang-select')?.value || 'hi-IN';
   const dict = i18n[lang] || i18n['hi-IN'];
   
+  const tierData = telemetryTierState[activeCaregiverTier] || emptyTierData();
+  let allTimes = [];
+  Object.values(tierData).forEach(r => {
+    r.forEach(val => { if (typeof val === 'number' && val > 0) allTimes.push(val); });
+  });
+
+  const tierAvg = allTimes.length > 0
+    ? (allTimes.reduce((a, b) => a + b, 0) / allTimes.length).toFixed(1)
+    : '0.0';
+
+  const tierWord = activeCaregiverTier === 'easy' ? dict.diffEasy : (activeCaregiverTier === 'med' ? dict.diffMed : dict.diffHard);
   let text = dict.ttsCgSummary
-    .replace('%SCORE%', telemetryState.stabilityScore)
-    .replace('%LATENCY%', telemetryState.latestAvgLatency)
-    .replace('%ADHERENCE%', telemetryState.adherenceRate);
+    .replace('%SCORE%', overallTelemetry.stabilityScore)
+    .replace('%TIER%', tierWord)
+    .replace('%LATENCY%', tierAvg)
+    .replace('%ADHERENCE%', overallTelemetry.adherenceRate);
     
   speakAudio(text, lang);
 }
 
-// 6. ACCESSIBILITY SIZE SLIDER
+// 11. ACCESSIBILITY SIZE SLIDER (14px - 24px with 60FPS debouncing)
 const scaleSlider = document.getElementById('textScaleSlider');
 const scaleLabel = document.getElementById('scaleLabel');
 
+let isScaleUpdatePending = false;
+
 function applyTextScale(pxValue) {
-  document.documentElement.style.fontSize = `${pxValue}px`;
   if (scaleLabel) scaleLabel.textContent = `${pxValue}px`;
-  if (scaleSlider) scaleSlider.value = pxValue;
-  localStorage.setItem('smriti_text_px', pxValue);
+  if (scaleSlider && scaleSlider.value !== pxValue) scaleSlider.value = pxValue;
+
+  if (!isScaleUpdatePending) {
+    isScaleUpdatePending = true;
+    requestAnimationFrame(() => {
+      document.documentElement.style.fontSize = `${pxValue}px`;
+      isScaleUpdatePending = false;
+    });
+  }
 }
 
 if (scaleSlider) {
-  scaleSlider.addEventListener('input', (e) => applyTextScale(e.target.value));
+  scaleSlider.addEventListener('input', (e) => {
+    applyTextScale(e.target.value);
+  });
+
+  scaleSlider.addEventListener('change', (e) => {
+    localStorage.setItem('smriti_text_px', e.target.value);
+  });
 }
 
-// 7. VIEW NAVIGATION (PATIENT / CAREGIVER)
+// 12. NAVIGATION & MODALS
 function switchView(viewName) {
   const patientView = document.getElementById('patient-view');
   const caregiverView = document.getElementById('caregiver-view');
@@ -685,19 +1010,21 @@ function switchView(viewName) {
   }
 }
 
-// 8. MODAL CONTROLS
 function openReminderModal() { document.getElementById('reminder-modal').classList.remove('hidden'); }
 function openReminiscenceModal() { document.getElementById('reminiscence-modal').classList.remove('hidden'); }
 function closeModal(id) { 
   document.getElementById(id).classList.add('hidden');
-  if (id === 'game-modal' && 'speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
+  if (id === 'game-modal') {
+    currentGameTypeActive = null;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 }
 
 function confirmReminder() {
   closeModal('reminder-modal');
-  telemetryState.adherenceRate = Math.min(100, telemetryState.adherenceRate + 2);
+  dailyTaskTracker.medication = true;
+  
+  recalculateCognitiveScore();
   updateCaregiverDOM();
   
   const currentLang = document.getElementById('lang-select')?.value || 'hi-IN';
@@ -705,65 +1032,112 @@ function confirmReminder() {
   alert(msg);
 }
 
-// 9. SAFE EMERGENCY SOS PIPELINE
-function triggerSOSConfirmation() {
-  document.getElementById('sos-confirm-modal').classList.remove('hidden');
-}
-
+function triggerSOSConfirmation() { document.getElementById('sos-confirm-modal').classList.remove('hidden'); }
 function confirmSOSDispatch() {
   closeModal('sos-confirm-modal');
   document.getElementById('sos-success-modal').classList.remove('hidden');
   document.getElementById('caregiver-alert-box').classList.remove('hidden');
   
   const currentLang = document.getElementById('lang-select')?.value || 'hi-IN';
-  const alertSpeech = currentLang === 'hi-IN' 
-    ? 'आपातकालीन चेतावनी और जीपीएस लोकेशन भेज दिया गया है।' 
-    : (currentLang === 'as-IN' 
-        ? 'জৰুৰীকালীন সতৰ্কবাৰ্তা আৰু জিপিএছ প্ৰেৰণ কৰা হৈছে।' 
-        : 'Emergency alert with your GPS location has been dispatched.');
+  const alertSpeech = currentLang === 'hi-IN' ? 'आपातकालीन चेतावनी और जीपीएस लोकेशन भेज दिया गया है।' : (currentLang === 'as-IN' ? 'জৰুৰীকালীন সতৰ্কবাৰ্তা আৰু জিপিএছ প্ৰেৰণ কৰা হৈছে।' : 'Emergency alert with GPS location dispatched.');
   speakAudio(alertSpeech, currentLang);
 }
+function dismissCaregiverAlert() { document.getElementById('caregiver-alert-box').classList.add('hidden'); }
 
-function dismissCaregiverAlert() {
-  document.getElementById('caregiver-alert-box').classList.add('hidden');
-}
-
-// 10. TELEMETRY & LATENCY LOGGING
-let taskStartTime = 0;
-
-function startTelemetryTask() {
-  taskStartTime = performance.now();
-}
-
-function recordTelemetryLatency(gameType) {
-  const latency = parseFloat(((performance.now() - taskStartTime) / 1000).toFixed(1));
-  logGameTelemetry(gameType, latency);
-  return latency;
-}
-
-// 11. REFINED GAME LAUNCHERS
+// 13. 3-ROUND ENGINE & GAME LAUNCHER
 function openGameModal(gameType) {
+  currentGameTypeActive = gameType;
+  currentRoundIndex = 1;
+  currentRoundTimes = [];
+
   const modal = document.getElementById('game-modal');
+  modal.classList.remove('hidden');
+  
+  applyDifficultyUI();
+  updateMuteUI();
+  renderActiveRound();
+}
+
+function renderActiveRound() {
+  const lang = document.getElementById('lang-select')?.value || 'hi-IN';
+  const dict = i18n[lang] || i18n['hi-IN'];
+  
+  const roundBadge = document.getElementById('game-round-badge');
+  if (roundBadge) {
+    roundBadge.textContent = `${dict.roundPrefix} ${currentRoundIndex}/3`;
+  }
+
+  roundStartTime = performance.now();
+  renderGameContent(currentGameTypeActive);
+}
+
+function onRoundSuccess() {
+  const roundLatency = parseFloat(((performance.now() - roundStartTime) / 1000).toFixed(1));
+  currentRoundTimes.push(roundLatency);
+
+  const lang = document.getElementById('lang-select')?.value || 'hi-IN';
+  const dict = i18n[lang] || i18n['hi-IN'];
+  const feedback = document.getElementById('game-modal-feedback');
+
+  if (currentRoundIndex < 3) {
+    feedback.textContent = dict.roundDoneMsg.replace('%R%', currentRoundIndex);
+    speakAudio(dict.roundDoneMsg.replace('%R%', currentRoundIndex), lang);
+    currentRoundIndex++;
+    setTimeout(() => {
+      renderActiveRound();
+    }, 1100);
+  } else {
+    // All 3 Rounds Complete
+    const avg = parseFloat((currentRoundTimes.reduce((a, b) => a + b, 0) / 3).toFixed(1));
+    recordRoundScore(currentDifficulty, currentGameTypeActive, currentRoundTimes);
+    
+    const celebrationMsg = dict.gameDoneMsg.replace('%AVG%', avg);
+    feedback.textContent = celebrationMsg;
+    speakAudio(celebrationMsg, lang);
+
+    const body = document.getElementById('game-modal-body');
+    body.innerHTML = `
+      <div class="bg-emerald-950/60 border border-emerald-500/40 rounded-3xl p-5 text-center space-y-2.5 w-full max-w-sm mx-auto">
+        <div class="text-4xl">🏆</div>
+        <h4 class="text-base sm:text-lg font-black text-emerald-300">All 3 Rounds Finished!</h4>
+        <div class="flex justify-center gap-2 text-xs font-black text-slate-200">
+          <span class="bg-slate-800 px-2.5 py-1 rounded-xl border border-slate-700">R1: ${currentRoundTimes[0]}s</span>
+          <span class="bg-slate-800 px-2.5 py-1 rounded-xl border border-slate-700">R2: ${currentRoundTimes[1]}s</span>
+          <span class="bg-slate-800 px-2.5 py-1 rounded-xl border border-slate-700">R3: ${currentRoundTimes[2]}s</span>
+        </div>
+        <div class="text-xs sm:text-sm font-extrabold text-emerald-400 pt-0.5">Average Latency: ${avg}s</div>
+      </div>
+    `;
+  }
+}
+
+// 14. GAME GENERATION WITH NON-OVERLAPPING SPOTTER & HARD-MODE SCALING
+function renderGameContent(gameType) {
   const title = document.getElementById('game-modal-title');
-  const subtitle = document.getElementById('game-modal-subtitle');
   const body = document.getElementById('game-modal-body');
   const feedback = document.getElementById('game-modal-feedback');
   const lang = document.getElementById('lang-select')?.value || 'hi-IN';
   const dict = i18n[lang] || i18n['hi-IN'];
-  
-  modal.classList.remove('hidden');
-  feedback.textContent = '';
-  subtitle.textContent = dict.gameModalSubtitle;
-  updateMuteUI();
-  startTelemetryTask();
 
+  feedback.textContent = '';
+
+  // -------------------------------------------------------------
   // GAME 1: HERITAGE MATCH
+  // -------------------------------------------------------------
   if (gameType === 'memory') {
     title.textContent = dict.g1Title;
     feedback.textContent = dict.g1Desc;
     
-    const symbols = ['🦏', '🦏', '☕', '☕', '🦅', '🦅'].sort(() => 0.5 - Math.random());
-    body.innerHTML = `<div class="grid grid-cols-3 gap-3 max-w-xs mx-auto"></div>`;
+    const pairCount = currentDifficulty === 'easy' ? 2 : (currentDifficulty === 'med' ? 3 : 4);
+    const pool = ['🦏', '☕', '🦅', '🌸', '🏡', '🎋'].sort(() => 0.5 - Math.random());
+    let symbols = [];
+    for (let i = 0; i < pairCount; i++) {
+      symbols.push(pool[i], pool[i]);
+    }
+    symbols.sort(() => 0.5 - Math.random());
+
+    const gridCols = pairCount === 2 ? 'grid-cols-2' : (pairCount === 3 ? 'grid-cols-3' : 'grid-cols-4');
+    body.innerHTML = `<div class="grid ${gridCols} gap-2 max-w-sm mx-auto w-full"></div>`;
     const grid = body.querySelector('div');
     
     let flipped = [];
@@ -771,7 +1145,8 @@ function openGameModal(gameType) {
 
     symbols.forEach((sym) => {
       const card = document.createElement('button');
-      card.className = 'h-24 bg-slate-800 border-2 border-slate-700 text-3xl rounded-2xl flex items-center justify-center senior-tap transition';
+      const cardSize = pairCount === 4 ? 'min-h-[3.2rem] max-h-[4rem] text-xl' : 'game-card-btn';
+      card.className = `${cardSize} bg-slate-800 border-2 border-slate-700 flex items-center justify-center senior-tap transition shadow rounded-xl`;
       card.dataset.sym = sym;
       card.textContent = '❓';
       
@@ -790,9 +1165,7 @@ function openGameModal(gameType) {
 
             if (sym1 === sym2) {
               const matchedName = dict.itemNames[sym1] || 'Item';
-              setTimeout(() => {
-                speakAudio(`${matchedName} ${dict.matchedSuffix}`, lang);
-              }, 400);
+              setTimeout(() => { speakAudio(`${matchedName} ${dict.matchedSuffix}`, lang); }, 250);
 
               flipped[0].classList.add('game-card-matched');
               flipped[1].classList.add('game-card-matched');
@@ -800,8 +1173,7 @@ function openGameModal(gameType) {
               matchedCount += 2;
               
               if (matchedCount === symbols.length) {
-                const deltaT = recordTelemetryLatency('memory');
-                feedback.textContent = `🎉 Completed in ${deltaT}s! Telemetry logged.`;
+                onRoundSuccess();
               }
             } else {
               setTimeout(() => {
@@ -811,7 +1183,7 @@ function openGameModal(gameType) {
                   c.classList.remove('game-card-revealed');
                 });
                 flipped = [];
-              }, 850);
+              }, 700);
             }
           }
         }
@@ -819,96 +1191,130 @@ function openGameModal(gameType) {
       grid.appendChild(card);
     });
 
-  // GAME 2: TEA ROUTINE
+  // -------------------------------------------------------------
+  // GAME 2: ASSAM TEA ROUTINE
+  // -------------------------------------------------------------
   } else if (gameType === 'sequence') {
     title.textContent = dict.g2Title;
-    feedback.textContent = dict.g2Desc;
-    
-    const stepTexts = lang === 'as-IN' ? [
-      { id: 1, text: '🫖 পানী উতলাওক', name: 'পানী উতলোৱা' },
-      { id: 2, text: '🍃 চাহ পাত দিয়ক', name: 'চাহ পাত দিয়া' },
-      { id: 3, text: '☕ চাহ পৰিৱেশন কৰক', name: 'চাহ পৰিৱেশন কৰা' }
-    ] : (lang === 'hi-IN' ? [
-      { id: 1, text: '🫖 पानी उबालें', name: 'पानी उबालना' },
-      { id: 2, text: '🍃 चाय पत्ती डालें', name: 'चाय पत्ती डालना' },
-      { id: 3, text: '☕ गरमा-गरम चाय परोसें', name: 'चाय परोसना' }
-    ] : [
-      { id: 1, text: '🫖 Boil Fresh Water', name: 'Boil Fresh Water' },
-      { id: 2, text: '🍃 Add Assam Tea Leaves', name: 'Add Assam Tea Leaves' },
-      { id: 3, text: '☕ Serve Warm Cup', name: 'Serve Warm Cup' }
-    ]);
+    feedback.textContent = dict.teaOptionPrompt;
+    speakAudio(dict.teaOptionPrompt, lang);
 
-    stepTexts.sort(() => 0.5 - Math.random());
-    
-    const promptText = dict.teaOptionPrompt
-      .replace('%OP1%', stepTexts[0].name)
-      .replace('%OP2%', stepTexts[1].name)
-      .replace('%OP3%', stepTexts[2].name);
-    speakAudio(promptText, lang);
+    const fullStepsDatabase = {
+      'hi-IN': [
+        { id: 1, text: '💧 साफ पानी नापें', name: 'पानी नापना' },
+        { id: 2, text: '🫖 पानी उबालें', name: 'पानी उबालना' },
+        { id: 3, text: '🍃 असम चाय पत्ती डालें', name: 'चाय पत्ती डालना' },
+        { id: 4, text: '🥛 दूध व इलायची मिलाएं', name: 'दूध मिलाना' },
+        { id: 5, text: '☕ गरमा-गरम चाय छानें', name: 'चाय छानना' }
+      ],
+      'as-IN': [
+        { id: 1, text: '💧 পৰিষ্কাৰ পানী জোখক', name: 'পানী জোখা' },
+        { id: 2, text: '🫖 পানী উতলাওক', name: 'পানী উতলোৱা' },
+        { id: 3, text: '🍃 অসমৰ চাহ পাত দিয়ক', name: 'চাহ পাত দিয়া' },
+        { id: 4, text: '🥛 গাখীৰ আৰু ইলাচী দিয়ক', name: 'গাখীৰ দিয়া' },
+        { id: 5, text: '☕ চাহ চেকি পৰিৱেশন কৰক', name: 'চাহ চেকা' }
+      ],
+      'en-IN': [
+        { id: 1, text: '💧 Measure Fresh Water', name: 'Measure Water' },
+        { id: 2, text: '🫖 Boil The Water', name: 'Boil Water' },
+        { id: 3, text: '🍃 Add Assam Tea Leaves', name: 'Add Leaves' },
+        { id: 4, text: '🥛 Add Milk & Cardamom', name: 'Add Milk' },
+        { id: 5, text: '☕ Strain into Warm Cup', name: 'Strain Tea' }
+      ]
+    };
 
-    body.innerHTML = `<div class="flex flex-col gap-3 max-w-sm mx-auto"></div>`;
+    const currentBank = fullStepsDatabase[lang] || fullStepsDatabase['hi-IN'];
+    
+    let activeSteps = [];
+    if (currentDifficulty === 'easy') {
+      activeSteps = [
+        { id: 1, text: currentBank[1].text },
+        { id: 2, text: currentBank[2].text },
+        { id: 3, text: currentBank[4].text }
+      ];
+    } else if (currentDifficulty === 'med') {
+      activeSteps = [
+        { id: 1, text: currentBank[1].text },
+        { id: 2, text: currentBank[2].text },
+        { id: 3, text: currentBank[3].text },
+        { id: 4, text: currentBank[4].text }
+      ];
+    } else {
+      activeSteps = [
+        { id: 1, text: currentBank[0].text },
+        { id: 2, text: currentBank[1].text },
+        { id: 3, text: currentBank[2].text },
+        { id: 4, text: currentBank[3].text },
+        { id: 5, text: currentBank[4].text }
+      ];
+    }
+
+    const shuffled = [...activeSteps].sort(() => 0.5 - Math.random());
+    const padClass = currentDifficulty === 'hard' ? 'p-2 text-xs' : 'p-2.5 text-xs sm:text-sm';
+    body.innerHTML = `<div class="flex flex-col gap-2 max-w-md mx-auto w-full"></div>`;
     const container = body.querySelector('div');
     let currentExpected = 1;
 
-    stepTexts.forEach((step, index) => {
+    shuffled.forEach((step, index) => {
       const btn = document.createElement('button');
-      btn.className = 'p-4 bg-slate-800 border-2 border-slate-700 text-sm font-bold rounded-2xl senior-tap text-left flex items-center justify-between';
-      btn.innerHTML = `<span>${index + 1}. ${step.text}</span> <span class="text-xs text-slate-400">Option ${index + 1}</span>`;
+      btn.className = `${padClass} bg-slate-800 border-2 border-slate-700 font-bold rounded-xl senior-tap text-left flex items-center justify-between transition shadow`;
+      btn.innerHTML = `<span>${step.text}</span> <span class="text-[10px] text-slate-400 font-extrabold">${dict.stepOptionPrefix} ${index + 1}</span>`;
       
       btn.onclick = () => {
         if (step.id === currentExpected) {
           btn.classList.add('bg-teal-700', 'border-teal-400');
           btn.disabled = true;
           currentExpected++;
-          if (currentExpected > 3) {
-            const deltaT = recordTelemetryLatency('sequence');
-            feedback.textContent = `✨ Perfect sequence in ${deltaT}s! Telemetry logged.`;
-            speakAudio(dict.correctChoice, lang);
+          if (currentExpected > activeSteps.length) {
+            onRoundSuccess();
           }
         } else {
-          feedback.textContent = lang === 'hi-IN' ? 'फिर से कोशिश करें: सही क्रम चुनें!' : (lang === 'as-IN' ? 'পুনৰ চেষ্টা কৰক: সঠিক ক্ৰমত বাছক!' : 'Try again: Choose the proper sequence!');
+          feedback.textContent = dict.wrongChoice;
           speakAudio(dict.wrongChoice, lang);
         }
       };
       container.appendChild(btn);
     });
 
-  // GAME 3: SPOT DYNAMIC SYMBOL
+  // -------------------------------------------------------------
+  // GAME 3: SPOT CULTURAL MOTIF (With flexible spacing wrapper)
+  // -------------------------------------------------------------
   } else if (gameType === 'spotter') {
     title.textContent = dict.g3Title;
     
-    const iconPool = ['🦏', '☕', '🦅', '🌸', '🏡', '🎋'];
-    const targetSymbol = iconPool[Math.floor(Math.random() * iconPool.length)];
+    const totalOptions = currentDifficulty === 'easy' ? 4 : (currentDifficulty === 'med' ? 6 : 9);
+    const pool = ['🦏', '☕', '🦅', '🌸', '🏡', '🎋', '🫖', '🍃', '🏮'].slice(0, totalOptions);
+    const targetSymbol = pool[Math.floor(Math.random() * pool.length)];
     const targetName = dict.itemNames[targetSymbol] || 'Symbol';
     
     feedback.textContent = `${dict.findPrompt.replace('%TARGET%', targetName)}`;
     speakAudio(dict.findPrompt.replace('%TARGET%', targetName), lang);
 
-    const shuffledIcons = [...iconPool].sort(() => 0.5 - Math.random());
-    
+    const shuffledIcons = [...pool].sort(() => 0.5 - Math.random());
+    const gridCols = totalOptions === 4 ? 'grid-cols-2' : (totalOptions === 6 ? 'grid-cols-3' : 'grid-cols-3');
+    const cardSize = totalOptions === 9 ? 'min-h-[2.6rem] max-h-[3.5rem] text-xl' : 'game-card-btn';
+
     body.innerHTML = `
-      <div class="space-y-4">
-        <div class="target-highlight-box p-3 text-center flex items-center justify-center gap-3">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-300">Target to find:</span>
-          <span class="text-4xl animate-bounce">${targetSymbol}</span>
+      <div class="flex flex-col gap-2 w-full max-w-sm mx-auto items-center">
+        <div class="target-highlight-box py-1.5 px-3 text-center flex items-center justify-center gap-2 w-full rounded-xl flex-shrink-0">
+          <span class="text-[10px] uppercase font-extrabold tracking-wider text-emerald-300">${dict.targetPromptBadge}</span>
+          <span class="text-xl animate-bounce">${targetSymbol}</span>
           <span class="text-xs font-bold text-white bg-emerald-700/60 px-2 py-0.5 rounded-md">${targetName}</span>
         </div>
-        <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto"></div>
+        <div class="grid ${gridCols} gap-2 w-full"></div>
       </div>
     `;
     const grid = body.querySelector('.grid');
 
     shuffledIcons.forEach(ic => {
       const btn = document.createElement('button');
-      btn.className = 'h-24 bg-slate-800 border-2 border-slate-700 text-3xl rounded-2xl flex items-center justify-center senior-tap transition';
+      btn.className = `${cardSize} bg-slate-800 border-2 border-slate-700 flex items-center justify-center senior-tap transition shadow rounded-xl`;
       btn.textContent = ic;
       
       btn.onclick = () => {
         if (ic === targetSymbol) {
           btn.classList.add('bg-amber-600', 'border-amber-400');
-          const deltaT = recordTelemetryLatency('spotter');
-          feedback.textContent = `🎯 Spotted in ${deltaT}s! Telemetry synced.`;
-          speakAudio(dict.correctChoice, lang);
+          onRoundSuccess();
         } else {
           feedback.textContent = dict.wrongChoice;
           speakAudio(dict.wrongChoice, lang);
@@ -916,10 +1322,121 @@ function openGameModal(gameType) {
       };
       grid.appendChild(btn);
     });
+
+  // -------------------------------------------------------------
+  // GAME 4: NUMBER TRAIL TAP (TMT-A)
+  // -------------------------------------------------------------
+  } else if (gameType === 'trail') {
+    title.textContent = dict.g4Title;
+    feedback.textContent = dict.trailTapPrompt;
+    speakAudio(dict.trailTapPrompt, lang);
+
+    const maxCount = currentDifficulty === 'easy' ? 5 : (currentDifficulty === 'med' ? 8 : 10);
+    const nums = Array.from({ length: maxCount }, (_, i) => i + 1).sort(() => 0.5 - Math.random());
+
+    const cols = maxCount <= 6 ? 'grid-cols-3' : (maxCount <= 8 ? 'grid-cols-4' : 'grid-cols-5');
+    const btnSize = maxCount === 10 ? 'h-10 sm:h-12 text-sm font-black' : 'h-14 sm:h-18 text-xl';
+    
+    body.innerHTML = `<div class="grid ${cols} gap-2 max-w-md mx-auto w-full"></div>`;
+    const grid = body.querySelector('div');
+
+    let currentExpected = 1;
+
+    nums.forEach(num => {
+      const btn = document.createElement('button');
+      btn.className = `${btnSize} bg-slate-800 border-2 border-slate-700 rounded-xl flex items-center justify-center senior-tap transition text-white shadow`;
+      btn.textContent = num;
+
+      btn.onclick = () => {
+        if (num === currentExpected) {
+          btn.classList.add('trail-number-done');
+          speakAudio(`${num}`, lang);
+          currentExpected++;
+          if (currentExpected > maxCount) {
+            onRoundSuccess();
+          }
+        } else {
+          feedback.textContent = `${dict.wrongChoice} Look for ${currentExpected}!`;
+          speakAudio(dict.wrongChoice, lang);
+        }
+      };
+      grid.appendChild(btn);
+    });
+
+  // -------------------------------------------------------------
+  // GAME 5: BRAHMAPUTRA LANTERNS
+  // -------------------------------------------------------------
+  } else if (gameType === 'lantern') {
+    title.textContent = dict.g5Title;
+    feedback.textContent = dict.lanternWatchPrompt;
+    speakAudio(dict.lanternWatchPrompt, lang);
+
+    const padCount = currentDifficulty === 'hard' ? 6 : 4;
+    const seqLength = currentDifficulty === 'easy' ? 2 : (currentDifficulty === 'med' ? 3 : 4);
+
+    const sequence = [];
+    for (let i = 0; i < seqLength; i++) {
+      sequence.push(Math.floor(Math.random() * padCount));
+    }
+
+    const cols = padCount === 6 ? 'grid-cols-3' : 'grid-cols-2';
+    const padSizeClass = padCount === 6 ? 'min-h-[3.2rem] max-h-[4.5rem] text-lg' : 'lantern-pad';
+
+    body.innerHTML = `<div class="grid ${cols} gap-2.5 max-w-sm mx-auto w-full"></div>`;
+    const grid = body.querySelector('div');
+
+    const pads = [];
+    for (let i = 0; i < padCount; i++) {
+      const pad = document.createElement('button');
+      pad.className = `${padSizeClass} bg-slate-800 border-2 border-slate-700 flex items-center justify-center senior-tap transition shadow rounded-2xl`;
+      pad.textContent = '🏮';
+      pad.disabled = true;
+      grid.appendChild(pad);
+      pads.push(pad);
+    }
+
+    let flashIdx = 0;
+    const interval = setInterval(() => {
+      if (flashIdx < sequence.length) {
+        const targetPad = pads[sequence[flashIdx]];
+        targetPad.classList.add('lantern-lit');
+        setTimeout(() => targetPad.classList.remove('lantern-lit'), 450);
+        flashIdx++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          feedback.textContent = dict.lanternYourTurn;
+          speakAudio(dict.lanternYourTurn, lang);
+          pads.forEach((p, idx) => {
+            p.disabled = false;
+            p.onclick = () => handleUserLanternTap(idx);
+          });
+        }, 450);
+      }
+    }, 850);
+
+    let userStep = 0;
+    function handleUserLanternTap(idx) {
+      const pad = pads[idx];
+      pad.classList.add('lantern-lit');
+      setTimeout(() => pad.classList.remove('lantern-lit'), 250);
+
+      if (idx === sequence[userStep]) {
+        userStep++;
+        if (userStep === sequence.length) {
+          pads.forEach(p => p.disabled = true);
+          onRoundSuccess();
+        }
+      } else {
+        pads.forEach(p => p.disabled = true);
+        feedback.textContent = dict.wrongChoice;
+        speakAudio(dict.wrongChoice, lang);
+      }
+    }
   }
 }
 
-// 12. CHART.JS RENDERING
+// 15. DYNAMIC 7-DAY CHART ENGINE
 let cognitiveChartInstance = null;
 
 function renderTelemetryChart() {
@@ -937,13 +1454,14 @@ function renderTelemetryChart() {
       datasets: [
         {
           label: 'Response Latency Δt (Seconds)',
-          data: telemetryState.chartHistory,
+          data: overallTelemetry.chartHistory,
           borderColor: '#059669',
-          backgroundColor: 'rgba(5, 150, 105, 0.1)',
+          backgroundColor: 'rgba(5, 150, 105, 0.12)',
           borderWidth: 3,
           fill: true,
           tension: 0.35,
           pointRadius: 5,
+          pointHoverRadius: 7,
           pointBackgroundColor: '#059669'
         },
         {
@@ -963,8 +1481,8 @@ function renderTelemetryChart() {
       scales: {
         y: {
           beginAtZero: false,
-          min: 8,
-          max: 22,
+          min: 6,
+          max: 24,
           ticks: { callback: (val) => `${val}s` }
         }
       },
@@ -975,13 +1493,14 @@ function renderTelemetryChart() {
   });
 }
 
-// 13. BOOTSTRAP INITIALIZATION
+// 16. INITIAL BOOTSTRAP
 window.addEventListener('DOMContentLoaded', () => {
-  const savedScale = localStorage.getItem('smriti_text_px') || 20;
+  const savedScale = localStorage.getItem('smriti_text_px') || 18;
   applyTextScale(savedScale);
 
   const savedLang = localStorage.getItem('smriti_language') || 'hi-IN';
   applyLanguage(savedLang);
 
+  recalculateCognitiveScore();
   updateCaregiverDOM();
 });

@@ -1,10 +1,8 @@
 /* Smooth Root Accessibility Sizing */
 html {
-  font-size: 20px; /* Elevated default for elderly comfort */
-  transition: font-size 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 18px;
 }
 
-/* Safe Area Device Compatibility */
 body {
   padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
@@ -15,8 +13,8 @@ body {
 
 /* Modal Backdrop */
 .modal-backdrop {
-  background-color: rgba(15, 23, 42, 0.82);
-  backdrop-filter: blur(6px);
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
 }
 
 /* Senior-Friendly Touch Feedback */
@@ -24,17 +22,29 @@ body {
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .senior-tap:active {
   transform: scale(0.96);
 }
 
-/* Dynamic Game Target & Card States */
+/* Dynamic Target Box Styling */
 .target-highlight-box {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(13, 148, 136, 0.3));
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(13, 148, 136, 0.25));
   border: 2px dashed #34d399;
   border-radius: 1rem;
+  max-width: 100%;
+}
+
+/* Universal Scalable Game Card Proportions */
+.game-card-btn {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  min-height: 4.8rem;
+  max-height: 6.5rem;
+  border-radius: 1.25rem !important;
+  font-size: 2rem;
 }
 
 .game-card-revealed {
@@ -46,6 +56,34 @@ body {
 .game-card-matched {
   background-color: #047857 !important;
   color: #d1fae5 !important;
-  opacity: 0.88;
+  opacity: 0.85;
   pointer-events: none;
+}
+
+/* Game 4: Trail Number Completed Button */
+.trail-number-done {
+  background-color: #059669 !important;
+  color: #ecfdf5 !important;
+  border-color: #10b981 !important;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Game 5: Universal Scalable Lantern Pads */
+.lantern-pad {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  min-height: 5rem;
+  max-height: 7rem;
+  border-radius: 1.25rem !important;
+  font-size: 2.25rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lantern-lit {
+  background-color: #f59e0b !important;
+  color: #78350f !important;
+  border-color: #fde68a !important;
+  box-shadow: 0 0 24px 4px rgba(245, 158, 11, 0.65);
+  transform: scale(1.04);
 }
