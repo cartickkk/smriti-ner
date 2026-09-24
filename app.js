@@ -1046,8 +1046,13 @@ function confirmSOSDispatch() {
   document.getElementById('sos-success-modal').classList.remove('hidden');
   document.getElementById('caregiver-alert-box').classList.remove('hidden');
   
+  // Call Nandini's SOS backend function here!
+  if (typeof triggerRealtimeSOS === 'function') {
+    triggerRealtimeSOS();
+  }
+  
   const currentLang = document.getElementById('lang-select')?.value || 'hi-IN';
-  const alertSpeech = currentLang === 'hi-IN' ? 'आपातकालीन चेतावनी और जीपीएस लोकेशन भेज दिया गया है।' : (currentLang === 'as-IN' ? 'জৰুৰীকালীন সতৰ্কবাৰ্তা আৰু জিপিএছ প্ৰেৰণ কৰা হৈছে।' : 'Emergency alert with GPS location dispatched.');
+  const alertSpeech = currentLang === 'hi-IN' ? 'आपातकालीन चेतावनी और जीपीएस लोकेशन भेज दिया गया है।' : 'Emergency alert with GPS location dispatched.';
   speakAudio(alertSpeech, currentLang);
 }
 function dismissCaregiverAlert() { document.getElementById('caregiver-alert-box').classList.add('hidden'); }
@@ -1523,4 +1528,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
   recalculateCognitiveScore();
   updateCaregiverDOM();
+
+// Find where the Emergency SOS button or confirmation popup is handled in app.js
+  const sosConfirmBtn = document.querySelector('#yes-send-help-btn') || document.getElementById('emergency-sos-btn');
+  
+  if (sosConfirmBtn) {
+    sosConfirmBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Call the function you defined in sos.js
+      if (typeof triggerRealtimeSOS === 'function') {
+        triggerRealtimeSOS();
+      } else {
+        console.error('triggerRealtimeSOS function is not defined.');
+      }
+    });
+  }
 });
