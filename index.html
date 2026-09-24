@@ -8,6 +8,9 @@
   <!-- External CDN Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Supabase Client Library CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css" />
@@ -494,7 +497,14 @@
     SMRITI-NER Platform • SIH26003 • Ministry of Development of North Eastern Region (MDoNER)
   </footer>
 
-  <!-- External Script Link -->
-  <script src="app.js"></script>
+  <!-- External CDN Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Team Feature Scripts (Loaded before app.js) -->
+<script src="auth.js"></script>
+<script src="sos.js"></script>
+
+<!-- Main App Controller -->
+<script src="app.js"></script>
 </body>
 </html>

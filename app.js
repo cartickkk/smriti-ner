@@ -1,3 +1,11 @@
+// SUPABASE CLIENT INITIALIZATION (Collision-Free)
+const SUPABASE_URL = 'https://asmkzeuimlldwaihzmjb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzbWt6ZXVpbWxsZHdhaWh6bWpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMzU0MTYsImV4cCI6MjEwNTgxMTQxNn0.dL_GVU1IMKJrGQ7fgJnhxMt5Z0X3D7rfdy8plZE4wo4';
+if (!window.supabaseClient) {
+  window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+// Use var instead of const so it never crashes on re-declaration
+var supabase = window.supabaseClient;
 /* ==========================================================================
    SMRITI-NER • Multi-Tier 3-Round System & Accurate Dynamic Telemetry
    ========================================================================== */
@@ -1495,6 +1503,18 @@ function renderTelemetryChart() {
 
 // 16. INITIAL BOOTSTRAP
 window.addEventListener('DOMContentLoaded', () => {
+  
+  async function testSupabaseConnection() {
+  const { data, error } = await supabase.from('telemetry_logs').select('*').limit(1);
+  if (error) {
+    console.log('Supabase connected with error:', error.message);
+  } else {
+    console.log('Successfully connected to Supabase telemetry table:', data);
+  }
+}
+
+  testSupabaseConnection();
+
   const savedScale = localStorage.getItem('smriti_text_px') || 18;
   applyTextScale(savedScale);
 
