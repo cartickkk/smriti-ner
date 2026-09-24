@@ -45,18 +45,16 @@ async function triggerRealtimeSOS() {
       await Notification.requestPermission();
     }
 
-    // Fetch user profile to get emergency contacts from Supabase 'profiles' table safely
-    let emergencyContact = '9340189767'; // fallback number
+    // Fetch patient name from Supabase 'profiles' table safely
     let patientName = 'Mr. D. Borah';
 
     try {
       const { data: profile } = await window.supabaseClient
         .from('profiles')
-        .select('emergency_contact, patient_name')
+        .select('patient_name')
         .limit(1)
         .maybeSingle();
 
-      if (profile?.emergency_contact) emergencyContact = profile.emergency_contact;
       if (profile?.patient_name) patientName = profile.patient_name;
     } catch (profileErr) {
       console.warn('Profile fetch warning (using defaults):', profileErr.message);
@@ -71,7 +69,11 @@ async function triggerRealtimeSOS() {
         .insert([{
           patient_name: patientName,
           stability_score: 0, // 0 indicates critical emergency
-          difficulty_tier: 'SOS_TRIGGERED'
+          difficulty_tier: 'SOS_TRIGGERED',
+          metrics_json: { 
+            alert_type: 'EMERGENCY_SOS', 
+            timestamp: timestamp 
+          }
         }]);
 
       if (logError) {
@@ -84,7 +86,7 @@ async function triggerRealtimeSOS() {
     }
 
     // 2. Directly ping your Make.com Webhook URL with mode: 'no-cors' to bypass browser blocks
-    const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/298nnfxjnmj5i5lngupd7uet6tdk6a5v';
+    const MAKE_WEBHOOK_URL = 'https://hook.dev2.make.com/298nnfxjnmj5i5lngupd7uet6tdk6a5v';
     
     if (MAKE_WEBHOOK_URL && MAKE_WEBHOOK_URL.startsWith('http')) {
       try {
@@ -94,7 +96,6 @@ async function triggerRealtimeSOS() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             patient_name: patientName,
-            emergency_contact: emergencyContact,
             timestamp: timestamp,
             alert_type: 'EMERGENCY_SOS'
           })
@@ -105,15 +106,16 @@ async function triggerRealtimeSOS() {
       }
     }
 
-    // Trigger Real-Time Browser Notification Pop-up on Phone/Laptop
+    // Trigger Real-Time Browser Notification Pop-up on Phone/Laptop (Without number block)
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('🚨 EMERGENCY SOS ALERT!', {
-        body: `Patient: ${patientName}\nCaregiver Notified: ${emergencyContact}\nAlert Dispatched Successfully!`,
+        body: `Patient: ${patientName}\nEmergency Broadcast Dispatched Successfully!`,
         icon: 'https://cdn-icons-png.flaticon.com/512/564/564619.png'
       });
     }
 
-    alert(`🚨 EMERGENCY SOS ACTIVATED!\nNotifying Caregiver: ${emergencyContact}\nAlert successfully dispatched to cloud and webhook.`);
+    // Clean popup alert without any caregiver number info
+    alert(`🚨 EMERGENCY SOS ACTIVATED!\nEmergency broadcast successfully dispatched to Telegram & Cloud webhook.`);
     
   } catch (err) {
     console.error('Failed to trigger SOS:', err.message);
