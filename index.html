@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Supabase Client Library CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css" />
@@ -161,7 +161,7 @@
           <span id="g3-btn" class="text-amber-700 font-extrabold text-sm">Spot Target On-Screen →</span>
         </div>
 
-        <!-- Game 4: Number Trail Tap (TMT-A) -->
+        <!-- Game 4 -->
         <div onclick="openGameModal('trail')" class="senior-tap bg-white hover:border-indigo-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
           <div class="flex justify-between items-start">
             <span class="text-4xl">🔢</span>
@@ -174,7 +174,7 @@
           <span id="g4-btn" class="text-indigo-700 font-extrabold text-sm">Start Trail On-Screen →</span>
         </div>
 
-        <!-- Game 5: Lantern Flash Recall (Corsi-Tap) -->
+        <!-- Game 5 -->
         <div onclick="openGameModal('lantern')" class="senior-tap bg-white hover:border-cyan-500 border-2 border-slate-200 rounded-3xl p-5 shadow-sm cursor-pointer transition flex flex-col justify-between min-h-[160px]">
           <div class="flex justify-between items-start">
             <span class="text-4xl">🏮</span>
@@ -279,6 +279,42 @@
         <span id="cg-kpi3-sub" class="text-xs text-blue-600 font-semibold mt-2">Accurate Completed Ratio (N=6 Tasks)</span>
       </div>
 
+    </section>
+
+    <!-- MULTI-RANGE COGNITIVE ANALYTICS & GRAPH MODULE (DAY, WEEK, MONTH, YEAR) -->
+    <section class="bg-slate-900 text-white rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl space-y-5">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-xs uppercase font-extrabold tracking-widest text-emerald-400">Telemetry History</span>
+          <h3 class="text-lg sm:text-xl font-black text-white mt-0.5">Cognitive Performance Trends</h3>
+          <p id="analytics-avg-label" class="text-xs text-slate-400 mt-0.5">12.6s Daily Average</p>
+        </div>
+
+        <!-- Day / Week / Month / Year View Toggles -->
+        <div class="flex items-center bg-slate-950 p-1 rounded-2xl border border-slate-800">
+          <button onclick="switchAnalyticsTimeframe('Day')" id="btn-analytics-day" class="px-3.5 py-1.5 bg-slate-800 text-slate-300 hover:text-white font-bold text-xs rounded-xl transition">Day</button>
+          <button onclick="switchAnalyticsTimeframe('Week')" id="btn-analytics-week" class="px-3.5 py-1.5 bg-emerald-600 text-white font-black text-xs rounded-xl shadow transition">Week</button>
+          <button onclick="switchAnalyticsTimeframe('Month')" id="btn-analytics-month" class="px-3.5 py-1.5 bg-slate-800 text-slate-300 hover:text-white font-bold text-xs rounded-xl transition">Month</button>
+          <button onclick="switchAnalyticsTimeframe('Year')" id="btn-analytics-year" class="px-3.5 py-1.5 bg-slate-800 text-slate-300 hover:text-white font-bold text-xs rounded-xl transition">Year</button>
+        </div>
+      </div>
+
+      <!-- Interactive Multi-Range Bar/Line Chart Canvas -->
+      <div class="chart-container relative h-64 md:h-72 w-full">
+        <canvas id="cognitiveMultiChart"></canvas>
+      </div>
+
+      <!-- Latency & Status Footer Bar -->
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+          <p class="text-[11px] text-slate-400 font-bold uppercase">Backend Query Latency</p>
+          <p id="stat-latency" class="text-lg font-black text-emerald-400 mt-0.5">-- ms</p>
+        </div>
+        <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800">
+          <p class="text-[11px] text-slate-400 font-bold uppercase">Supabase Sync Status</p>
+          <p class="text-lg font-black text-emerald-400 mt-0.5">Connected ●</p>
+        </div>
+      </div>
     </section>
 
     <!-- Caregiver Difficulty Tabs & 3-Round Matrix -->
@@ -498,13 +534,14 @@
   </footer>
 
   <!-- External CDN Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Team Feature Scripts (Loaded before app.js) -->
-<script src="auth.js"></script>
-<script src="sos.js"></script>
+  <!-- Team Feature Scripts (Loaded before app.js) -->
+  <script src="auth.js"></script>
+  <script src="sos.js"></script>
+  <script src="analytics.js"></script>
 
-<!-- Main App Controller -->
-<script src="app.js"></script>
+  <!-- Main App Controller -->
+  <script src="app.js"></script>
 </body>
 </html>

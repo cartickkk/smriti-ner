@@ -4,7 +4,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 if (!window.supabaseClient) {
   window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
-// Use var instead of const so it never crashes on re-declaration
 var supabase = window.supabaseClient;
 /* ==========================================================================
    SMRITI-NER • Multi-Tier 3-Round System & Accurate Dynamic Telemetry
@@ -457,14 +456,26 @@ const i18n = {
   }
 };
 
-// 2. ACCURATE TELEMETRY STORAGE
-const emptyTierData = () => ({
-  memory: [0, 0, 0],
-  sequence: [0, 0, 0],
-  spotter: [0, 0, 0],
-  trail: [0, 0, 0],
-  lantern: [0, 0, 0]
-});
+// 2. ACCURATE TELEMETRY STORAGE WITH 00:00 MIDNIGHT CHECK
+function checkAndResetDailyTelemetry() {
+  const todayDateStr = new Date().toDateString();
+  const lastRecordedDate = localStorage.getItem('smriti_last_telemetry_date');
+
+  if (lastRecordedDate !== todayDateStr) {
+    console.log('Midnight 00:00 passed: Resetting daily telemetry matrix and task counters to 0.');
+    const emptyTier = { memory: [0, 0, 0], sequence: [0, 0, 0], spotter: [0, 0, 0], trail: [0, 0, 0], lantern: [0, 0, 0] };
+    const freshTiers = { easy: emptyTier, med: emptyTier, hard: emptyTier };
+    
+    localStorage.setItem('smriti_telemetry_tiers', JSON.stringify(freshTiers));
+    localStorage.setItem('smriti_last_telemetry_date', todayDateStr);
+    
+    const freshTasks = { medication: false, memory: false, sequence: false, spotter: false, trail: false, lantern: false };
+    localStorage.setItem('smriti_daily_tasks', JSON.stringify(freshTasks));
+  }
+}
+
+// Run daily reset check immediately on script load
+checkAndResetDailyTelemetry();
 
 let telemetryTierState = JSON.parse(localStorage.getItem('smriti_telemetry_tiers')) || {
   easy: emptyTierData(),
@@ -548,7 +559,7 @@ function recalculateCognitiveScore() {
   return calculatedScore;
 }
 
-function recordRoundScore(tier, gameType, roundTimes) {
+async function recordRoundScore(tier, gameType, roundTimes) {
   if (!telemetryTierState[tier]) telemetryTierState[tier] = emptyTierData();
   telemetryTierState[tier][gameType] = roundTimes;
   localStorage.setItem('smriti_telemetry_tiers', JSON.stringify(telemetryTierState));
@@ -556,6 +567,22 @@ function recordRoundScore(tier, gameType, roundTimes) {
   dailyTaskTracker[gameType] = true;
   recalculateCognitiveScore();
   updateCaregiverDOM();
+
+  // Permanently store this record in Supabase so historical trends (Day, Week, Month, Year) remain preserved
+  try {
+    const avgTime = roundTimes.reduce((a, b) => a + b, 0) / roundTimes.length;
+    await window.supabaseClient
+      .from('telemetry_logs')
+      .insert([{
+        patient_name: 'Mr. D. Borah',
+        stability_score: overallTelemetry.stabilityScore,
+        difficulty_tier: `${tier.toUpperCase()}_${gameType.toUpperCase()}`,
+        metrics_json: { response_time: parseFloat(avgTime.toFixed(1)), rounds: roundTimes }
+      }]);
+    console.log('Telemetry round permanently logged to Supabase!');
+  } catch (err) {
+    console.warn('Supabase log sync notice:', err.message);
+  }
 }
 
 function switchCaregiverTier(tier) {
@@ -1015,6 +1042,10 @@ function switchView(viewName) {
     tabPatient.className = 'text-slate-400 hover:text-slate-200 text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl transition';
     updateCaregiverDOM();
     renderTelemetryChart();
+    
+    if (typeof renderAnalyticsDashboard === 'function') {
+      renderAnalyticsDashboard();
+    }
   }
 }
 
@@ -1046,7 +1077,6 @@ function confirmSOSDispatch() {
   document.getElementById('sos-success-modal').classList.remove('hidden');
   document.getElementById('caregiver-alert-box').classList.remove('hidden');
   
-  // Call Nandini's SOS backend function here!
   if (typeof triggerRealtimeSOS === 'function') {
     triggerRealtimeSOS();
   }
@@ -1100,7 +1130,6 @@ function onRoundSuccess() {
       renderActiveRound();
     }, 1100);
   } else {
-    // All 3 Rounds Complete
     const avg = parseFloat((currentRoundTimes.reduce((a, b) => a + b, 0) / 3).toFixed(1));
     recordRoundScore(currentDifficulty, currentGameTypeActive, currentRoundTimes);
     
@@ -1134,9 +1163,6 @@ function renderGameContent(gameType) {
 
   feedback.textContent = '';
 
-  // -------------------------------------------------------------
-  // GAME 1: HERITAGE MATCH
-  // -------------------------------------------------------------
   if (gameType === 'memory') {
     title.textContent = dict.g1Title;
     feedback.textContent = dict.g1Desc;
@@ -1204,9 +1230,6 @@ function renderGameContent(gameType) {
       grid.appendChild(card);
     });
 
-  // -------------------------------------------------------------
-  // GAME 2: ASSAM TEA ROUTINE
-  // -------------------------------------------------------------
   } else if (gameType === 'sequence') {
     title.textContent = dict.g2Title;
     feedback.textContent = dict.teaOptionPrompt;
@@ -1289,9 +1312,6 @@ function renderGameContent(gameType) {
       container.appendChild(btn);
     });
 
-  // -------------------------------------------------------------
-  // GAME 3: SPOT CULTURAL MOTIF (With flexible spacing wrapper)
-  // -------------------------------------------------------------
   } else if (gameType === 'spotter') {
     title.textContent = dict.g3Title;
     
@@ -1336,9 +1356,6 @@ function renderGameContent(gameType) {
       grid.appendChild(btn);
     });
 
-  // -------------------------------------------------------------
-  // GAME 4: NUMBER TRAIL TAP (TMT-A)
-  // -------------------------------------------------------------
   } else if (gameType === 'trail') {
     title.textContent = dict.g4Title;
     feedback.textContent = dict.trailTapPrompt;
@@ -1376,9 +1393,6 @@ function renderGameContent(gameType) {
       grid.appendChild(btn);
     });
 
-  // -------------------------------------------------------------
-  // GAME 5: BRAHMAPUTRA LANTERNS
-  // -------------------------------------------------------------
   } else if (gameType === 'lantern') {
     title.textContent = dict.g5Title;
     feedback.textContent = dict.lanternWatchPrompt;
@@ -1508,15 +1522,14 @@ function renderTelemetryChart() {
 
 // 16. INITIAL BOOTSTRAP
 window.addEventListener('DOMContentLoaded', () => {
-  
   async function testSupabaseConnection() {
-  const { data, error } = await supabase.from('telemetry_logs').select('*').limit(1);
-  if (error) {
-    console.log('Supabase connected with error:', error.message);
-  } else {
-    console.log('Successfully connected to Supabase telemetry table:', data);
+    const { data, error } = await supabase.from('telemetry_logs').select('*').limit(1);
+    if (error) {
+      console.log('Supabase connected with error:', error.message);
+    } else {
+      console.log('Successfully connected to Supabase telemetry table:', data);
+    }
   }
-}
 
   testSupabaseConnection();
 
@@ -1529,13 +1542,10 @@ window.addEventListener('DOMContentLoaded', () => {
   recalculateCognitiveScore();
   updateCaregiverDOM();
 
-// Find where the Emergency SOS button or confirmation popup is handled in app.js
   const sosConfirmBtn = document.querySelector('#yes-send-help-btn') || document.getElementById('emergency-sos-btn');
-  
   if (sosConfirmBtn) {
     sosConfirmBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      // Call the function you defined in sos.js
       if (typeof triggerRealtimeSOS === 'function') {
         triggerRealtimeSOS();
       } else {

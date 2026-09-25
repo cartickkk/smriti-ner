@@ -46,7 +46,7 @@ async function triggerRealtimeSOS() {
     }
 
     // Fetch user profile to get emergency contacts from Supabase 'profiles' table safely
-    let emergencyContact = 'Not Provided'; // fallback nummber
+    let emergencyContact = 'Not Provided'; // fallback number
     let patientName = 'Mr. D. Borah';
 
     try {
